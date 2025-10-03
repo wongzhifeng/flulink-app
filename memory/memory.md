@@ -8,6 +8,15 @@
 **技术栈**: Cursor + React/Next.js + Zeabur部署 + Zion服务 + MCP增强（最小化原型）  
 
 ## 项目进展
+
+### ⏱ 实时进度快照（2025-10-03）
+- 当前主代码目录：`flulink-mvp/`
+- 依赖安装：待完成（将使用国内镜像进行 `npm install`）
+- 类型检查：存在约 1826 个 TypeScript 错误（以缺少依赖/重复定义为主），待逐步修复
+- 配置修复：`flulink-mvp/package.json` 语法错误已修复
+- 记忆库：已从备份恢复多处乱码文件，`README.md` 与 `memory/*` 关键文件已统一推送到 Gitee
+- 版本控制：采用 Gitee 主仓；支持后续从 Gitee 同步到 GitHub
+- 下一步：完成依赖安装 → 清理 UI 组件重复定义 → 修复 TS 错误 → 本地运行验证 → 推送
 - 📋 **项目状态**: 核心功能开发完成，FluLink MVP已部署到Zeabur云端
 - 🎯 **当前任务**: 完善用户系统和数据表创建，优化用户体验
 - 🌐 **部署地址**: https://flulink-app.zeabur.app
