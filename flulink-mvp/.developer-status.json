@@ -1,0 +1,86 @@
+﻿{
+  "project": {
+    "name": "FluLink MVP",
+    "version": "1.0.0",
+    "status": "active",
+    "stage": "extension-development",
+    "lastUpdated": "2025-01-27T12:00:00Z"
+  },
+  "currentDeveloper": {
+    "name": "wongzhifeng",
+    "status": "available",
+    "currentTask": null,
+    "workingBranch": "main",
+    "lastActivity": "2025-01-27T12:00:00Z",
+    "environment": {
+      "os": "Windows 10",
+      "editor": "Cursor",
+      "nodeVersion": "18.x",
+      "packageManager": "npm"
+    }
+  },
+  "developmentStatus": {
+    "mvpCompletion": "100%",
+    "completedFeatures": 19,
+    "totalFeatures": 19,
+    "nextPriority": "FluLink-Notification-Push",
+    "deploymentStatus": "success",
+    "deploymentUrl": "https://flulink-app.zeabur.app"
+  },
+  "pendingTasks": [
+    {
+      "id": "notification-push",
+      "name": "FluLink-Notification-Push",
+      "priority": "high",
+      "status": "pending",
+      "estimatedDays": 3,
+      "visibility": "A",
+      "worldRulesCompliant": true
+    },
+    {
+      "id": "performance-optimization",
+      "name": "FluLink-Performance-Optimization",
+      "priority": "high",
+      "status": "pending",
+      "estimatedDays": 2,
+      "visibility": "A",
+      "worldRulesCompliant": true
+    },
+    {
+      "id": "testing-basic",
+      "name": "FluLink-Testing-Basic",
+      "priority": "medium",
+      "status": "pending",
+      "estimatedDays": 2,
+      "visibility": "B",
+      "worldRulesCompliant": "needs-review"
+    }
+  ],
+  "collaboration": {
+    "branchStrategy": "gitflow",
+    "reviewRequired": true,
+    "reviewers": 2,
+    "worldRulesCheck": true,
+    "automatedTests": true,
+    "deploymentPipeline": "zeabur"
+  },
+  "environment": {
+    "localUrl": "http://localhost:3000",
+    "testAccount": "admin/12345",
+    "database": "postgresql-simulated",
+    "cache": "redis-simulated",
+    "port": 3000
+  },
+  "worldRules": {
+    "essence": "回归本质 - 专注社交核心功能",
+    "natural": "遵循自然规律 - 符合自然发展规律",
+    "balance": "追求简约与平衡 - 设计简约平衡",
+    "action": "敢作敢当的谦下精神 - 敢于创新但保持谦逊"
+  },
+  "contacts": {
+    "primary": "wongzhifeng",
+    "communication": "GitHub Issues/Discussions",
+    "timezone": "Asia/Shanghai",
+    "workingHours": "09:00-18:00"
+  }
+}
