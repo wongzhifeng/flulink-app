@@ -276,7 +276,7 @@ export default function UserLogout({
               id="confirmation"
               value={confirmationText}
               onChange={(e) => setConfirmationText(e.target.value)}
-              placeholder="输入 \"确认登出\""
+              placeholder="输入 确认登出"
               className={isConfirmed ? "border-green-500" : ""}
             />
             {isConfirmed && (
