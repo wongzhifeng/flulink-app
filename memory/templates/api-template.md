@@ -173,7 +173,7 @@ import { ApiClient } from '@your-company/api-sdk';
 
 const client = new ApiClient({
   baseURL: 'https://api.example.com',
-  apiKey: 'YOUR_API_KEY_HERE'
+  apiKey: 'your-api-key'
 });
 
 // 调用API
@@ -190,7 +190,7 @@ from your_company_api import ApiClient
 
 client = ApiClient(
     base_url='https://api.example.com',
-    api_key='YOUR_API_KEY_HERE'
+    api_key='your-api-key'
 )
 
 # 调用API
@@ -198,6 +198,6 @@ users = client.users.list()
 ```
 
 ## 联系方式
-- **项目路径**: [项目根目录]
+- **项目路径**: C:\Users\admin\1\test1
 - **记忆文件**: memory/memory.md
 - **最后更新**: [更新日期]
