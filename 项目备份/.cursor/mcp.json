@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "zion": {
+      "url": "https://zion-mcp.functorz.com/mcp"
+    },
+    "repomix": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "repomix",
+        "--mcp"
+      ]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    }
+  }
+}

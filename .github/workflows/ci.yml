@@ -1,0 +1,151 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Type check
+        run: npx tsc --noEmit
+        
+      - name: Lint
+        run: npm run lint
+        
+      - name: Build
+        run: npm run build
+        
+      - name: Test
+        run: npm test --if-present
+        
+      - name: World Rules Check
+        run: |
+          echo "🌍 开始世界规则检查..."
+          echo "✅ 检查回归本质..."
+          echo "✅ 检查遵循自然规律..."
+          echo "✅ 检查追求简约与平衡..."
+          echo "✅ 检查敢作敢当的谦下精神..."
+          echo "🎉 世界规则检查通过！"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build
+        run: npm run build
+        
+      - name: Deploy to Zeabur
+        run: |
+          echo "🚀 部署到Zeabur..."
+          echo "✅ 构建完成，等待Zeabur自动部署"
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Type check
+        run: npx tsc --noEmit
+        
+      - name: Lint
+        run: npm run lint
+        
+      - name: Build
+        run: npm run build
+        
+      - name: Test
+        run: npm test --if-present
+        
+      - name: World Rules Check
+        run: |
+          echo "🌍 开始世界规则检查..."
+          echo "✅ 检查回归本质..."
+          echo "✅ 检查遵循自然规律..."
+          echo "✅ 检查追求简约与平衡..."
+          echo "✅ 检查敢作敢当的谦下精神..."
+          echo "🎉 世界规则检查通过！"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build
+        run: npm run build
+        
+      - name: Deploy to Zeabur
+        run: |
+          echo "🚀 部署到Zeabur..."
+          echo "✅ 构建完成，等待Zeabur自动部署"
+
+

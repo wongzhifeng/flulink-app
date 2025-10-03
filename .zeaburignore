@@ -1,0 +1,16 @@
+# Zeabur ignore file
+# 排除开发环境文件
+node_modules/
+.git/
+.cursor/
+memory/
+bak/
+
+# 排除开发工具文件
+*.log
+.DS_Store
+Thumbs.db
+
+# 排除临时文件
+*.tmp
+*.temp
