@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit -m \"$(cat <<''EOF''\nrefactor: 清理非MVP文件，专注流感Web应用核心功能\n\n- 删除.claude、.cursor开发配置\n- 删除.github工作流和模板\n- 删除scripts脚本目录\n- 删除项目备份目录\n- 删除开发协作文档\n- 保留memory记忆库\n- 保留核心MVP应用文件\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(npm run build)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev)",
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(xargs:*)",
+      "Bash(node deployment-check:*)",
+      "Bash(npm run deploy-check)",
+      "Bash(git add:*)",
+      "Bash(git checkout:*)",
+      "Bash(git rebase:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -5,12 +5,11 @@ import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Plus, MapPin, Clock, Users, Activity, TrendingUp, Tag, Shield, Database, Zap, Monitor, Lock, FlaskConical, BarChart3 } from 'lucide-react'
-import { useFluLink } from '@/context/FluLinkContext'
-import { FluLinkProvider } from '@/context/FluLinkContext'
+import { useFluLink, FluLinkProvider } from '@/context/FluLinkContext'
 import MutationLab from '@/components/phase2/virus/MutationLab'
 import StrainCreationForm from '@/components/virus/StrainCreationForm'
 import StrainLifecycleManager, { StrainLifecycleProvider } from '@/components/virus/StrainLifecycleManager'
-import SpreadProgressBar from '@/components/virus/SpreadProgressBar'
+import SpreadProgressBar, { type SpreadProgressData } from '@/components/virus/SpreadProgressBar'
 import SpreadDelayVisualization from '@/components/virus/SpreadDelayVisualization'
 import { generateId } from '@/lib/utils'
 
@@ -20,7 +19,7 @@ function DashboardPageContent() {
   const [activeTab, setActiveTab] = useState<'create' | 'strains' | 'spread' | 'heatmap' | 'delay' | 'tags' | 'immunity' | 'database' | 'cache' | 'monitoring' | 'permissions' | 'mutation' | 'lifecycle'>('create')
 
   // 示例传播进度数据
-  const spreadProgressData = {
+  const spreadProgressData: SpreadProgressData = {
     id: '1',
     title: '冬季流感预警',
     currentLevel: 3,
@@ -29,8 +28,8 @@ function DashboardPageContent() {
     infectionRate: 75,
     totalInfections: 1200,
     estimatedCompletionTime: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-    currentPhase: '街道',
-    nextPhase: '行政区',
+    currentPhase: '街道' as const,
+    nextPhase: '行政区' as const,
     phaseProgress: 65,
     unlockConditions: {
       requiredInfections: 2000,
@@ -56,17 +55,17 @@ function DashboardPageContent() {
     delayFactors: [
       {
         name: '地理距离',
-        impact: 'high',
+        impact: 'high' as const,
         description: '区域间距离较远'
       },
       {
         name: '网络密度',
-        impact: 'medium',
+        impact: 'medium' as const,
         description: '社交网络连接度中等'
       },
       {
         name: '免疫水平',
-        impact: 'low',
+        impact: 'low' as const,
         description: '目标区域免疫水平较低'
       }
     ],

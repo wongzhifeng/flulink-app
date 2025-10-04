@@ -1,280 +1,303 @@
 "use client"
 
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
+import MainLayout from '@/components/layout/MainLayout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { 
-  Smartphone, 
-  Globe, 
-  Zap, 
-  Users, 
-  MapPin, 
-  Clock, 
-  Shield,
-  ArrowRight,
-  CheckCircle,
-  Star,
-  Download
-} from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Search, ExternalLink, Star, Users, Zap, Shield, Database, Monitor, Lock, FlaskConical, BarChart3, MapPin, Clock, Tag, Activity } from 'lucide-react'
 
-export default function LandingPage() {
-  const [activeDemo, setActiveDemo] = useState<'web' | 'mobile'>('web')
-  
-  const features = [
+export default function HomePage() {
+  const router = useRouter()
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const projects = [
     {
-      icon: <MapPin className="w-6 h-6" />,
-      title: "地理层级传播",
-      description: "基于地理位置的多级传播机制，从社区到城市的自然扩散"
+      id: 'flulink-mvp',
+      title: '🦠 FluLink MVP',
+      description: '流感病毒传播模拟平台 - 完整MVP实现',
+      status: 'production',
+      features: ['毒株创建', '传播模拟', '生命周期管理', '变异实验室'],
+      link: '/dashboard',
+      icon: <Activity className="w-6 h-6" />
     },
     {
-      icon: <Zap className="w-6 h-6" />,
-      title: "异步社交",
-      description: "内容传播不依赖实时互动，让连接在时空维度自然发生"
+      id: 'features-center',
+      title: '🚀 功能中心',
+      description: '展示FluLink所有核心功能和组件',
+      status: 'production',
+      features: ['功能展示', '组件预览', '技术文档'],
+      link: '/features',
+      icon: <Zap className="w-6 h-6" />
     },
     {
-      icon: <Users className="w-6 h-6" />,
-      title: "兴趣标签匹配",
-      description: "智能标签系统，精准连接同好，建立有意义的关系"
+      id: 'mutation-lab',
+      title: '🧪 变异实验室',
+      description: '高级病毒变异和进化模拟系统',
+      status: 'development',
+      features: ['基因编辑', '变异模拟', '适应性分析'],
+      link: '/dashboard?tab=mutation',
+      icon: <FlaskConical className="w-6 h-6" />
     },
     {
-      icon: <Clock className="w-6 h-6" />,
-      title: "延迟传播机制",
-      description: "模拟真实疫情的传播节奏，给内容有机的传播时间"
+      id: 'lifecycle-manager',
+      title: '📊 生命周期管理',
+      description: '毒株完整生命周期跟踪和管理',
+      status: 'production',
+      features: ['阶段管理', '数据分析', '趋势预测'],
+      link: '/dashboard?tab=lifecycle',
+      icon: <BarChart3 className="w-6 h-6" />
     },
     {
-      icon: <Shield className="w-6 h-6" />,
-      title: "免疫系统",
-      description: "用户个性化抗体机制，避免信息过载"
+      id: 'spread-simulation',
+      title: '🌍 传播模拟',
+      description: '实时传播进度和延迟监控',
+      status: 'production',
+      features: ['进度跟踪', '延迟管理', '热力图'],
+      link: '/dashboard?tab=spread',
+      icon: <MapPin className="w-6 h-6" />
     },
     {
-      icon: <Star className="w-6 h-6" />,
-      title: "传播可视化",
-      description: "直观的热力图和传播进度，让社交关系可视化"
+      id: 'delay-management',
+      title: '⏰ 延迟管理',
+      description: '跨区域传播延迟优化系统',
+      status: 'production',
+      features: ['延迟监控', '加速选项', '影响因素'],
+      link: '/dashboard?tab=delay',
+      icon: <Clock className="w-6 h-6" />
+    },
+    {
+      id: 'tag-system',
+      title: '🏷️ 标签系统',
+      description: '智能标签分类和搜索功能',
+      status: 'development',
+      features: ['标签管理', '智能搜索', '分类推荐'],
+      link: '/dashboard?tab=tags',
+      icon: <Tag className="w-6 h-6" />
+    },
+    {
+      id: 'immunity-system',
+      title: '🛡️ 免疫系统',
+      description: '群体免疫和抗性模拟',
+      status: 'planned',
+      features: ['免疫建模', '抗性分析', '群体免疫'],
+      link: '/dashboard?tab=immunity',
+      icon: <Shield className="w-6 h-6" />
+    },
+    {
+      id: 'database-system',
+      title: '💾 数据库系统',
+      description: '毒株数据和传播记录存储',
+      status: 'planned',
+      features: ['数据存储', '查询优化', '备份恢复'],
+      link: '/dashboard?tab=database',
+      icon: <Database className="w-6 h-6" />
+    },
+    {
+      id: 'cache-system',
+      title: '⚡ 缓存系统',
+      description: '高性能缓存和加速机制',
+      status: 'planned',
+      features: ['缓存策略', '性能优化', '实时同步'],
+      link: '/dashboard?tab=cache',
+      icon: <Zap className="w-6 h-6" />
+    },
+    {
+      id: 'monitoring-system',
+      title: '📈 系统监控',
+      description: '实时系统性能和健康监控',
+      status: 'planned',
+      features: ['性能监控', '健康检查', '告警系统'],
+      link: '/dashboard?tab=monitoring',
+      icon: <Monitor className="w-6 h-6" />
+    },
+    {
+      id: 'permissions-system',
+      title: '🔐 权限管理',
+      description: '多级权限和访问控制系统',
+      status: 'planned',
+      features: ['角色管理', '权限控制', '审计日志'],
+      link: '/dashboard?tab=permissions',
+      icon: <Lock className="w-6 h-6" />
     }
   ]
 
-  const mvps = [
-    {
-      platform: "Web MVP",
-      status: "🚀 已上线",
-      description: "完整的Web版FluLink社交平台",
-      features: ["用户认证", "毒株创建", "传播模拟", "热力图可视化", "标签系统"],
-      link: "/dashboard",
-      type: "web"
-    },
-    {
-      platform: "Mobile MVP",
-      status: "📱 开发中",
-      description: "移动端轻量化社交应用",
-      features: ["快速传播", "地理定位", "推送通知", "离线模式"],
-      link: "/mobile",
-      type: "mobile"
+  const filteredProjects = projects.filter(project =>
+    project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    project.features.some(feature => feature.toLowerCase().includes(searchQuery.toLowerCase()))
+  )
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'production': return 'bg-green-100 text-green-800'
+      case 'development': return 'bg-blue-100 text-blue-800'
+      case 'planned': return 'bg-yellow-100 text-yellow-800'
+      default: return 'bg-gray-100 text-gray-800'
     }
-  ]
+  }
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'production': return '已上线'
+      case 'development': return '开发中'
+      case 'planned': return '规划中'
+      default: return '未知'
+    }
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <span className="text-2xl">🦠</span>
-              <h1 className="text-xl font-bold text-indigo-600">FluLink</h1>
-              <Badge variant="outline" className="text-xs">MVP</Badge>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" onClick={() => setActiveDemo('web')}>
-                Web版
-              </Button>
-              <Button variant="ghost" onClick={() => setActiveDemo('mobile')}>
-                移动版
-              </Button>
-              <Button variant="outline" href="/login">
-                登录
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Hero Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            如流感般<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
-              扩散连接
-            </span>
+    <MainLayout currentPage="home" showNavigation={true} showFooter={true}>
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            欢迎来到 FluLink 生态系统
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            基于"流感传播"隐喻的异步社交平台，通过地理层级传播+标签双向筛选，
-            实现轻互动、慢扩散、强关联的新时代社交体验
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+            探索我们完整的流感病毒传播模拟平台，包含多个模块和功能组件
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8 py-6" onClick={() => window.location.href = '/dashboard'}>
-              <Globe className="w-5 h-5 mr-2" />
-              体验Web版
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-6" onClick={() => window.location.href = '/mobile'}>
-              <Smartphone className="w-5 h-5 mr-2" />
-              体验移动版
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
+
+          {/* Search */}
+          <div className="max-w-md mx-auto relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Input
+              type="text"
+              placeholder="搜索项目或功能..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
           </div>
         </div>
-      </section>
 
-      {/* MVP Selection */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            选择您的FluLink体验
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {mvps.map((mvp, index) => (
-              <Card key={index} className={`transition-all duration-300 ${
-              (activeDemo === 'web' && mvp.type === 'web') || 
-              (activeDemo === 'mobile' && mvp.type === 'mobile')
-                  ? 'ring-2 ring-indigo-500 shadow-lg' : ''
-              }`}>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-xl flex items-center">
-                      {mvp.type === 'web' ? <Globe className="w-5 h-5 mr-2" /> : <Smartphone className="w-5 h-5 mr-2" />}
-                      {mvp.platform}
-                    </CardTitle>
-                    <Badge variant={mvp.type === 'web' ? 'default' : 'secondary'}>
-                      {mvp.status}
-                    </Badge>
-                  </div>
-                  <CardDescription className="text-base">
-                    {mvp.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3 mb-6">
-                    <h4 className="font-semibold text-sm text-gray-700">核心功能:</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {mvp.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-center text-sm text-gray-600">
-                          <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                          {feature}
-                        </div>
-                      ))}
+        {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center">
+                <div className="p-2 bg-blue-100 rounded-lg">
+                  <Star className="w-6 h-6 text-blue-600" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">已上线项目</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {projects.filter(p => p.status === 'production').length}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center">
+                <div className="p-2 bg-green-100 rounded-lg">
+                  <Users className="w-6 h-6 text-green-600" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">开发中项目</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {projects.filter(p => p.status === 'development').length}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center">
+                <div className="p-2 bg-yellow-100 rounded-lg">
+                  <Zap className="w-6 h-6 text-yellow-600" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">规划中项目</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {projects.filter(p => p.status === 'planned').length}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center">
+                <div className="p-2 bg-purple-100 rounded-lg">
+                  <Activity className="w-6 h-6 text-purple-600" />
+                </div>
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">总功能数</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {projects.reduce((sum, p) => sum + p.features.length, 0)}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProjects.map((project) => (
+            <Card key={project.id} className="hover:shadow-lg transition-shadow duration-300">
+              <CardHeader>
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-indigo-100 rounded-lg">
+                      {project.icon}
+                    </div>
+                    <div>
+                      <CardTitle className="text-lg">{project.title}</CardTitle>
+                      <Badge className={getStatusColor(project.status)}>
+                        {getStatusText(project.status)}
+                      </Badge>
                     </div>
                   </div>
-                  <Button 
+                </div>
+                <CardDescription className="mt-2">
+                  {project.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex flex-wrap gap-1">
+                    {project.features.map((feature, index) => (
+                      <Badge key={index} variant="secondary" className="text-xs">
+                        {feature}
+                      </Badge>
+                    ))}
+                  </div>
+                  <Button
+                    onClick={() => router.push(project.link)}
                     className="w-full"
-                    variant={mvp.type === 'web' ? 'default' : 'outline'}
-                    onClick={() => window.location.href = mvp.link}
+                    disabled={project.status === 'planned'}
                   >
-                    立即体验
-                    </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                    {project.status === 'planned' ? '即将推出' : '立即体验'}
+                    <ExternalLink className="w-4 h-4 ml-2" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-      </section>
 
-      {/* Features Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              革命性社交机制
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              不同于传统社交平台的即时交流模式，FluLink采用异步传播机制，
-              让社交关系更加自然、持久且有意义
+        {/* Empty State */}
+        {filteredProjects.length === 0 && (
+          <div className="text-center py-12">
+            <div className="text-gray-400 mb-4">
+              <Search className="w-16 h-16 mx-auto" />
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              没有找到匹配的项目
+            </h3>
+            <p className="text-gray-600">
+              尝试使用不同的关键词搜索
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <Card key={index} className="h-full hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-center mb-3">
-                    <div className="p-2 bg-indigo-100 rounded-lg text-indigo-600">
-                      {feature.icon}
-                    </div>
-                  </div>
-                  <CardTitle className="text-lg">{feature.title}</CardTitle>
-                  <CardDescription className="text-base">
-                    {feature.description}
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-indigo-600">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">
-            开始您的FluLink之旅
-          </h2>
-          <p className="text-xl text-indigo-100 mb-8">
-            现在就加入我们，体验全新的异步社交方式
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
-              注册免费账号
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-white text-white hover:bg-white hover:text-indigo-600">
-              了解更多
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <span className="text-2xl">🦠</span>
-                <h3 className="text-xl font-bold">FluLink</h3>
-              </div>
-              <p className="text-gray-400">
-                如流感般扩散，连接你在意的每个角落
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">产品</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="/dashboard" className="hover:text-white">Web版</a></li>
-                <li><a href="/mobile" className="hover:text-white">移动版</a></li>
-                <li><a href="/features" className="hover:text-white">功能特色</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">支持</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white">帮助中心</a></li>
-                <li><a href="#" className="hover:text-white">用户指南</a></li>
-                <li><a href="#" className="hover:text-white">联系我们</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">关于</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white">公司简介</a></li>
-                <li><a href="#" className="hover:text-white">隐私政策</a></li>
-                <li><a href="#" className="hover:text-white">服务条款</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 FluLink. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
-    </div>
+        )}
+      </div>
+    </MainLayout>
   )
 }
