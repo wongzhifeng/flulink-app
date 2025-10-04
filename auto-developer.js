@@ -37,7 +37,7 @@ function warning(message) {
 }
 
 function error(message) {
-  log(`❌ ${message}`, 'red');
+  console.error(`❌ ${message}`);
 }
 
 function debug(message) {
@@ -51,6 +51,7 @@ class ProjectManager {
     this.memoryPath = path.join(__dirname, 'memory.md');
     this.currentProject = null;
     this.completedProjects = new Set();
+    this.progress = 23.5; // 默认进度
     this.loadProgress();
   }
 
@@ -94,14 +95,65 @@ class ProjectManager {
   }
 
   findNextProjectByPriority(priority) {
-    // 这里可以扩展为从roadmap中读取具体项目
-    // 简化实现：返回下一个P1项目
+    // 扩展P1项目列表，包含更多项目
     const p1Projects = [
+      // 移动端MVP (15个)
       '移动端布局组件',
       '响应式毒株创建表单',
       '移动端传播可视化',
       '触摸友好交互',
-      '移动端导航系统'
+      '移动端导航系统',
+      'PWA 支持',
+      '离线功能支持',
+      '移动端推送通知',
+      '地理定位优化',
+      '移动端性能优化',
+      '移动端缓存策略',
+      '移动端数据同步',
+      '移动端主题系统',
+      '移动端手势支持',
+      '移动端错误处理',
+
+      // 标签系统 (10个)
+      '智能标签创建',
+      '标签搜索功能',
+      '标签推荐算法',
+      '标签分类系统',
+      '标签管理界面',
+      '标签统计分析',
+      '标签自动生成',
+      '标签关联系统',
+      '标签热度计算',
+      '标签权限控制',
+
+      // 免疫系统 (10个)
+      '用户免疫建模',
+      '群体免疫模拟',
+      '抗性分析系统',
+      '免疫数据可视化',
+      '免疫影响因素',
+      '免疫恢复机制',
+      '免疫阈值设置',
+      '免疫历史记录',
+      '免疫预测算法',
+      '免疫优化建议',
+
+      // 数据可视化增强 (15个)
+      '高级热力图组件',
+      '传播路径动画',
+      '实时数据仪表板',
+      '数据趋势分析',
+      '多维度数据展示',
+      '交互式图表',
+      '数据导出功能',
+      '数据对比分析',
+      '数据过滤系统',
+      '数据聚合展示',
+      '数据实时更新',
+      '数据缓存优化',
+      '数据权限控制',
+      '数据备份系统',
+      '数据恢复功能'
     ];
 
     for (const project of p1Projects) {
@@ -109,12 +161,25 @@ class ProjectManager {
         return {
           name: project,
           priority: 'P1',
-          category: '移动端MVP'
+          category: this.getProjectCategory(project)
         };
       }
     }
 
     return null;
+  }
+
+  getProjectCategory(projectName) {
+    if (projectName.includes('移动端') || projectName.includes('PWA') || projectName.includes('离线')) {
+      return '移动端MVP';
+    } else if (projectName.includes('标签')) {
+      return '标签系统';
+    } else if (projectName.includes('免疫')) {
+      return '免疫系统';
+    } else if (projectName.includes('数据') || projectName.includes('可视化') || projectName.includes('图表')) {
+      return '数据可视化';
+    }
+    return '通用项目';
   }
 
   markProjectCompleted(projectName) {
@@ -125,7 +190,8 @@ class ProjectManager {
   updateProgress() {
     const totalProjects = 200;
     const completedCount = this.completedProjects.size;
-    this.progress = (completedCount / totalProjects) * 100;
+    // 基础进度47个P0项目 + 新完成项目
+    this.progress = ((47 + completedCount) / totalProjects) * 100;
 
     // 更新memory.md
     this.updateMemoryFile();
@@ -144,7 +210,7 @@ class ProjectManager {
       fs.writeFileSync(this.memoryPath, memoryContent, 'utf8');
       success(`进度更新: ${this.progress.toFixed(1)}%`);
     } catch (err) {
-      error('更新进度文件失败: ' + err.message);
+      console.error('❌ 更新进度文件失败: ' + err.message);
     }
   }
 }
@@ -170,7 +236,7 @@ class AutoDeveloper {
       await this.developmentLoop();
 
     } catch (error) {
-      error('开发系统异常: ' + error.message);
+      console.error('❌ 开发系统异常: ' + error.message);
     } finally {
       this.isRunning = false;
       info('开发系统已停止');
@@ -193,7 +259,7 @@ class AutoDeveloper {
       if (fs.existsSync(path.join(__dirname, file))) {
         success(`文件存在: ${file}`);
       } else {
-        error(`文件缺失: ${file}`);
+        console.error(`❌ 文件缺失: ${file}`);
         throw new Error(`必要文件 ${file} 不存在`);
       }
     }
@@ -245,7 +311,7 @@ class AutoDeveloper {
         await this.delay(delay);
 
       } catch (err) {
-        error(`项目开发失败: ${project.name} - ${err.message}`);
+        console.error(`❌ 项目开发失败: ${project.name} - ${err.message}`);
 
         // 失败后跳过此项目
         this.projectManager.markProjectCompleted(project.name);
