@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useFluLink } from '@/context/FluLinkContext'
-import { VirusStrain } from '@/types'
+import { VirusStrain } from '@/types/index'
 import { Clock, Timer, AlertCircle, CheckCircle } from 'lucide-react'
 
 interface DelayManagerProps {

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useFluLink } from '@/context/FluLinkContext'
-import { GeoHeatmapData } from '@/types'
+import { GeoHeatmapData } from '@/types/index'
 import { MapPin, Activity, TrendingUp } from 'lucide-react'
 
 export default function HeatmapVisualization() {

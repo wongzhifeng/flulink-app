@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { User, VirusStrain, SpreadRecord, Task, GeoHeatmapData } from '@/types'
+import { User, VirusStrain, SpreadRecord, Task, GeoHeatmapData } from '@/types/index'
 
 interface FluLinkContextType {
   // 用户状态

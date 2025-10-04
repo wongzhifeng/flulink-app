@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useFluLink } from '@/context/FluLinkContext'
-import { VirusStrain, SpreadRecord } from '@/types'
+import { VirusStrain, SpreadRecord } from '@/types/index'
 import { calculateDistance, formatDate } from '@/lib/utils'
 import { MapPin, Clock, Users, Activity } from 'lucide-react'
 
