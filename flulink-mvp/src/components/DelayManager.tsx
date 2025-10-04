@@ -278,7 +278,7 @@ export default function DelayManager({ strain }: DelayManagerProps) {
                 <div className="flex justify-between">
                   <span className="text-gray-600">创建时间:</span>
                   <span className="font-medium">
-                    {strain.createdAt.toLocaleString('zh-CN')}
+                    {strain.createdAt ? strain.createdAt.toLocaleString('zh-CN') : '未知'}
                   </span>
                 </div>
               </div>
