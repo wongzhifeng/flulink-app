@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
 import { FluLinkProvider } from "@/context/FluLinkContext";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "FluLink - 异步社交APP",
@@ -17,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body className={inter.className}>
+      <body className="font-sans">
         <FluLinkProvider>
           {children}
         </FluLinkProvider>
