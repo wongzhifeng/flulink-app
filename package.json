@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy-check": "node deployment-check.js"
+    "deploy-check": "node deployment-check.js",
+    "auto-develop": "node auto-developer.js",
+    "auto-develop:continuous": "while true; do npm run auto-develop; sleep 300; done"
   },
   "dependencies": {
     "next": "15.5.4",
