@@ -29,6 +29,3 @@ ENV PORT=3000
 
 # 启动应用
 CMD ["npm", "start"]
-
-# 启动应用
-CMD ["npm", "start"]
