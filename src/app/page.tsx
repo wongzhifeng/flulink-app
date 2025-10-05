@@ -100,7 +100,7 @@ export default function HomePage() {
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
             <span className="text-white text-xl font-bold">🦠</span>
-          </div>
+            </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-800">FluLink</h1>
             <p className="text-sm text-gray-500">如流感般扩散，连接你在意的每个角落</p>
@@ -172,8 +172,8 @@ export default function HomePage() {
               </Card>
             )
           })}
-        </div>
-
+            </div>
+            
         {/* 底部信息 */}
         <div className="text-center mt-16">
           <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 max-w-4xl mx-auto border border-gray-200">
