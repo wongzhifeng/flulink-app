@@ -69,3 +69,7 @@ auto-test.js
 # 备份文件
 *.bak
 *.backup
+
+# 旧项目文件夹
+flulink-mvp/
+flulink-dealer-mvp/

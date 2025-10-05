@@ -7,8 +7,13 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 
-# 复制源代码
-COPY . .
+# 复制源代码（排除旧项目文件夹）
+COPY src/ ./src/
+COPY public/ ./public/ 2>/dev/null || true
+COPY next.config.js ./
+COPY tailwind.config.ts ./
+COPY tsconfig.json ./
+COPY postcss.config.js ./
 
 # 构建应用
 RUN npm run build
