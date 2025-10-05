@@ -414,7 +414,7 @@ export default function MultiUserDemoPage() {
                         </div>
                       </div>
                     )}
-                    <div ref={el => messageEndRefs.current[user.id] = el} />
+                    <div ref={(el) => { messageEndRefs.current[user.id] = el; }} />
                   </div>
 
                   {/* 输入区域 */}

@@ -92,7 +92,9 @@ export default function FluDealerApp() {
       }
     });
     
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   // 获取用户位置
@@ -346,9 +348,9 @@ export default function FluDealerApp() {
         heatLevel: calculateHeat(msg.virusStrain),
         lastUpdate: msg.timestamp,
         messageId: msg.id,
-        uniqueKey: `${msg.virusStrain.id}-${msg.id}` // 确保唯一性
+        uniqueKey: `${msg.virusStrain!.id}-${msg.id}` // 确保唯一性
       }))
-      .sort((a, b) => (b.toxicityScore * 0.6 + b.propagationCount * 0.4) - (a.toxicityScore * 0.6 + a.propagationCount * 0.4));
+      .sort((a, b) => ((b.toxicityScore || 0) * 0.6 + (b.propagationCount || 0) * 0.4) - ((a.toxicityScore || 0) * 0.6 + (a.propagationCount || 0) * 0.4));
     
     // 去重：按毒株ID去重，保留最新的
     const uniqueStrains = strains.reduce((acc, current) => {
@@ -450,7 +452,7 @@ export default function FluDealerApp() {
         content: interactionMessage,
         toxicityReport: { score: selectedVirusStrain.toxicityScore + 0.5, analysis: '交互增强传播力' },
         propagationPrediction: { 
-          path: [{ name: '当前位置', type: '小区' }], 
+          path: [{ name: '当前位置', type: '小区' as const }], 
           estimatedReach: '预计影响100-200人', 
           successRate: 85, 
           delay: 2000 
@@ -537,9 +539,7 @@ export default function FluDealerApp() {
                               latitude: pos.coords.latitude,
                               longitude: pos.coords.longitude,
                               address: '杭州市西湖区文三路',
-                              precision: '街道',
-                              district: '西湖区',
-                              city: '杭州市'
+                              precision: '街道'
                             });
                           }
                         );

@@ -99,14 +99,16 @@ export default function AttachmentUploader({
       // 生成缩略图
       if (file.type.startsWith('image/')) {
         try {
-          const img = new Image();
+          const img = new window.Image();
           img.onload = () => {
             attachment.metadata = {
               width: img.width,
               height: img.height
             };
             attachment.thumbnail = attachment.url;
-            updateAttachment(attachment.id, attachment);
+            setAttachments(prev => prev.map(att => 
+              att.id === attachment.id ? attachment : att
+            ));
           };
           img.src = attachment.url;
         } catch (error) {

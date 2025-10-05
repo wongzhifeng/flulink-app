@@ -159,6 +159,12 @@ export interface ConfigThreshold {
 
 export type GeoPrecision = 'exact' | 'street' | 'district' | 'city';
 
+export interface RuleControlPanel {
+  propagationRules: any[];
+  toxicityThresholds: any;
+  systemSettings: any;
+}
+
 // 管理员界面相关
 export interface AdminDashboard {
   realTimeMetrics: RealTimeMetrics;

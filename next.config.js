@@ -8,11 +8,8 @@ const nextConfig = {
     unoptimized: true
   },
   
-  // 实验性功能
-  experimental: {
-    // 启用服务器组件
-    serverComponentsExternalPackages: []
-  },
+  // 服务器外部包
+  serverExternalPackages: [],
   
   // 环境变量
   env: {

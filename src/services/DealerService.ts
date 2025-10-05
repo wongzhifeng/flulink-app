@@ -147,7 +147,10 @@ export class FluDealerService {
     let delay = 0;
 
     // 模拟地理传播逻辑
-    propagationPath.push({ name: geoContext.address, type: geoContext.precision });
+    propagationPath.push({ 
+      name: geoContext.address, 
+      type: geoContext.precision === '未知' ? '城市' : geoContext.precision as '小区' | '街道' | '行政区' | '城市' | '国家'
+    });
 
     if (toxicity.score >= this.dynamicConfig.toxicityThresholds.superViral.min) {
       // 超级病毒级传播
@@ -212,7 +215,7 @@ export class FluDealerService {
   /**
    * 生成模拟毒株数据
    */
-  private generateMockVirusStrains(): VirusStrain[] {
+  public generateMockVirusStrains(): VirusStrain[] {
     return [
       {
         id: 'strain-001',
@@ -398,7 +401,7 @@ export class FluDealerService {
         analysis: `传播力评分: ${strain.toxicityScore}/10` 
       },
       propagationPrediction: { 
-        path: [{ name: strain.location, type: '区域' }], 
+        path: [{ name: strain.location, type: '城市' }], 
         estimatedReach: `预计影响${strain.propagationCount * 2}-${strain.propagationCount * 3}人`, 
         successRate: Math.min(95, strain.toxicityScore * 10), 
         delay: Math.max(1000, 10000 - strain.toxicityScore * 1000) 
