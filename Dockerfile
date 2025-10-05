@@ -29,9 +29,9 @@ ENV NODE_ENV=production
 ENV PORT=8080
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# 复制package文件并安装生产依赖
+# 复制package文件并安装所有依赖（包括开发依赖）
 COPY package*.json ./
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci && npm cache clean --force
 
 # 复制构建产物
 COPY --from=builder /app/.next ./.next
