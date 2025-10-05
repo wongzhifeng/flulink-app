@@ -1,0 +1,10 @@
+{
+  "port": 8080,
+  "buildCommand": "npm run build",
+  "startCommand": "npm start",
+  "environment": {
+    "NODE_ENV": "production",
+    "PORT": "8080",
+    "NEXT_TELEMETRY_DISABLED": "1"
+  }
+}

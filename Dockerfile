@@ -27,6 +27,7 @@ WORKDIR /app
 # 设置环境变量
 ENV NODE_ENV=production
 ENV PORT=8080
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # 复制package文件并安装生产依赖
 COPY package*.json ./

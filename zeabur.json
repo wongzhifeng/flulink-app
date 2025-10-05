@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev --port 8080",
     "build": "next build",
-    "start": "next start --port 8080",
+    "start": "next start --port ${PORT:-8080}",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
@@ -24,5 +24,10 @@
     "mvp"
   ],
   "author": "wongzhifeng",
-  "license": "MIT"
+  "license": "MIT",
+  "zeabur": {
+    "port": 8080,
+    "buildCommand": "npm run build",
+    "startCommand": "npm start"
+  }
 }
