@@ -28,6 +28,8 @@
   "zeabur": {
     "port": 8080,
     "buildCommand": "npm run build",
-    "startCommand": "npm start"
+    "startCommand": "npm start",
+    "rootDirectory": ".",
+    "buildDirectory": "."
   }
 }
