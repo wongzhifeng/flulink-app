@@ -1,0 +1,280 @@
+/* StarMap.css - 星空图谱样式 */
+
+/* 基础动画 */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+@keyframes centerPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+@keyframes radiationExpand {
+  0% { 
+    r: 20; 
+    opacity: 0.8; 
+  }
+  100% { 
+    r: 200; 
+    opacity: 0; 
+  }
+}
+
+@keyframes starSeedGlow {
+  0%, 100% { 
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6)); 
+  }
+  50% { 
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.9)); 
+  }
+}
+
+@keyframes memberResonance {
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 0.8; 
+  }
+  50% { 
+    transform: scale(1.1); 
+    opacity: 1; 
+  }
+}
+
+/* 星空背景 */
+.star-field {
+  animation: twinkle 2s ease-in-out infinite alternate;
+}
+
+/* 星种样式 */
+.star-seed-group {
+  transition: all 0.3s ease;
+}
+
+.star-seed-core {
+  animation: starSeedGlow 3s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.star-seed-halo {
+  animation: pulse 2s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.star-seed-label {
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+  font-family: 'Microsoft YaHei', sans-serif;
+  pointer-events: none;
+}
+
+.interaction-indicators {
+  pointer-events: none;
+}
+
+.interaction-count {
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+}
+
+.interaction-icon {
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+}
+
+/* 星团成员样式 */
+.cluster-member-group {
+  transition: all 0.3s ease;
+}
+
+.cluster-member-node {
+  animation: memberResonance 4s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.resonance-line {
+  animation: pulse 3s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.activity-indicator {
+  animation: pulse 3s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+/* 中心用户样式 */
+.center-user-group {
+  pointer-events: none;
+}
+
+.center-halo {
+  animation: centerPulse 2s ease-in-out infinite;
+}
+
+.center-node {
+  animation: centerPulse 2s ease-in-out infinite;
+}
+
+.center-label {
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+}
+
+.center-avatar {
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+/* 辐射动画 */
+.radiation-group {
+  pointer-events: none;
+}
+
+.radiation-ring-0,
+.radiation-ring-1,
+.radiation-ring-2 {
+  animation: radiationExpand 3s linear infinite;
+}
+
+.radiation-ring-1 {
+  animation-delay: 0.5s;
+}
+
+.radiation-ring-2 {
+  animation-delay: 1s;
+}
+
+/* 悬停效果 */
+.star-seed-group:hover .star-seed-core {
+  animation-duration: 1s;
+}
+
+.star-seed-group:hover .star-seed-halo {
+  animation-duration: 1s;
+}
+
+.cluster-member-group:hover .cluster-member-node {
+  animation-duration: 2s;
+}
+
+.cluster-member-group:hover .resonance-line {
+  stroke-width: 3;
+  opacity: 0.8;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .star-seed-label {
+    font-size: 10px;
+  }
+  
+  .interaction-count {
+    font-size: 8px;
+  }
+  
+  .interaction-icon {
+    font-size: 8px;
+  }
+  
+  .center-label {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .star-seed-label {
+    font-size: 8px;
+  }
+  
+  .interaction-count {
+    font-size: 6px;
+  }
+  
+  .interaction-icon {
+    font-size: 6px;
+  }
+  
+  .center-label {
+    font-size: 10px;
+  }
+}
+
+/* 深色主题适配 */
+.dark-theme .star-seed-label,
+.dark-theme .interaction-count,
+.dark-theme .center-label {
+  fill: #ffffff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+/* 高对比度模式 */
+.high-contrast .star-seed-core {
+  stroke-width: 3;
+  stroke: #ffffff;
+}
+
+.high-contrast .cluster-member-node {
+  stroke-width: 3;
+  stroke: #ffffff;
+}
+
+.high-contrast .center-node {
+  stroke-width: 4;
+  stroke: #ffffff;
+}
+
+/* 性能优化 */
+.star-seed-group,
+.cluster-member-group {
+  will-change: transform, opacity;
+}
+
+.star-seed-core,
+.cluster-member-node,
+.center-node {
+  will-change: transform, filter;
+}
+
+/* 无障碍支持 */
+@media (prefers-reduced-motion: reduce) {
+  .star-field,
+  .star-seed-core,
+  .star-seed-halo,
+  .cluster-member-node,
+  .activity-indicator,
+  .center-halo,
+  .center-node,
+  .radiation-ring-0,
+  .radiation-ring-1,
+  .radiation-ring-2 {
+    animation: none;
+  }
+  
+  .star-seed-group:hover .star-seed-core,
+  .star-seed-group:hover .star-seed-halo,
+  .cluster-member-group:hover .cluster-member-node {
+    animation: none;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .star-seed-group,
+  .cluster-member-group,
+  .center-user-group,
+  .radiation-group {
+    animation: none;
+  }
+  
+  .star-seed-core,
+  .cluster-member-node,
+  .center-node {
+    filter: none;
+  }
+}
