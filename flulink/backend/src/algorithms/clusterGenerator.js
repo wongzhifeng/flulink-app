@@ -181,31 +181,328 @@ class ClusterGenerator {
     }
   }
 
-  // 筛选星团成员
+  // 第5次优化：智能星团成员选择，增强49人匹配逻辑
   async selectClusterMembers(userA, userB, candidates) {
     try {
       const members = [userA, userB]; // 核心用户
       const remainingSlots = this.clusterSize - 2;
 
-      // 1. 确保间接互动用户（3-5人）
-      const indirectUsers = await this.getIndirectUsers(userA, userB, candidates);
-      members.push(...indirectUsers.slice(0, 5));
-
-      // 2. 按活跃度平衡筛选
-      const activeFiltered = await this.filterByActivity(
-        candidates.filter(c => !members.includes(c.user)),
-        remainingSlots - indirectUsers.length
+      // 优化5.1: 并行计算所有候选用户的共鸣值和活跃度
+      const candidateAnalysis = await this.analyzeCandidates(candidates, userA, userB);
+      
+      // 优化5.2: 智能分层选择策略
+      const selectionStrategy = await this.determineIntelligentStrategy(candidateAnalysis, userA, userB);
+      
+      // 优化5.3: 按策略执行成员选择
+      const selectedMembers = await this.executeIntelligentSelection(
+        selectionStrategy, 
+        candidateAnalysis, 
+        remainingSlots
       );
 
-      members.push(...activeFiltered.map(c => c.user));
+      members.push(...selectedMembers);
 
-      // 3. 确保标签多样性
-      const diverseMembers = await this.ensureTagDiversity(members, userA, userB);
+      // 优化5.4: 最终平衡调整
+      const balancedMembers = await this.finalBalanceAdjustment(members, userA, userB);
 
-      return diverseMembers.slice(0, this.clusterSize);
+      return balancedMembers.slice(0, this.clusterSize);
     } catch (error) {
       console.error('Error selecting cluster members:', error);
       throw error;
+    }
+  }
+
+  // 分析候选用户
+  async analyzeCandidates(candidates, userA, userB) {
+    try {
+      const analysisPromises = candidates.map(async (candidate) => {
+        const [resonanceA, resonanceB, activityScore, diversityScore] = await Promise.all([
+          this.resonanceCalculator.calculateResonance(userA, candidate),
+          this.resonanceCalculator.calculateResonance(userB, candidate),
+          this.calculateUserActivityScore(candidate),
+          this.calculateDiversityScore(candidate, userA, userB)
+        ]);
+
+        return {
+          candidate,
+          avgResonance: (resonanceA + resonanceB) / 2,
+          resonanceA,
+          resonanceB,
+          activityScore,
+          diversityScore,
+          indirectInteractionScore: await this.calculateIndirectInteractionScore(candidate, userA, userB)
+        };
+      });
+
+      const results = await Promise.allSettled(analysisPromises);
+      return results
+        .filter(result => result.status === 'fulfilled')
+        .map(result => result.value)
+        .filter(item => item.avgResonance >= this.minResonanceThreshold);
+    } catch (error) {
+      console.error('Error analyzing candidates:', error);
+      return [];
+    }
+  }
+
+  // 确定智能选择策略
+  async determineIntelligentStrategy(candidateAnalysis, userA, userB) {
+    try {
+      if (candidateAnalysis.length === 0) {
+        return 'fallback';
+      }
+
+      const avgResonance = candidateAnalysis.reduce((sum, c) => sum + c.avgResonance, 0) / candidateAnalysis.length;
+      const avgDiversity = candidateAnalysis.reduce((sum, c) => sum + c.diversityScore, 0) / candidateAnalysis.length;
+      const avgActivity = candidateAnalysis.reduce((sum, c) => sum + c.activityScore, 0) / candidateAnalysis.length;
+
+      // 策略决策矩阵
+      if (avgResonance > 75 && avgDiversity < 0.4) {
+        return 'diversity_boost'; // 高共鸣低多样性，优先多样性
+      } else if (avgResonance < 55 && avgDiversity > 0.7) {
+        return 'resonance_boost'; // 低共鸣高多样性，优先共鸣
+      } else if (avgActivity < 0.3) {
+        return 'activity_boost'; // 低活跃度，优先活跃用户
+      } else if (avgResonance > 65 && avgDiversity > 0.5 && avgActivity > 0.4) {
+        return 'balanced_premium'; // 高质量候选，平衡选择
+      } else {
+        return 'balanced'; // 默认平衡策略
+      }
+    } catch (error) {
+      console.error('Error determining intelligent strategy:', error);
+      return 'balanced';
+    }
+  }
+
+  // 执行智能选择
+  async executeIntelligentSelection(strategy, candidateAnalysis, limit) {
+    try {
+      switch (strategy) {
+        case 'diversity_boost':
+          return this.executeDiversityBoostStrategy(candidateAnalysis, limit);
+        case 'resonance_boost':
+          return this.executeResonanceBoostStrategy(candidateAnalysis, limit);
+        case 'activity_boost':
+          return this.executeActivityBoostStrategy(candidateAnalysis, limit);
+        case 'balanced_premium':
+          return this.executeBalancedPremiumStrategy(candidateAnalysis, limit);
+        case 'balanced':
+        default:
+          return this.executeBalancedStrategy(candidateAnalysis, limit);
+      }
+    } catch (error) {
+      console.error('Error executing intelligent selection:', error);
+      return this.executeBalancedStrategy(candidateAnalysis, limit);
+    }
+  }
+
+  // 多样性提升策略
+  executeDiversityBoostStrategy(candidateAnalysis, limit) {
+    return candidateAnalysis
+      .sort((a, b) => b.diversityScore - a.diversityScore)
+      .slice(0, Math.min(limit, candidateAnalysis.length))
+      .map(item => item.candidate);
+  }
+
+  // 共鸣提升策略
+  executeResonanceBoostStrategy(candidateAnalysis, limit) {
+    return candidateAnalysis
+      .sort((a, b) => b.avgResonance - a.avgResonance)
+      .slice(0, Math.min(limit, candidateAnalysis.length))
+      .map(item => item.candidate);
+  }
+
+  // 活跃度提升策略
+  executeActivityBoostStrategy(candidateAnalysis, limit) {
+    return candidateAnalysis
+      .sort((a, b) => b.activityScore - a.activityScore)
+      .slice(0, Math.min(limit, candidateAnalysis.length))
+      .map(item => item.candidate);
+  }
+
+  // 平衡优质策略
+  executeBalancedPremiumStrategy(candidateAnalysis, limit) {
+    return candidateAnalysis
+      .sort((a, b) => {
+        const scoreA = (a.avgResonance * 0.4) + (a.diversityScore * 0.3) + (a.activityScore * 0.3);
+        const scoreB = (b.avgResonance * 0.4) + (b.diversityScore * 0.3) + (b.activityScore * 0.3);
+        return scoreB - scoreA;
+      })
+      .slice(0, Math.min(limit, candidateAnalysis.length))
+      .map(item => item.candidate);
+  }
+
+  // 平衡策略
+  executeBalancedStrategy(candidateAnalysis, limit) {
+    // 确保活跃度平衡 (高30% + 中40% + 低30%)
+    const highActivity = candidateAnalysis.filter(c => c.activityScore > 0.6);
+    const mediumActivity = candidateAnalysis.filter(c => c.activityScore >= 0.3 && c.activityScore <= 0.6);
+    const lowActivity = candidateAnalysis.filter(c => c.activityScore < 0.3);
+
+    const highCount = Math.min(Math.floor(limit * 0.3), highActivity.length);
+    const mediumCount = Math.min(Math.floor(limit * 0.4), mediumActivity.length);
+    const lowCount = Math.min(limit - highCount - mediumCount, lowActivity.length);
+
+    const selected = [
+      ...highActivity.slice(0, highCount),
+      ...mediumActivity.slice(0, mediumCount),
+      ...lowActivity.slice(0, lowCount)
+    ];
+
+    return selected.map(item => item.candidate);
+  }
+
+  // 计算用户活跃度得分
+  async calculateUserActivityScore(user) {
+    try {
+      const cacheKey = `user_activity:${user._id}`;
+      const cachedScore = await redisService.get(cacheKey);
+      if (cachedScore !== null) {
+        return parseFloat(cachedScore);
+      }
+
+      // 基于用户创建时间、最后活跃时间、星种数量等计算活跃度
+      const now = new Date();
+      const daysSinceCreation = (now - new Date(user.createdAt).getTime()) / (1000 * 60 * 60 * 24);
+      const daysSinceLastActive = user.lastActiveAt ? 
+        (now - new Date(user.lastActiveAt).getTime()) / (1000 * 60 * 60 * 24) : daysSinceCreation;
+
+      // 活跃度计算：基于活跃频率和参与度
+      const activityScore = Math.max(0, 1 - (daysSinceLastActive / 30)); // 30天衰减
+      const participationScore = Math.min((user.starSeedCount || 0) / 10, 1); // 星种参与度
+      
+      const finalScore = (activityScore * 0.7) + (participationScore * 0.3);
+      
+      await redisService.set(cacheKey, finalScore.toString(), 1800);
+      return Math.min(Math.max(finalScore, 0), 1);
+    } catch (error) {
+      console.error('Error calculating user activity score:', error);
+      return 0.5; // 默认中等活跃度
+    }
+  }
+
+  // 计算多样性得分
+  async calculateDiversityScore(candidate, userA, userB) {
+    try {
+      const allTags = [...new Set([...(userA.tags || []), ...(userB.tags || []), ...(candidate.tags || [])])];
+      const candidateTags = candidate.tags || [];
+      
+      // 多样性 = 候选用户独有标签数 / 总标签数
+      const uniqueTags = candidateTags.filter(tag => 
+        !userA.tags?.includes(tag) && !userB.tags?.includes(tag)
+      );
+      
+      return allTags.length > 0 ? uniqueTags.length / allTags.length : 0;
+    } catch (error) {
+      console.error('Error calculating diversity score:', error);
+      return 0.5;
+    }
+  }
+
+  // 计算间接互动得分
+  async calculateIndirectInteractionScore(candidate, userA, userB) {
+    try {
+      // 检查候选用户是否与核心用户有共同互动
+      const commonInteractions = await Interaction.find({
+        $or: [
+          { userId: userA._id, targetId: candidate._id },
+          { userId: candidate._id, targetId: userA._id },
+          { userId: userB._id, targetId: candidate._id },
+          { userId: candidate._id, targetId: userB._id }
+        ]
+      });
+
+      return Math.min(commonInteractions.length / 10, 1); // 归一化到[0,1]
+    } catch (error) {
+      console.error('Error calculating indirect interaction score:', error);
+      return 0.1;
+    }
+  }
+
+  // 最终平衡调整
+  async finalBalanceAdjustment(members, userA, userB) {
+    try {
+      // 确保标签多样性 (同标签≤40%)
+      const diverseMembers = await this.ensureTagDiversity(members, userA, userB);
+      
+      // 确保间接互动用户 (3-5人)
+      const finalMembers = await this.ensureIndirectInteractions(diverseMembers, userA, userB);
+      
+      return finalMembers;
+    } catch (error) {
+      console.error('Error in final balance adjustment:', error);
+      return members;
+    }
+  }
+
+  // 确保标签多样性
+  async ensureTagDiversity(members, userA, userB) {
+    try {
+      const tagCounts = {};
+      const diverseMembers = [];
+
+      for (const member of members) {
+        const memberTags = member.tags || [];
+        let isDiverse = true;
+
+        // 检查是否会导致同标签用户超过40%
+        for (const tag of memberTags) {
+          const currentCount = tagCounts[tag] || 0;
+          const maxAllowed = Math.ceil(members.length * 0.4);
+          
+          if (currentCount >= maxAllowed) {
+            isDiverse = false;
+            break;
+          }
+        }
+
+        if (isDiverse) {
+          diverseMembers.push(member);
+          // 更新标签计数
+          for (const tag of memberTags) {
+            tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+          }
+        }
+      }
+
+      return diverseMembers;
+    } catch (error) {
+      console.error('Error ensuring tag diversity:', error);
+      return members;
+    }
+  }
+
+  // 确保间接互动用户
+  async ensureIndirectInteractions(members, userA, userB) {
+    try {
+      const indirectUsers = [];
+      const directUsers = [];
+
+      for (const member of members) {
+        const indirectScore = await this.calculateIndirectInteractionScore(member, userA, userB);
+        if (indirectScore > 0.3) {
+          indirectUsers.push(member);
+        } else {
+          directUsers.push(member);
+        }
+      }
+
+      // 确保至少有3-5个间接互动用户
+      const minIndirect = 3;
+      const maxIndirect = 5;
+      
+      if (indirectUsers.length < minIndirect) {
+        // 从直接用户中选择一些作为间接用户
+        const needed = minIndirect - indirectUsers.length;
+        const additionalIndirect = directUsers.slice(0, needed);
+        indirectUsers.push(...additionalIndirect);
+        directUsers.splice(0, needed);
+      }
+
+      return [...indirectUsers.slice(0, maxIndirect), ...directUsers];
+    } catch (error) {
+      console.error('Error ensuring indirect interactions:', error);
+      return members;
     }
   }
 
