@@ -10,6 +10,7 @@ const ACTION_TYPES = {
   SET_CURRENT_CLUSTER: 'SET_CURRENT_CLUSTER',
   SET_STAR_SEEDS: 'SET_STAR_SEEDS',
   ADD_STAR_SEED: 'ADD_STAR_SEED',
+  ADD_STARSEED: 'ADD_STARSEED',
   UPDATE_STAR_SEED: 'UPDATE_STAR_SEED',
   SET_USERS: 'SET_USERS',
   UPDATE_USER: 'UPDATE_USER',
@@ -38,6 +39,7 @@ type AppAction =
   | { type: typeof ACTION_TYPES.SET_CURRENT_CLUSTER; payload: Cluster | null }
   | { type: typeof ACTION_TYPES.SET_STAR_SEEDS; payload: StarSeed[] }
   | { type: typeof ACTION_TYPES.ADD_STAR_SEED; payload: StarSeed }
+  | { type: typeof ACTION_TYPES.ADD_STARSEED; payload: StarSeed }
   | { type: typeof ACTION_TYPES.UPDATE_STAR_SEED; payload: StarSeed }
   | { type: typeof ACTION_TYPES.SET_USERS; payload: User[] }
   | { type: typeof ACTION_TYPES.UPDATE_USER; payload: User }
@@ -96,6 +98,12 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
       // 性能优化：检查是否已存在，避免重复添加
       const exists = state.starSeeds.some(seed => seed._id === action.payload._id)
       if (exists) return state
+      return { ...state, starSeeds: [...state.starSeeds, action.payload] }
+    
+    case ACTION_TYPES.ADD_STARSEED:
+      // 性能优化：检查是否已存在，避免重复添加
+      const exists2 = state.starSeeds.some(seed => seed._id === action.payload._id)
+      if (exists2) return state
       return { ...state, starSeeds: [...state.starSeeds, action.payload] }
     
     case ACTION_TYPES.UPDATE_STAR_SEED:

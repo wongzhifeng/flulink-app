@@ -6,6 +6,17 @@ export interface User {
   phone?: string
   avatar?: string
   tags: string[]
+  bio?: string
+  constellationName?: string
+  constellationDescription?: string
+  constellationPersonality?: string[]
+  contactInfo?: {
+    wechat?: string
+    qq?: string
+    email?: string
+    telegram?: string
+    twitter?: string
+  }
   constellationProfile?: ConstellationProfile
   createdAt: Date
   updatedAt: Date
@@ -27,13 +38,24 @@ export interface ConstellationProfile {
 export interface StarSeed {
   _id: string
   authorId: string
+  owner?: User
   content: {
     text?: string
     imageUrl?: string
     audioUrl?: string
   }
   spectrum: string[]
+  tags?: string[]
   luminosity: number
+  interactions?: {
+    lights: number
+    comments: number
+    shares: number
+  } | Array<{
+    userId: string
+    type: 'light' | 'comment' | 'share'
+    timestamp: Date
+  }>
   propagationPath: PropagationNode[]
   jumpCondition: {
     threshold: number
@@ -54,10 +76,13 @@ export interface PropagationNode {
 // 星团相关类型
 export interface Cluster {
   _id: string
+  name?: string
   members: ClusterMember[]
   centerUser: string
   resonanceThreshold: number
   averageResonance: number
+  resonanceScore?: number
+  lifecycleEnd?: Date
   createdAt: Date
   expiresAt: Date
   status: 'active' | 'dissolved'
@@ -65,12 +90,14 @@ export interface Cluster {
 
 export interface ClusterMember {
   userId: string
+  _id?: string
   position: {
     x: number
     y: number
     z: number
   }
   resonanceValue: number
+  activityScore?: number
   joinedAt: Date
 }
 
@@ -106,6 +133,7 @@ export interface AuthState {
 // 应用状态类型
 export interface AppState {
   auth: AuthState
+  user?: User
   currentCluster: Cluster | null
   starSeeds: StarSeed[]
   users: User[]

@@ -79,7 +79,7 @@ class ApiService {
 
   constructor() {
     this.api = axios.create({
-      baseURL: process.env.REACT_APP_API_URL || 'http://localhost:3001/api',
+      baseURL: process.env.REACT_APP_API_URL || 'https://flulink-backend-v2.zeabur.app/api',
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',
@@ -341,6 +341,23 @@ class ApiService {
       size: this.cache['cache'].size,
       maxSize: this.cache['maxSize']
     }
+  }
+
+  // 添加缺失的HTTP方法
+  get(url: string, config?: any) {
+    return this.api.get(url, config)
+  }
+
+  post(url: string, data?: any, config?: any) {
+    return this.api.post(url, data, config)
+  }
+
+  put(url: string, data?: any, config?: any) {
+    return this.api.put(url, data, config)
+  }
+
+  delete(url: string, config?: any) {
+    return this.api.delete(url, config)
   }
 }
 
