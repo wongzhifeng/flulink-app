@@ -471,5 +471,230 @@ router.get('/check-phone/:phone', async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/auth/send-code:
+ *   post:
+ *     summary: 发送验证码
+ *     description: 向指定手机号发送登录验证码
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - phone
+ *             properties:
+ *               phone:
+ *                 type: string
+ *                 description: 手机号
+ *                 example: "13800138000"
+ *     responses:
+ *       200:
+ *         description: 验证码发送成功
+ *       400:
+ *         description: 请求参数错误
+ *       429:
+ *         description: 发送频率过高
+ */
+// 发送验证码
+router.post('/send-code', async (req, res) => {
+  try {
+    const { phone } = req.body;
+
+    // 验证输入
+    if (!phone) {
+      return res.status(400).json({
+        success: false,
+        message: '手机号不能为空'
+      });
+    }
+
+    if (!validatePhone(phone)) {
+      return res.status(400).json({
+        success: false,
+        message: '手机号格式不正确'
+      });
+    }
+
+    // 检查发送频率限制
+    const rateLimitKey = `sms_rate_limit:${phone}`;
+    const lastSent = await redisService.get(rateLimitKey);
+    if (lastSent) {
+      const timeDiff = Date.now() - parseInt(lastSent);
+      if (timeDiff < 60000) { // 1分钟内只能发送一次
+        return res.status(429).json({
+          success: false,
+          message: '发送频率过高，请稍后再试'
+        });
+      }
+    }
+
+    // 生成6位验证码
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    // 存储验证码（5分钟有效期）
+    const codeKey = `sms_code:${phone}`;
+    await redisService.set(codeKey, code, 300);
+    
+    // 记录发送时间
+    await redisService.set(rateLimitKey, Date.now().toString(), 60);
+
+    // 模拟发送短信（实际项目中应该调用短信服务）
+    console.log(`发送验证码到 ${phone}: ${code}`);
+
+    res.json({
+      success: true,
+      message: '验证码发送成功',
+      data: {
+        phone,
+        expiresIn: 300 // 5分钟
+      }
+    });
+  } catch (error) {
+    console.error('Send code error:', error);
+    res.status(500).json({
+      success: false,
+      message: '验证码发送失败，请稍后重试'
+    });
+  }
+});
+
+/**
+ * @swagger
+ * /api/auth/login-with-code:
+ *   post:
+ *     summary: 验证码登录
+ *     description: 使用手机号和验证码登录
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - phone
+ *               - code
+ *             properties:
+ *               phone:
+ *                 type: string
+ *                 description: 手机号
+ *                 example: "13800138000"
+ *               code:
+ *                 type: string
+ *                 description: 验证码
+ *                 example: "123456"
+ *     responses:
+ *       200:
+ *         description: 登录成功
+ *       400:
+ *         description: 请求参数错误
+ *       401:
+ *         description: 验证码错误或过期
+ *       404:
+ *         description: 用户不存在
+ */
+// 验证码登录
+router.post('/login-with-code', async (req, res) => {
+  try {
+    const { phone, code } = req.body;
+
+    // 验证输入
+    if (!phone || !code) {
+      return res.status(400).json({
+        success: false,
+        message: '手机号和验证码不能为空'
+      });
+    }
+
+    if (!validatePhone(phone)) {
+      return res.status(400).json({
+        success: false,
+        message: '手机号格式不正确'
+      });
+    }
+
+    // 验证验证码
+    const codeKey = `sms_code:${phone}`;
+    const storedCode = await redisService.get(codeKey);
+    
+    if (!storedCode) {
+      return res.status(401).json({
+        success: false,
+        message: '验证码已过期，请重新获取'
+      });
+    }
+
+    if (storedCode !== code) {
+      return res.status(401).json({
+        success: false,
+        message: '验证码错误'
+      });
+    }
+
+    // 查找用户
+    let user = await User.findOne({ phone });
+    
+    // 如果用户不存在，自动注册
+    if (!user) {
+      user = new User({
+        phone,
+        nickname: `用户${phone.slice(-4)}`,
+        tags: [],
+        createdAt: new Date()
+      });
+      await user.save();
+    }
+
+    // 删除已使用的验证码
+    await redisService.del(codeKey);
+
+    // 更新最后活跃时间
+    user.lastActiveAt = new Date();
+    user.daysActive = Math.floor((new Date() - user.createdAt) / (1000 * 60 * 60 * 24));
+    await user.save();
+
+    // 生成JWT令牌
+    const authService = new AuthService();
+    const token = authService.generateToken({
+      userId: user._id,
+      phone: user.phone
+    });
+
+    // 缓存用户活跃状态
+    await redisService.cacheUserActive(user._id, true);
+
+    res.json({
+      success: true,
+      message: '登录成功',
+      data: {
+        user: {
+          id: user._id,
+          phone: user.phone,
+          nickname: user.nickname,
+          motto: user.motto,
+          poem: user.poem,
+          tags: user.tags,
+          avatar: user.avatar,
+          starColor: user.starColor,
+          daysActive: user.daysActive,
+          currentCluster: user.currentCluster,
+          createdAt: user.createdAt
+        },
+        token
+      }
+    });
+  } catch (error) {
+    console.error('Login with code error:', error);
+    res.status(500).json({
+      success: false,
+      message: '登录失败，请稍后重试'
+    });
+  }
+});
+
 module.exports = router;
 
