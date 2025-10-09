@@ -1,0 +1,122 @@
+{
+  "name": "flulink-monorepo",
+  "version": "1.0.0",
+  "description": "FluLink星尘共鸣版 - 全栈社交应用",
+  "private": true,
+  "workspaces": [
+    "flulink/backend",
+    "flulink/frontend",
+    "flulink/mobile/miniprogram"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd flulink/backend && npm run dev",
+    "dev:frontend": "cd flulink/frontend && npm run dev",
+    "dev:mobile": "cd flulink/mobile/miniprogram && echo '微信小程序开发工具启动'",
+    "build": "echo 'Build completed - 云端部署时自动构建'",
+    "build:backend": "cd flulink/backend && npm run build",
+    "build:frontend": "cd flulink/frontend && npm run build",
+    "build:mobile": "cd flulink/mobile/miniprogram && echo '微信小程序构建完成'",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "cd flulink/backend && npm run test",
+    "test:frontend": "cd flulink/frontend && npm run test",
+    "test:mobile": "cd flulink/mobile/miniprogram && echo '微信小程序测试完成'",
+    "test:ci": "npm run test:backend:ci && npm run test:frontend:ci",
+    "test:backend:ci": "cd flulink/backend && npm run test:ci",
+    "test:frontend:ci": "cd flulink/frontend && npm run test:ci",
+    "lint": "npm run lint:backend && npm run lint:frontend",
+    "lint:backend": "cd flulink/backend && npm run lint",
+    "lint:frontend": "cd flulink/frontend && npm run lint",
+    "lint:fix": "npm run lint:fix:backend && npm run lint:fix:frontend",
+    "lint:fix:backend": "cd flulink/backend && npm run lint:fix",
+    "lint:fix:frontend": "cd flulink/frontend && npm run lint:fix",
+    "format": "npm run format:backend && npm run format:frontend",
+    "format:backend": "cd flulink/backend && npm run format",
+    "format:frontend": "cd flulink/frontend && npm run format",
+    "format:check": "npm run format:check:backend && npm run format:check:frontend",
+    "format:check:backend": "cd flulink/backend && npm run format:check",
+    "format:check:frontend": "cd flulink/frontend && npm run format:check",
+    "security": "npm run security:backend && npm run security:frontend",
+    "security:backend": "cd flulink/backend && npm run security",
+    "security:frontend": "cd flulink/frontend && npm run security",
+    "security:fix": "npm run security:fix:backend && npm run security:fix:frontend",
+    "security:fix:backend": "cd flulink/backend && npm run security:fix",
+    "security:fix:frontend": "cd flulink/frontend && npm run security:fix",
+    "clean": "npm run clean:backend && npm run clean:frontend",
+    "clean:backend": "cd flulink/backend && npm run clean",
+    "clean:frontend": "cd flulink/frontend && npm run clean",
+    "clean:all": "npm run clean && rm -rf node_modules package-lock.json",
+    "install:all": "npm install && cd flulink/backend && npm install && cd ../frontend && npm install",
+    "deps:check": "npm run deps:check:backend && npm run deps:check:frontend",
+    "deps:check:backend": "cd flulink/backend && npm run deps:check",
+    "deps:check:frontend": "cd flulink/frontend && npm run deps:check",
+    "deps:update": "npm run deps:update:backend && npm run deps:update:frontend",
+    "deps:update:backend": "cd flulink/backend && npm run deps:update",
+    "deps:update:frontend": "cd flulink/frontend && npm run deps:update",
+    "start": "npm run start:backend",
+    "start:backend": "cd flulink/backend && npm start",
+    "start:frontend": "cd flulink/frontend && npm run serve",
+    "start:mobile": "cd flulink/mobile/miniprogram && echo '微信小程序启动'",
+    "health": "npm run health:backend",
+    "health:backend": "cd flulink/backend && npm run health",
+    "logs": "npm run logs:backend",
+    "logs:backend": "cd flulink/backend && npm run logs",
+    "deploy": "npm run deploy:backend && npm run deploy:frontend",
+    "deploy:backend": "cd flulink/backend && npm run deploy",
+    "deploy:frontend": "cd flulink/frontend && npm run deploy",
+    "deploy:mobile": "cd flulink/mobile/miniprogram && echo '微信小程序部署'",
+    "analyze": "npm run analyze:frontend",
+    "analyze:frontend": "cd flulink/frontend && npm run analyze",
+    "type-check": "npm run type-check:frontend",
+    "type-check:frontend": "cd flulink/frontend && npm run type-check",
+    "precommit": "npm run lint && npm run test",
+    "prepush": "npm run lint && npm run test && npm run security"
+  },
+  "keywords": [
+    "flulink",
+    "social",
+    "async",
+    "star-cluster",
+    "resonance",
+    "react",
+    "nodejs",
+    "mongodb",
+    "typescript",
+    "d3",
+    "wechat-miniprogram"
+  ],
+  "author": "FluLink Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/flulink/flulink.git"
+  },
+  "bugs": {
+    "url": "https://gitee.com/flulink/flulink/issues"
+  },
+  "homepage": "https://flulink-app.zeabur.app"
+}

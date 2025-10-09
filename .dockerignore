@@ -1,0 +1,30 @@
+# Docker ignore file for Zeabur deployment
+# 最小化排除，确保后端文件正确复制
+
+# 根目录package文件（仅忽略根目录，不影响后端）
+/package.json
+/package-lock.json
+
+# 允许backend Dockerfile
+!flulink/backend/Dockerfile
+
+# 前端和移动端
+flulink/frontend/
+flulink/mobile/
+flrontend/
+
+# 模板和文档
+模板/
+memory/
+*.md
+*.sh
+
+# Git和临时文件
+.git/
+.gitignore
+*.tmp
+*.log
+
+# 其他node_modules（但保留后端node_modules用于构建）
+node_modules/
+!flulink/backend/node_modules/

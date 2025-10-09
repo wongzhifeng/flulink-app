@@ -1,0 +1,29 @@
+########################################
+# GitHub精简版：仅上传后端代码与memory
+########################################
+
+# 默认忽略所有文件
+/*
+
+# 允许基础配置文件
+!/.gitignore
+!/Dockerfile
+!/zeabur.json
+!/README.md
+
+# 保留后端代码
+!/flulink/
+!/flulink/backend/**
+
+# 保留memory文档
+!/memory/**
+
+# 忽略通用无关文件
+flulink/backend/node_modules/
+flulink/backend/uploads/
+flulink/backend/logs/
+.env
+.env.*
+.DS_Store
+*.log
+*.tmp
