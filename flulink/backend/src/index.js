@@ -89,7 +89,11 @@ async function startServer() {
     // 初始化数据库连接
     const dbConnected = await databaseService.initialize();
     if (!dbConnected) {
-      throw new Error('数据库连接失败');
+      console.warn('⚠️ 数据库连接失败，服务将以降级模式运行');
+      // 在Zeabur环境中，允许服务在没有数据库的情况下启动
+      if (process.env.NODE_ENV !== 'production' || !process.env.ZEABUR) {
+        throw new Error('数据库连接失败');
+      }
     }
 
     // 初始化Redis连接

@@ -12,6 +12,13 @@ class DatabaseService {
     try {
       const mongoUrl = process.env.MONGODB_URL || 'mongodb://localhost:27017/flulink';
       
+      // 检查是否禁用数据库连接
+      if (process.env.MONGODB_ENABLED === 'false') {
+        console.warn('MongoDB is disabled by environment variable.');
+        this.mongoConnected = false;
+        return false;
+      }
+      
       await mongoose.connect(mongoUrl, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -52,6 +59,13 @@ class DatabaseService {
     } catch (error) {
       console.error('❌ MongoDB connection failed:', error);
       this.mongoConnected = false;
+      
+      // 在Zeabur环境中，如果数据库连接失败，不抛出错误，允许服务降级运行
+      if (process.env.NODE_ENV === 'production' && process.env.ZEABUR === 'true') {
+        console.warn('⚠️ Running in degraded mode without MongoDB');
+        return false;
+      }
+      
       return false;
     }
   }
