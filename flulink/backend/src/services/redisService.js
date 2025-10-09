@@ -8,8 +8,29 @@ class RedisService {
 
   async connect() {
     try {
+      // 允许通过环境变量禁用 Redis
+      const redisEnabled = (process.env.REDIS_ENABLED || 'true').toLowerCase() === 'true';
+      if (!redisEnabled) {
+        console.log('Redis disabled via REDIS_ENABLED=false');
+        this.client = null;
+        this.isConnected = false;
+        return false;
+      }
+
+      // 构造连接URL（优先 REDIS_URL，其次 host/port/password）
+      const host = process.env.REDIS_HOST || '127.0.0.1'; // 避免 ::1 IPv6 回环导致连接拒绝
+      const port = process.env.REDIS_PORT || '6379';
+      const password = process.env.REDIS_PASSWORD ? `:${process.env.REDIS_PASSWORD}@` : '';
+      const fallbackUrl = `redis://${password}${host}:${port}`;
+
       this.client = redis.createClient({
-        url: process.env.REDIS_URL || 'redis://localhost:6379'
+        url: process.env.REDIS_URL || fallbackUrl,
+        socket: {
+          reconnectStrategy: (retries) => {
+            // 指数退避，最大 5 秒
+            return Math.min(retries * 100, 5000);
+          }
+        }
       });
 
       this.client.on('error', (err) => {
