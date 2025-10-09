@@ -108,10 +108,10 @@ class ResonanceCalculator {
     }
   }
 
-  // 第12次优化：计算标签相似度，添加缓存和算法优化
+  // 第13次优化：增强标签相似度计算，添加语义分析和权重
   async calculateTagSimilarity(userA, userB) {
     try {
-      // 优化12.1: 添加缓存检查
+      // 优化13.1: 增强缓存策略
       const cacheKey = `tag_similarity:${userA._id}:${userB._id}`;
       const cachedSimilarity = await redisService.get(cacheKey);
       if (cachedSimilarity !== null) {
@@ -129,21 +129,39 @@ class ResonanceCalculator {
         return 0.1; // 只有一个用户有标签时给低相似度
       }
 
-      // 计算Jaccard相似度
-      const intersection = tagsA.filter(tag => tagsB.includes(tag));
-      const union = [...new Set([...tagsA, ...tagsB])];
-      
-      const jaccardSimilarity = intersection.length / union.length;
-
-      // 计算余弦相似度
+      // 优化13.2: 计算多种相似度指标
+      const jaccardSimilarity = this.calculateJaccardSimilarity(tagsA, tagsB);
       const cosineSimilarity = this.calculateCosineSimilarity(tagsA, tagsB);
-
-      // 取两种相似度的平均值
-      return (jaccardSimilarity + cosineSimilarity) / 2;
+      const semanticSimilarity = await this.calculateSemanticSimilarity(tagsA, tagsB);
+      const weightedSimilarity = await this.calculateWeightedTagSimilarity(tagsA, tagsB);
+      
+      // 优化13.3: 动态权重组合
+      const finalSimilarity = (
+        jaccardSimilarity * 0.25 +
+        cosineSimilarity * 0.25 +
+        semanticSimilarity * 0.25 +
+        weightedSimilarity * 0.25
+      );
+      
+      // 优化13.4: 添加标签活跃度权重
+      const activityWeight = await this.calculateTagActivityWeight(userA, userB);
+      const weightedFinalSimilarity = finalSimilarity * activityWeight;
+      
+      // 优化13.5: 缓存结果
+      await redisService.set(cacheKey, weightedFinalSimilarity.toString(), 1800); // 30分钟缓存
+      
+      return Math.min(Math.max(weightedFinalSimilarity, 0), 1); // 确保在[0,1]范围内
     } catch (error) {
       console.error('Error calculating tag similarity:', error);
       return 0.1;
     }
+  }
+
+  // 计算Jaccard相似度
+  calculateJaccardSimilarity(tagsA, tagsB) {
+    const intersection = tagsA.filter(tag => tagsB.includes(tag));
+    const union = [...new Set([...tagsA, ...tagsB])];
+    return union.length > 0 ? intersection.length / union.length : 0;
   }
 
   // 计算余弦相似度
@@ -170,9 +188,155 @@ class ResonanceCalculator {
     return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
   }
 
-  // 计算互动历史得分
+  // 计算语义相似度
+  async calculateSemanticSimilarity(tagsA, tagsB) {
+    try {
+      // 简单的语义相似度计算，基于标签类别
+      const tagCategories = {
+        '科技': ['技术', '编程', 'AI', '互联网', '软件'],
+        '生活': ['美食', '旅游', '摄影', '音乐', '电影'],
+        '学习': ['教育', '读书', '学习', '知识', '技能'],
+        '运动': ['健身', '跑步', '游泳', '篮球', '足球'],
+        '艺术': ['绘画', '设计', '创作', '艺术', '美学']
+      };
+
+      const getCategory = (tag) => {
+        for (const [category, keywords] of Object.entries(tagCategories)) {
+          if (keywords.some(keyword => tag.includes(keyword))) {
+            return category;
+          }
+        }
+        return '其他';
+      };
+
+      const categoriesA = [...new Set(tagsA.map(getCategory))];
+      const categoriesB = [...new Set(tagsB.map(getCategory))];
+
+      const commonCategories = categoriesA.filter(cat => categoriesB.includes(cat));
+      const totalCategories = [...new Set([...categoriesA, ...categoriesB])];
+
+      return totalCategories.length > 0 ? commonCategories.length / totalCategories.length : 0;
+    } catch (error) {
+      console.error('Semantic similarity calculation error:', error);
+      return 0.1;
+    }
+  }
+
+  // 计算加权标签相似度
+  async calculateWeightedTagSimilarity(tagsA, tagsB) {
+    try {
+      // 基于标签使用频率的加权相似度
+      const tagWeights = await this.getTagWeights();
+      
+      let weightedScore = 0;
+      let totalWeight = 0;
+
+      for (const tag of tagsA) {
+        const weight = tagWeights[tag] || 1;
+        if (tagsB.includes(tag)) {
+          weightedScore += weight * 2; // 共同标签权重加倍
+        }
+        totalWeight += weight;
+      }
+
+      for (const tag of tagsB) {
+        const weight = tagWeights[tag] || 1;
+        if (!tagsA.includes(tag)) {
+          totalWeight += weight;
+        }
+      }
+
+      return totalWeight > 0 ? weightedScore / totalWeight : 0;
+    } catch (error) {
+      console.error('Weighted tag similarity calculation error:', error);
+      return 0.1;
+    }
+  }
+
+  // 计算标签活跃度权重
+  async calculateTagActivityWeight(userA, userB) {
+    try {
+      // 基于用户标签更新频率的权重
+      const userAActivity = await this.getUserTagActivity(userA._id);
+      const userBActivity = await this.getUserTagActivity(userB._id);
+      
+      // 活跃度越高，权重越高
+      const avgActivity = (userAActivity + userBActivity) / 2;
+      return Math.min(avgActivity / 10, 1); // 归一化到[0,1]
+    } catch (error) {
+      console.error('Tag activity weight calculation error:', error);
+      return 0.5; // 默认中等权重
+    }
+  }
+
+  // 获取标签权重
+  async getTagWeights() {
+    try {
+      const cacheKey = 'tag_weights';
+      const cachedWeights = await redisService.get(cacheKey);
+      if (cachedWeights) {
+        return JSON.parse(cachedWeights);
+      }
+
+      // 模拟标签权重数据
+      const weights = {
+        '技术': 1.2,
+        '编程': 1.3,
+        'AI': 1.5,
+        '美食': 1.1,
+        '旅游': 1.0,
+        '摄影': 1.1,
+        '音乐': 1.0,
+        '电影': 0.9,
+        '健身': 1.2,
+        '学习': 1.1
+      };
+
+      await redisService.set(cacheKey, JSON.stringify(weights), 3600);
+      return weights;
+    } catch (error) {
+      console.error('Get tag weights error:', error);
+      return {};
+    }
+  }
+
+  // 获取用户标签活跃度
+  async getUserTagActivity(userId) {
+    try {
+      const cacheKey = `user_tag_activity:${userId}`;
+      const cachedActivity = await redisService.get(cacheKey);
+      if (cachedActivity !== null) {
+        return parseFloat(cachedActivity);
+      }
+
+      // 模拟活跃度计算（基于用户创建时间和标签数量）
+      const user = await User.findById(userId);
+      if (!user) return 0.5;
+
+      const daysSinceCreation = (Date.now() - new Date(user.createdAt).getTime()) / (1000 * 60 * 60 * 24);
+      const tagCount = user.tags ? user.tags.length : 0;
+      
+      // 活跃度 = 标签数量 / 天数
+      const activity = Math.min(tagCount / Math.max(daysSinceCreation, 1), 5);
+      
+      await redisService.set(cacheKey, activity.toString(), 1800);
+      return activity;
+    } catch (error) {
+      console.error('Get user tag activity error:', error);
+      return 0.5;
+    }
+  }
+
+  // 第14次优化：增强互动历史计算，添加多维度分析
   async calculateInteractionScore(userAId, userBId) {
     try {
+      // 优化14.1: 增强缓存策略
+      const cacheKey = `interaction_score:${userAId}:${userBId}`;
+      const cachedScore = await redisService.get(cacheKey);
+      if (cachedScore !== null) {
+        return parseFloat(cachedScore);
+      }
+
       const interactions = await Interaction.find({
         $or: [
           { userId: userAId, targetId: userBId },
@@ -184,31 +348,138 @@ class ResonanceCalculator {
         return 0.1; // 没有互动时给低分
       }
 
-      let score = 0;
-      const actionWeights = {
-        'like': 1,
-        'comment': 5,
-        'forward': 3,
-        'view': 0.5
-      };
+      // 优化14.2: 多维度互动分析
+      const interactionAnalysis = this.analyzeInteractions(interactions, userAId, userBId);
+      
+      // 优化14.3: 计算综合得分
+      const baseScore = this.calculateBaseInteractionScore(interactions);
+      const reciprocityScore = this.calculateReciprocityScore(interactions, userAId, userBId);
+      const frequencyScore = this.calculateFrequencyScore(interactions);
+      const recencyScore = this.calculateRecencyScore(interactions);
+      
+      // 优化14.4: 动态权重组合
+      const finalScore = (
+        baseScore * 0.4 +
+        reciprocityScore * 0.25 +
+        frequencyScore * 0.2 +
+        recencyScore * 0.15
+      );
 
-      // 计算互动得分，考虑时间衰减
-      const now = new Date();
-      interactions.forEach(interaction => {
-        const daysDiff = (now - interaction.createdAt) / (1000 * 60 * 60 * 24);
-        const timeDecay = Math.exp(-daysDiff / 30); // 30天半衰期
-        
-        const actionWeight = actionWeights[interaction.actionType] || 1;
-        score += actionWeight * timeDecay;
-      });
-
-      // 归一化到0-1范围
-      const maxPossibleScore = 50; // 假设最大可能得分
-      return Math.min(score / maxPossibleScore, 1.0);
+      // 优化14.5: 缓存结果
+      await redisService.set(cacheKey, finalScore.toString(), 1800);
+      
+      return Math.min(Math.max(finalScore, 0), 1); // 确保在[0,1]范围内
     } catch (error) {
       console.error('Error calculating interaction score:', error);
       return 0.1;
     }
+  }
+
+  // 分析互动模式
+  analyzeInteractions(interactions, userAId, userBId) {
+    const analysis = {
+      totalInteractions: interactions.length,
+      userAInitiated: 0,
+      userBInitiated: 0,
+      actionTypes: {},
+      timePatterns: [],
+      reciprocity: 0
+    };
+
+    interactions.forEach(interaction => {
+      if (interaction.userId === userAId) {
+        analysis.userAInitiated++;
+      } else {
+        analysis.userBInitiated++;
+      }
+
+      analysis.actionTypes[interaction.actionType] = 
+        (analysis.actionTypes[interaction.actionType] || 0) + 1;
+      
+      analysis.timePatterns.push(interaction.createdAt);
+    });
+
+    // 计算互惠性
+    analysis.reciprocity = Math.min(analysis.userAInitiated, analysis.userBInitiated) / 
+                           Math.max(analysis.userAInitiated, analysis.userBInitiated);
+
+    return analysis;
+  }
+
+  // 计算基础互动得分
+  calculateBaseInteractionScore(interactions) {
+    const actionWeights = {
+      'like': 1,
+      'comment': 5,
+      'forward': 3,
+      'view': 0.5,
+      'share': 4,
+      'bookmark': 2,
+      'follow': 6
+    };
+
+    let score = 0;
+    const now = new Date();
+
+    interactions.forEach(interaction => {
+      const daysDiff = (now - interaction.createdAt) / (1000 * 60 * 60 * 24);
+      const timeDecay = Math.exp(-daysDiff / 30); // 30天半衰期
+      
+      const actionWeight = actionWeights[interaction.actionType] || 1;
+      score += actionWeight * timeDecay;
+    });
+
+    // 归一化
+    const maxPossibleScore = 100;
+    return Math.min(score / maxPossibleScore, 1.0);
+  }
+
+  // 计算互惠性得分
+  calculateReciprocityScore(interactions, userAId, userBId) {
+    const userAInteractions = interactions.filter(i => i.userId === userAId);
+    const userBInteractions = interactions.filter(i => i.userId === userBId);
+    
+    if (userAInteractions.length === 0 || userBInteractions.length === 0) {
+      return 0.1; // 单方面互动
+    }
+
+    // 计算互动平衡度
+    const balance = Math.min(userAInteractions.length, userBInteractions.length) / 
+                   Math.max(userAInteractions.length, userBInteractions.length);
+    
+    return balance;
+  }
+
+  // 计算频率得分
+  calculateFrequencyScore(interactions) {
+    if (interactions.length < 2) return 0.1;
+
+    // 计算互动间隔
+    const intervals = [];
+    for (let i = 1; i < interactions.length; i++) {
+      const interval = (interactions[i-1].createdAt - interactions[i].createdAt) / (1000 * 60 * 60 * 24);
+      intervals.push(interval);
+    }
+
+    // 计算平均间隔
+    const avgInterval = intervals.reduce((sum, interval) => sum + interval, 0) / intervals.length;
+    
+    // 间隔越短，频率得分越高
+    const frequencyScore = Math.exp(-avgInterval / 7); // 7天为基准
+    return Math.min(frequencyScore, 1.0);
+  }
+
+  // 计算最近性得分
+  calculateRecencyScore(interactions) {
+    if (interactions.length === 0) return 0;
+
+    const latestInteraction = interactions[0];
+    const now = new Date();
+    const daysDiff = (now - latestInteraction.createdAt) / (1000 * 60 * 60 * 24);
+    
+    // 最近性衰减
+    const recencyScore = Math.exp(-daysDiff / 14); // 14天半衰期
+    return Math.min(recencyScore, 1.0);
   }
 
   // 计算内容偏好匹配度
