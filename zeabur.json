@@ -29,6 +29,6 @@
     "retries": 3
   },
   "domains": [
-    "flulink-app.zeabur.app"
+    "flulink-backend-v2.zeabur.app"
   ]
 }
