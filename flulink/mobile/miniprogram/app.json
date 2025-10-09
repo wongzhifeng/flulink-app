@@ -1,0 +1,67 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/strain/create",
+    "pages/dashboard/dashboard",
+    "pages/nearby/nearby",
+    "pages/strain/detail",
+    "pages/profile/profile"
+  ],
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/strain/create",
+        "iconPath": "images/publish.png",
+        "selectedIconPath": "images/publish-active.png",
+        "text": "发布"
+      },
+      {
+        "pagePath": "pages/dashboard/dashboard",
+        "iconPath": "images/dashboard.png",
+        "selectedIconPath": "images/dashboard-active.png",
+        "text": "数据"
+      },
+      {
+        "pagePath": "pages/nearby/nearby",
+        "iconPath": "images/nearby.png",
+        "selectedIconPath": "images/nearby-active.png",
+        "text": "附近"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "iconPath": "images/profile.png",
+        "selectedIconPath": "images/profile-active.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#4A90E2",
+    "navigationBarTitleText": "FluLink",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "获取位置信息用于毒株传播"
+    }
+  },
+  "requiredBackgroundModes": ["location"],
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "debug": true,
+  "sitemapLocation": "sitemap.json"
+}

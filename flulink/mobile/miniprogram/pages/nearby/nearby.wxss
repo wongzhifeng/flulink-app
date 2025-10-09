@@ -1,0 +1,288 @@
+/* pages/nearby/nearby.wxss */
+/* 附近页面样式 */
+
+/* 筛选条件 */
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 15rpx;
+}
+
+.filter-label {
+  font-size: 26rpx;
+  color: #666;
+  font-weight: 500;
+}
+
+.filter-options {
+  display: flex;
+  gap: 15rpx;
+}
+
+.filter-option {
+  padding: 15rpx 25rpx;
+  background-color: #f8f9fa;
+  border-radius: 25rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.3s ease;
+}
+
+.filter-option-active {
+  background-color: #e3f2fd;
+  border-color: #4A90E2;
+}
+
+.filter-text {
+  font-size: 24rpx;
+  color: #333;
+}
+
+/* 距离滑块 */
+.distance-slider {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.distance-text {
+  font-size: 24rpx;
+  color: #4A90E2;
+  font-weight: 600;
+  min-width: 80rpx;
+}
+
+/* 排序选项 */
+.sort-options {
+  display: flex;
+  gap: 15rpx;
+}
+
+.sort-option {
+  flex: 1;
+  padding: 20rpx;
+  text-align: center;
+  background-color: #f8f9fa;
+  border-radius: 15rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.3s ease;
+}
+
+.sort-option-active {
+  background-color: #e3f2fd;
+  border-color: #4A90E2;
+}
+
+.sort-text {
+  font-size: 24rpx;
+  color: #333;
+}
+
+/* 毒株列表 */
+.strains-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25rpx;
+}
+
+.strain-item {
+  background-color: #f8f9fa;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  transition: all 0.3s ease;
+}
+
+.strain-item:active {
+  background-color: #e9ecef;
+  transform: scale(0.98);
+}
+
+.strain-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.type-tag {
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.type-tag.text {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.type-tag.image {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+}
+
+.type-tag.form {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.strain-distance {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.distance-icon {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.distance-text {
+  font-size: 22rpx;
+  color: #4A90E2;
+  font-weight: 500;
+}
+
+.strain-content {
+  margin-bottom: 20rpx;
+}
+
+.strain-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.strain-desc {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+.strain-image {
+  margin-bottom: 20rpx;
+}
+
+.content-image {
+  width: 100%;
+  max-height: 300rpx;
+  border-radius: 15rpx;
+}
+
+.strain-form {
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+  background-color: #fff;
+  border-radius: 15rpx;
+}
+
+.form-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 15rpx;
+}
+
+.form-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.form-option {
+  padding: 8rpx 16rpx;
+  background-color: #f8f9fa;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  color: #666;
+}
+
+.strain-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #e9ecef;
+}
+
+.strain-stats {
+  display: flex;
+  gap: 25rpx;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.stat-icon {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.stat-text {
+  font-size: 22rpx;
+  color: #666;
+}
+
+.strain-actions {
+  display: flex;
+  gap: 15rpx;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 12rpx 20rpx;
+  background-color: #4A90E2;
+  color: #fff;
+  border-radius: 25rpx;
+  border: none;
+  font-size: 22rpx;
+  transition: all 0.3s ease;
+}
+
+.action-btn:active {
+  background-color: #357ABD;
+  transform: scale(0.95);
+}
+
+.action-icon {
+  width: 20rpx;
+  height: 20rpx;
+}
+
+.action-text {
+  font-size: 22rpx;
+}
+
+/* 响应式调整 */
+@media (max-width: 750rpx) {
+  .filter-options {
+    flex-wrap: wrap;
+  }
+  
+  .sort-options {
+    flex-direction: column;
+  }
+  
+  .strain-stats {
+    flex-direction: column;
+    gap: 10rpx;
+  }
+  
+  .strain-actions {
+    flex-direction: column;
+    gap: 10rpx;
+  }
+}

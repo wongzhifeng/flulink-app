@@ -1,0 +1,71 @@
+{
+  "name": "flulink-spec-kit",
+  "version": "1.0.0",
+  "description": "FluLink API规范工具包",
+  "main": "src/config/swagger.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "npm run test:api",
+    "test:api": "node src/tests/api-test.js",
+    "test:mock": "node src/tests/mock-server.js",
+    "docs": "npm run docs:generate && npm run docs:serve",
+    "docs:generate": "swagger-jsdoc -d src/config/swagger.js -o api-docs.json src/routes/*.js",
+    "docs:serve": "swagger-ui-serve api-docs.json",
+    "validate": "swagger-jsdoc -d src/config/swagger.js -o api-docs.json src/routes/*.js && swagger-jsdoc --validate api-docs.json",
+    "mock": "node src/tests/mock-server.js",
+    "lint": "eslint src/ --ext .js,.json",
+    "format": "prettier --write src/"
+  },
+  "keywords": [
+    "api",
+    "swagger",
+    "openapi",
+    "spec-kit",
+    "flulink",
+    "documentation"
+  ],
+  "author": "FluLink Team",
+  "license": "MIT",
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^10.1.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "express": "^5.1.0",
+    "cors": "^2.8.5",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "eslint": "^9.37.0",
+    "prettier": "^3.6.2"
+  },
+  "spec-kit": {
+    "swagger": {
+      "version": "3.0.0",
+      "title": "FluLink API",
+      "description": "FluLink星尘共鸣版API规范",
+      "basePath": "/api",
+      "host": "localhost:8080",
+      "schemes": ["http", "https"]
+    },
+    "testing": {
+      "baseURL": "http://localhost:8080",
+      "timeout": 10000,
+      "retries": 3,
+      "parallel": true
+    },
+    "mock": {
+      "port": 3001,
+      "basePath": "/api",
+      "cors": true,
+      "delay": 100
+    },
+    "validation": {
+      "strict": true,
+      "validateRequests": true,
+      "validateResponses": true,
+      "coerceTypes": true
+    }
+  }
+}

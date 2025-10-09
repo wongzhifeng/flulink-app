@@ -1,0 +1,189 @@
+<!--pages/dashboard/dashboard.wxml-->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">数据看板</text>
+    <text class="page-subtitle">实时传播数据分析</text>
+  </view>
+
+  <!-- 全局统计 -->
+  <view class="page-container">
+    <view class="card-header">
+      <image class="card-icon" src="/images/stats-icon.png" mode="aspectFit"></image>
+      <text class="card-title">全局统计</text>
+    </view>
+    
+    <view class="stats-grid">
+      <view class="stat-card">
+        <view class="stat-number">{{globalStats.totalStrains}}</view>
+        <view class="stat-label">总毒株数</view>
+        <view class="stat-change {{globalStats.strainsChange >= 0 ? 'positive' : 'negative'}}">
+          {{globalStats.strainsChange >= 0 ? '+' : ''}}{{globalStats.strainsChange}}
+        </view>
+      </view>
+      <view class="stat-card">
+        <view class="stat-number">{{globalStats.totalInfections}}</view>
+        <view class="stat-label">总感染数</view>
+        <view class="stat-change {{globalStats.infectionsChange >= 0 ? 'positive' : 'negative'}}">
+          {{globalStats.infectionsChange >= 0 ? '+' : ''}}{{globalStats.infectionsChange}}
+        </view>
+      </view>
+      <view class="stat-card">
+        <view class="stat-number">{{globalStats.activeUsers}}</view>
+        <view class="stat-label">活跃用户</view>
+        <view class="stat-change {{globalStats.usersChange >= 0 ? 'positive' : 'negative'}}">
+          {{globalStats.usersChange >= 0 ? '+' : ''}}{{globalStats.usersChange}}
+        </view>
+      </view>
+      <view class="stat-card">
+        <view class="stat-number">{{globalStats.coverage}}%</view>
+        <view class="stat-label">覆盖率</view>
+        <view class="stat-change {{globalStats.coverageChange >= 0 ? 'positive' : 'negative'}}">
+          {{globalStats.coverageChange >= 0 ? '+' : ''}}{{globalStats.coverageChange}}%
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 个人统计 -->
+  <view class="page-container">
+    <view class="card-header">
+      <image class="card-icon" src="/images/personal-icon.png" mode="aspectFit"></image>
+      <text class="card-title">个人统计</text>
+    </view>
+    
+    <view class="personal-stats">
+      <view class="personal-item">
+        <view class="personal-icon">
+          <image src="/images/created-icon.png" mode="aspectFit"></image>
+        </view>
+        <view class="personal-content">
+          <text class="personal-label">创建毒株</text>
+          <text class="personal-value">{{personalStats.createdStrains}}个</text>
+        </view>
+      </view>
+      
+      <view class="personal-item">
+        <view class="personal-icon">
+          <image src="/images/infected-icon.png" mode="aspectFit"></image>
+        </view>
+        <view class="personal-content">
+          <text class="personal-label">感染次数</text>
+          <text class="personal-value">{{personalStats.infectionCount}}次</text>
+        </view>
+      </view>
+      
+      <view class="personal-item">
+        <view class="personal-icon">
+          <image src="/images/spread-icon.png" mode="aspectFit"></image>
+        </view>
+        <view class="personal-content">
+          <text class="personal-label">传播次数</text>
+          <text class="personal-value">{{personalStats.spreadCount}}次</text>
+        </view>
+      </view>
+      
+      <view class="personal-item">
+        <view class="personal-icon">
+          <image src="/images/rank-icon.png" mode="aspectFit"></image>
+        </view>
+        <view class="personal-content">
+          <text class="personal-label">传播排名</text>
+          <text class="personal-value">第{{personalStats.rank}}名</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 类型分布 -->
+  <view class="page-container">
+    <view class="card-header">
+      <image class="card-icon" src="/images/type-icon.png" mode="aspectFit"></image>
+      <text class="card-title">毒株类型分布</text>
+    </view>
+    
+    <view class="type-distribution">
+      <view wx:for="{{typeDistribution}}" wx:key="type" class="type-item">
+        <view class="type-info">
+          <text class="type-name">{{item.name}}</text>
+          <text class="type-count">{{item.count}}个</text>
+        </view>
+        <view class="type-bar">
+          <view class="type-progress" style="width: {{item.percentage}}%; background-color: {{item.color}};"></view>
+        </view>
+        <text class="type-percentage">{{item.percentage}}%</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 时间筛选 -->
+  <view class="page-container">
+    <view class="card-header">
+      <image class="card-icon" src="/images/time-icon.png" mode="aspectFit"></image>
+      <text class="card-title">时间范围</text>
+    </view>
+    
+    <view class="time-filter">
+      <view wx:for="{{timeRanges}}" wx:key="value" 
+            class="time-item {{selectedTimeRange === item.value ? 'time-item-active' : ''}}"
+            bindtap="selectTimeRange" data-range="{{item.value}}">
+        <text class="time-text">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 热门毒株 -->
+  <view class="page-container">
+    <view class="card-header">
+      <image class="card-icon" src="/images/hot-icon.png" mode="aspectFit"></image>
+      <text class="card-title">热门毒株</text>
+    </view>
+    
+    <view wx:if="{{hotStrains.length > 0}}" class="hot-strains">
+      <view wx:for="{{hotStrains}}" wx:key="id" class="hot-item" bindtap="viewStrainDetail" data-id="{{item.id}}">
+        <view class="hot-rank">{{index + 1}}</view>
+        <view class="hot-content">
+          <text class="hot-title">{{item.title}}</text>
+          <text class="hot-desc">{{item.content}}</text>
+          <view class="hot-meta">
+            <text class="tag tag-primary">{{item.type}}</text>
+            <text class="hot-infections">{{item.infections}}人感染</text>
+            <text class="hot-time">{{item.timeAgo}}</text>
+          </view>
+        </view>
+        <image class="hot-arrow" src="/images/arrow-right.png" mode="aspectFit"></image>
+      </view>
+    </view>
+    
+    <view wx:else class="empty-state">
+      <image class="empty-icon" src="/images/empty-data.png" mode="aspectFit"></image>
+      <text class="empty-text">暂无热门毒株</text>
+      <text class="empty-desc">发布第一个毒株开始传播吧！</text>
+    </view>
+  </view>
+
+  <!-- 实时更新状态 -->
+  <view class="page-container">
+    <view class="card-header">
+      <image class="card-icon" src="/images/realtime-icon.png" mode="aspectFit"></image>
+      <text class="card-title">实时状态</text>
+    </view>
+    
+    <view class="realtime-status">
+      <view class="status-item">
+        <text class="status-label">数据更新</text>
+        <text class="status-value">{{lastUpdateTime}}</text>
+      </view>
+      <view class="status-item">
+        <text class="status-label">连接状态</text>
+        <text class="status-value {{websocketConnected ? 'status-connected' : 'status-disconnected'}}">
+          {{websocketConnected ? '已连接' : '未连接'}}
+        </text>
+      </view>
+      <view class="status-item">
+        <text class="status-label">自动刷新</text>
+        <switch checked="{{autoRefresh}}" bindchange="toggleAutoRefresh" />
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,141 @@
+<!--pages/nearby/nearby.wxml-->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">附近毒株</text>
+    <text class="page-subtitle">发现身边的传播内容</text>
+  </view>
+
+  <!-- 位置信息 -->
+  <view class="page-container">
+    <view class="card-header">
+      <image class="card-icon" src="/images/location-icon.png" mode="aspectFit"></image>
+      <text class="card-title">当前位置</text>
+    </view>
+    
+    <view class="location-info">
+      <image class="location-icon" src="/images/location-icon.png" mode="aspectFit"></image>
+      <view class="location-content">
+        <text class="location-text">{{location.address || '正在获取位置...'}}</text>
+        <text class="location-coords">{{location.latitude}}, {{location.longitude}}</text>
+      </view>
+      <button class="btn btn-small btn-secondary" bindtap="updateLocation">更新位置</button>
+    </view>
+  </view>
+
+  <!-- 筛选条件 -->
+  <view class="page-container">
+    <view class="card-header">
+      <image class="card-icon" src="/images/filter-icon.png" mode="aspectFit"></image>
+      <text class="card-title">筛选条件</text>
+    </view>
+    
+    <view class="filter-section">
+      <view class="filter-item">
+        <text class="filter-label">毒株类型</text>
+        <view class="filter-options">
+          <view wx:for="{{strainTypes}}" wx:key="value" 
+                class="filter-option {{selectedTypes.includes(item.value) ? 'filter-option-active' : ''}}"
+                bindtap="toggleTypeFilter" data-type="{{item.value}}">
+            <text class="filter-text">{{item.name}}</text>
+          </view>
+        </view>
+      </view>
+      
+      <view class="filter-item">
+        <text class="filter-label">距离范围</text>
+        <view class="distance-slider">
+          <slider value="{{distanceRange}}" 
+                  min="100" 
+                  max="5000" 
+                  step="100"
+                  bindchange="onDistanceChange"
+                  activeColor="#4A90E2"
+                  backgroundColor="#e9ecef"
+                  block-color="#4A90E2"
+                  block-size="20" />
+          <text class="distance-text">{{distanceRange}}米</text>
+        </view>
+      </view>
+      
+      <view class="filter-item">
+        <text class="filter-label">排序方式</text>
+        <view class="sort-options">
+          <view wx:for="{{sortOptions}}" wx:key="value" 
+                class="sort-option {{selectedSort === item.value ? 'sort-option-active' : ''}}"
+                bindtap="selectSort" data-sort="{{item.value}}">
+            <text class="sort-text">{{item.name}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 毒株列表 -->
+  <view class="page-container">
+    <view class="card-header">
+      <image class="card-icon" src="/images/list-icon.png" mode="aspectFit"></image>
+      <text class="card-title">附近毒株 ({{nearbyStrains.length}})</text>
+    </view>
+    
+    <view wx:if="{{nearbyStrains.length > 0}}" class="strains-list">
+      <view wx:for="{{nearbyStrains}}" wx:key="id" class="strain-item" bindtap="viewStrainDetail" data-id="{{item.id}}">
+        <view class="strain-header">
+          <view class="strain-type">
+            <text class="type-tag {{item.type}}">{{item.typeName}}</text>
+          </view>
+          <view class="strain-distance">
+            <image class="distance-icon" src="/images/distance-icon.png" mode="aspectFit"></image>
+            <text class="distance-text">{{item.distance}}m</text>
+          </view>
+        </view>
+        
+        <view class="strain-content">
+          <text class="strain-title">{{item.title}}</text>
+          <text class="strain-desc">{{item.content}}</text>
+        </view>
+        
+        <view wx:if="{{item.image}}" class="strain-image">
+          <image class="content-image" src="{{item.image}}" mode="aspectFit"></image>
+        </view>
+        
+        <view wx:if="{{item.form}}" class="strain-form">
+          <text class="form-title">{{item.form.title}}</text>
+          <view class="form-options">
+            <text wx:for="{{item.form.options}}" wx:key="index" class="form-option">{{item}}</text>
+          </view>
+        </view>
+        
+        <view class="strain-footer">
+          <view class="strain-stats">
+            <view class="stat-item">
+              <image class="stat-icon" src="/images/infection-icon.png" mode="aspectFit"></image>
+              <text class="stat-text">{{item.infections}}人感染</text>
+            </view>
+            <view class="stat-item">
+              <image class="stat-icon" src="/images/time-icon.png" mode="aspectFit"></image>
+              <text class="stat-text">{{item.timeAgo}}</text>
+            </view>
+          </view>
+          <view class="strain-actions">
+            <button class="action-btn" bindtap="infectStrain" data-id="{{item.id}}" catchtap="true">
+              <image class="action-icon" src="/images/infect-icon.png" mode="aspectFit"></image>
+              <text class="action-text">感染</text>
+            </button>
+            <button class="action-btn" bindtap="shareStrain" data-id="{{item.id}}" catchtap="true">
+              <image class="action-icon" src="/images/share-icon.png" mode="aspectFit"></image>
+              <text class="action-text">分享</text>
+            </button>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <view wx:else class="empty-state">
+      <image class="empty-icon" src="/images/empty-nearby.png" mode="aspectFit"></image>
+      <text class="empty-text">附近暂无毒株</text>
+      <text class="empty-desc">扩大搜索范围或发布第一个毒株</text>
+      <button class="btn btn-primary" bindtap="goToPublish">发布毒株</button>
+    </view>
+  </view>
+</view>

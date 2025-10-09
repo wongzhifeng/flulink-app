@@ -1,0 +1,272 @@
+/* pages/dashboard/dashboard.wxss */
+/* 数据看板页面样式 */
+
+/* 统计变化 */
+.stat-change {
+  font-size: 20rpx;
+  font-weight: 600;
+  margin-top: 5rpx;
+}
+
+.stat-change.positive {
+  color: #28a745;
+}
+
+.stat-change.negative {
+  color: #dc3545;
+}
+
+/* 个人统计 */
+.personal-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.personal-item {
+  display: flex;
+  align-items: center;
+  padding: 25rpx;
+  background-color: #f8f9fa;
+  border-radius: 15rpx;
+}
+
+.personal-icon {
+  width: 80rpx;
+  height: 80rpx;
+  margin-right: 25rpx;
+}
+
+.personal-icon image {
+  width: 100%;
+  height: 100%;
+}
+
+.personal-content {
+  flex: 1;
+}
+
+.personal-label {
+  font-size: 24rpx;
+  color: #666;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.personal-value {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333;
+}
+
+/* 类型分布 */
+.type-distribution {
+  display: flex;
+  flex-direction: column;
+  gap: 25rpx;
+}
+
+.type-item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.type-info {
+  width: 120rpx;
+}
+
+.type-name {
+  font-size: 24rpx;
+  color: #666;
+  display: block;
+  margin-bottom: 5rpx;
+}
+
+.type-count {
+  font-size: 20rpx;
+  color: #999;
+}
+
+.type-bar {
+  flex: 1;
+  height: 20rpx;
+  background-color: #e9ecef;
+  border-radius: 10rpx;
+  overflow: hidden;
+}
+
+.type-progress {
+  height: 100%;
+  border-radius: 10rpx;
+  transition: width 0.3s ease;
+}
+
+.type-percentage {
+  width: 60rpx;
+  text-align: right;
+  font-size: 22rpx;
+  color: #666;
+  font-weight: 600;
+}
+
+/* 时间筛选 */
+.time-filter {
+  display: flex;
+  gap: 15rpx;
+}
+
+.time-item {
+  flex: 1;
+  padding: 20rpx;
+  text-align: center;
+  background-color: #f8f9fa;
+  border-radius: 15rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.3s ease;
+}
+
+.time-item-active {
+  background-color: #e3f2fd;
+  border-color: #4A90E2;
+}
+
+.time-text {
+  font-size: 26rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+/* 热门毒株 */
+.hot-strains {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.hot-item {
+  display: flex;
+  align-items: center;
+  padding: 25rpx;
+  background-color: #f8f9fa;
+  border-radius: 15rpx;
+  transition: background-color 0.3s ease;
+}
+
+.hot-item:active {
+  background-color: #e9ecef;
+}
+
+.hot-rank {
+  width: 60rpx;
+  height: 60rpx;
+  background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+  color: #fff;
+  border-radius: 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  font-weight: 700;
+  margin-right: 20rpx;
+}
+
+.hot-content {
+  flex: 1;
+}
+
+.hot-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.hot-desc {
+  font-size: 24rpx;
+  color: #666;
+  display: block;
+  margin-bottom: 12rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hot-meta {
+  display: flex;
+  align-items: center;
+  gap: 15rpx;
+}
+
+.hot-infections {
+  font-size: 22rpx;
+  color: #28a745;
+  background-color: #e8f5e8;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+}
+
+.hot-time {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.hot-arrow {
+  width: 20rpx;
+  height: 20rpx;
+  margin-left: 15rpx;
+}
+
+/* 实时状态 */
+.realtime-status {
+  background-color: #f8f9fa;
+  border-radius: 15rpx;
+  padding: 25rpx;
+}
+
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15rpx 0;
+  border-bottom: 1rpx solid #e9ecef;
+}
+
+.status-item:last-child {
+  border-bottom: none;
+}
+
+.status-label {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.status-value {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.status-connected {
+  color: #28a745;
+}
+
+.status-disconnected {
+  color: #dc3545;
+}
+
+/* 响应式调整 */
+@media (max-width: 750rpx) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .time-filter {
+    flex-wrap: wrap;
+  }
+  
+  .time-item {
+    flex: 0 0 calc(50% - 7.5rpx);
+  }
+}

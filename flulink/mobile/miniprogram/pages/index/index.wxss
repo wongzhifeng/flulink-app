@@ -1,0 +1,162 @@
+/* pages/index/index.wxss */
+/* 首页样式 */
+
+.container {
+  padding-bottom: 120rpx; /* 为悬浮按钮留出空间 */
+}
+
+/* 统计网格 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+/* 更新时间 */
+.update-time {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.update-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 列表项元信息 */
+.list-item-meta {
+  display: flex;
+  align-items: center;
+  margin-top: 15rpx;
+  gap: 15rpx;
+}
+
+.distance {
+  font-size: 22rpx;
+  color: #4A90E2;
+  background-color: #e3f2fd;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+}
+
+.infections {
+  font-size: 22rpx;
+  color: #28a745;
+  background-color: #e8f5e8;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+}
+
+/* 快速操作网格 */
+.action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx 20rpx;
+  background-color: #f8f9fa;
+  border-radius: 15rpx;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.action-btn:active {
+  background-color: #e9ecef;
+  transform: scale(0.98);
+}
+
+.action-icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin-bottom: 15rpx;
+}
+
+.action-text {
+  font-size: 24rpx;
+  color: #333;
+}
+
+/* 系统状态列表 */
+.status-list {
+  background-color: #f8f9fa;
+  border-radius: 15rpx;
+  padding: 20rpx;
+}
+
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15rpx 0;
+  border-bottom: 1rpx solid #e9ecef;
+}
+
+.status-item:last-child {
+  border-bottom: none;
+}
+
+.status-label {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.status-value {
+  font-size: 26rpx;
+  font-weight: 500;
+}
+
+.status-success {
+  color: #28a745;
+}
+
+.status-error {
+  color: #dc3545;
+}
+
+/* 悬浮按钮 */
+.floating-btn {
+  position: fixed;
+  bottom: 100rpx;
+  right: 30rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+  border: none;
+  box-shadow: 0 8rpx 30rpx rgba(74, 144, 226, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.floating-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 4rpx 15rpx rgba(74, 144, 226, 0.6);
+}
+
+.floating-icon {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+/* 响应式调整 */
+@media (max-width: 750rpx) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .action-grid {
+    grid-template-columns: 1fr;
+  }
+}

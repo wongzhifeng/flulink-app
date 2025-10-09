@@ -1,0 +1,84 @@
+{
+  "timestamp": "2025-10-09T03:07:01.455Z",
+  "summary": {
+    "total": 26,
+    "passed": 19,
+    "failed": 7,
+    "successRate": 73.08
+  },
+  "errors": [
+    {
+      "endpoint": "/api-docs",
+      "method": "GET",
+      "expected": 200,
+      "actual": 404,
+      "error": {
+        "success": false,
+        "message": "API接口不存在",
+        "path": "/api-docs"
+      }
+    },
+    {
+      "endpoint": "/api-docs.json",
+      "method": "GET",
+      "expected": 200,
+      "actual": 404,
+      "error": {
+        "success": false,
+        "message": "API接口不存在",
+        "path": "/api-docs.json"
+      }
+    },
+    {
+      "endpoint": "/api/users/profile",
+      "method": "GET",
+      "expected": 200,
+      "actual": 404,
+      "error": {
+        "success": false,
+        "message": "用户未找到"
+      }
+    },
+    {
+      "endpoint": "/api/users/search?q=测试",
+      "method": "GET",
+      "expected": 200,
+      "actual": 404,
+      "error": {
+        "success": false,
+        "message": "用户未找到"
+      }
+    },
+    {
+      "endpoint": "/api/users/tags",
+      "method": "GET",
+      "expected": 200,
+      "actual": 404,
+      "error": {
+        "success": false,
+        "message": "用户未找到"
+      }
+    },
+    {
+      "endpoint": "/api/clusters/search?q=测试",
+      "method": "GET",
+      "expected": 200,
+      "actual": 404,
+      "error": {
+        "success": false,
+        "message": "星团未找到"
+      }
+    },
+    {
+      "endpoint": "/api/upload",
+      "method": "GET",
+      "expected": 405,
+      "actual": 404,
+      "error": {
+        "success": false,
+        "message": "API接口不存在",
+        "path": "/api/upload"
+      }
+    }
+  ]
+}

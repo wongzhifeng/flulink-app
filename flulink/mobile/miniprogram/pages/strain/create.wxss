@@ -1,0 +1,204 @@
+/* pages/strain/create.wxss */
+/* 发布页面样式 */
+
+.page-header {
+  text-align: center;
+  padding: 40rpx 30rpx;
+  background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+  color: #fff;
+  margin-bottom: 20rpx;
+}
+
+.page-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.page-subtitle {
+  font-size: 24rpx;
+  opacity: 0.9;
+}
+
+/* 类型选择器 */
+.type-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.type-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  background-color: #f8f9fa;
+  border-radius: 15rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.3s ease;
+}
+
+.type-item-active {
+  background-color: #e3f2fd;
+  border-color: #4A90E2;
+}
+
+.type-icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin-right: 20rpx;
+}
+
+.type-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5rpx;
+}
+
+.type-desc {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 字符计数 */
+.char-count {
+  text-align: right;
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 10rpx;
+}
+
+/* 图片上传器 */
+.image-uploader {
+  border: 2rpx dashed #ddd;
+  border-radius: 15rpx;
+  overflow: hidden;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80rpx 40rpx;
+  color: #999;
+}
+
+.upload-icon {
+  width: 80rpx;
+  height: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.upload-text {
+  font-size: 26rpx;
+}
+
+.image-preview {
+  position: relative;
+}
+
+.preview-image {
+  width: 100%;
+  max-height: 400rpx;
+}
+
+.image-actions {
+  position: absolute;
+  bottom: 20rpx;
+  right: 20rpx;
+  display: flex;
+  gap: 15rpx;
+}
+
+/* 表单选项 */
+.form-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15rpx;
+}
+
+.form-option {
+  display: flex;
+  align-items: center;
+  gap: 15rpx;
+}
+
+.form-option .input {
+  flex: 1;
+}
+
+/* 位置信息 */
+.location-content {
+  flex: 1;
+}
+
+.location-text {
+  font-size: 26rpx;
+  color: #333;
+  margin-bottom: 5rpx;
+}
+
+.location-coords {
+  font-size: 22rpx;
+  color: #999;
+}
+
+/* 传播预测 */
+.prediction-card {
+  background-color: #f8f9fa;
+  border-radius: 15rpx;
+  padding: 30rpx;
+}
+
+.prediction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15rpx 0;
+  border-bottom: 1rpx solid #e9ecef;
+}
+
+.prediction-item:last-child {
+  border-bottom: none;
+}
+
+.prediction-label {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.prediction-value {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.toxicity-score {
+  padding: 8rpx 20rpx;
+  border-radius: 30rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* 发布按钮区域 */
+.publish-section {
+  padding: 30rpx;
+  background-color: #fff;
+  margin-top: 20rpx;
+}
+
+/* 响应式调整 */
+@media (max-width: 750rpx) {
+  .type-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .type-icon {
+    margin-right: 0;
+    margin-bottom: 15rpx;
+  }
+}

@@ -1,0 +1,264 @@
+/* pages/profile/profile.wxss */
+/* 个人中心页面样式 */
+
+/* 用户信息头部 */
+.user-header {
+  display: flex;
+  align-items: center;
+  gap: 25rpx;
+}
+
+.user-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  overflow: hidden;
+  border: 4rpx solid #4A90E2;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+}
+
+.user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.user-name {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333;
+}
+
+.user-id {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.user-location {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* 个人统计 */
+.personal-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25rpx;
+  background-color: #f8f9fa;
+  border-radius: 15rpx;
+}
+
+.stat-number {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #4A90E2;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: #666;
+}
+
+/* 我的毒株 */
+.my-strains {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.strain-item {
+  display: flex;
+  align-items: center;
+  padding: 25rpx;
+  background-color: #f8f9fa;
+  border-radius: 15rpx;
+  transition: background-color 0.3s ease;
+}
+
+.strain-item:active {
+  background-color: #e9ecef;
+}
+
+.strain-content {
+  flex: 1;
+}
+
+.strain-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.strain-desc {
+  font-size: 24rpx;
+  color: #666;
+  display: block;
+  margin-bottom: 12rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.strain-meta {
+  display: flex;
+  align-items: center;
+  gap: 15rpx;
+}
+
+.strain-infections {
+  font-size: 22rpx;
+  color: #28a745;
+  background-color: #e8f5e8;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+}
+
+.strain-time {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.strain-arrow {
+  width: 20rpx;
+  height: 20rpx;
+  margin-left: 15rpx;
+}
+
+/* 我的收藏 */
+.collections {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.collection-item {
+  display: flex;
+  align-items: center;
+  padding: 25rpx;
+  background-color: #f8f9fa;
+  border-radius: 15rpx;
+  transition: background-color 0.3s ease;
+}
+
+.collection-item:active {
+  background-color: #e9ecef;
+}
+
+.collection-content {
+  flex: 1;
+}
+
+.collection-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.collection-desc {
+  font-size: 24rpx;
+  color: #666;
+  display: block;
+  margin-bottom: 12rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.collection-meta {
+  display: flex;
+  align-items: center;
+  gap: 15rpx;
+}
+
+.collection-time {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.collection-arrow {
+  width: 20rpx;
+  height: 20rpx;
+  margin-left: 15rpx;
+}
+
+/* 设置列表 */
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rpx;
+  background-color: #f0f0f0;
+  border-radius: 15rpx;
+  overflow: hidden;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  padding: 25rpx;
+  background-color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.setting-item:active {
+  background-color: #f8f9fa;
+}
+
+.setting-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+}
+
+.setting-label {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.setting-value {
+  font-size: 24rpx;
+  color: #666;
+  margin-right: 15rpx;
+  max-width: 200rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.setting-arrow {
+  width: 20rpx;
+  height: 20rpx;
+}
+
+/* 响应式调整 */
+@media (max-width: 750rpx) {
+  .personal-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .user-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .user-info {
+    align-items: center;
+  }
+}
