@@ -510,5 +510,368 @@ router.post('/dissolve-expired', authMiddleware, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /api/clusters/{id}/members:
+ *   get:
+ *     summary: 获取星团成员
+ *     description: 获取指定星团的所有成员信息
+ *     tags: [Clusters]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: 星团ID
+ *     responses:
+ *       200:
+ *         description: 获取成员成功
+ *       404:
+ *         description: 星团不存在
+ */
+// 获取星团成员
+router.get('/:id/members', async (req, res) => {
+  try {
+    const clusterId = req.params.id;
+
+    // 查找星团
+    const cluster = await Cluster.findById(clusterId);
+    if (!cluster) {
+      return res.status(404).json({
+        success: false,
+        message: '星团不存在'
+      });
+    }
+
+    // 获取成员详细信息
+    const memberIds = cluster.members.map(member => member.userId);
+    const members = await User.find({ _id: { $in: memberIds } })
+      .select('nickname avatar tags starColor daysActive createdAt');
+
+    // 组合成员信息
+    const memberDetails = cluster.members.map(member => {
+      const userInfo = members.find(user => user._id.toString() === member.userId.toString());
+      return {
+        userId: member.userId,
+        position: member.position,
+        resonanceValue: member.resonanceValue,
+        activityScore: member.activityScore,
+        joinedAt: member.joinedAt,
+        user: userInfo ? {
+          nickname: userInfo.nickname,
+          avatar: userInfo.avatar,
+          tags: userInfo.tags,
+          starColor: userInfo.starColor,
+          daysActive: userInfo.daysActive,
+          createdAt: userInfo.createdAt
+        } : null
+      };
+    });
+
+    res.json({
+      success: true,
+      data: {
+        clusterId: cluster._id,
+        members: memberDetails,
+        totalMembers: memberDetails.length,
+        averageResonance: cluster.averageResonance,
+        resonanceThreshold: cluster.resonanceThreshold
+      }
+    });
+  } catch (error) {
+    console.error('Get cluster members error:', error);
+    res.status(500).json({
+      success: false,
+      message: '获取星团成员失败，请稍后重试'
+    });
+  }
+});
+
+/**
+ * @swagger
+ * /api/clusters/{id}/leave:
+ *   post:
+ *     summary: 离开星团
+ *     description: 用户主动离开星团
+ *     tags: [Clusters]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: 星团ID
+ *     responses:
+ *       200:
+ *         description: 离开成功
+ *       400:
+ *         description: 请求参数错误
+ *       401:
+ *         description: 未授权访问
+ *       404:
+ *         description: 星团不存在
+ */
+// 离开星团
+router.post('/:id/leave', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const clusterId = req.params.id;
+
+    // 查找星团
+    const cluster = await Cluster.findById(clusterId);
+    if (!cluster) {
+      return res.status(404).json({
+        success: false,
+        message: '星团不存在'
+      });
+    }
+
+    // 检查用户是否在星团中
+    const memberIndex = cluster.members.findIndex(member => member.userId.toString() === userId);
+    if (memberIndex === -1) {
+      return res.status(400).json({
+        success: false,
+        message: '您不在此星团中'
+      });
+    }
+
+    // 移除成员
+    cluster.members.splice(memberIndex, 1);
+
+    // 如果成员数量少于2人，解散星团
+    if (cluster.members.length < 2) {
+      cluster.status = 'dissolved';
+      cluster.dissolvedAt = new Date();
+      
+      // 清除所有成员的用户状态
+      await User.updateMany(
+        { _id: { $in: cluster.members.map(m => m.userId) } },
+        { currentCluster: null }
+      );
+    } else {
+      // 重新计算平均共鸣值
+      const totalResonance = cluster.members.reduce((sum, member) => sum + member.resonanceValue, 0);
+      cluster.averageResonance = totalResonance / cluster.members.length;
+    }
+
+    await cluster.save();
+
+    // 更新用户状态
+    await User.findByIdAndUpdate(userId, { currentCluster: null });
+
+    res.json({
+      success: true,
+      message: cluster.status === 'dissolved' ? '已离开星团，星团已解散' : '已离开星团',
+      data: {
+        clusterStatus: cluster.status,
+        remainingMembers: cluster.members.length
+      }
+    });
+  } catch (error) {
+    console.error('Leave cluster error:', error);
+    res.status(500).json({
+      success: false,
+      message: '离开星团失败，请稍后重试'
+    });
+  }
+});
+
+/**
+ * @swagger
+ * /api/clusters/{id}/stats:
+ *   get:
+ *     summary: 获取星团统计
+ *     description: 获取星团的详细统计信息
+ *     tags: [Clusters]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: 星团ID
+ *     responses:
+ *       200:
+ *         description: 获取统计成功
+ *       404:
+ *         description: 星团不存在
+ */
+// 获取星团统计
+router.get('/:id/stats', async (req, res) => {
+  try {
+    const clusterId = req.params.id;
+
+    // 查找星团
+    const cluster = await Cluster.findById(clusterId);
+    if (!cluster) {
+      return res.status(404).json({
+        success: false,
+        message: '星团不存在'
+      });
+    }
+
+    // 计算统计信息
+    const memberIds = cluster.members.map(member => member.userId);
+    
+    // 获取成员活跃度统计
+    const activeMembers = await User.countDocuments({
+      _id: { $in: memberIds },
+      lastActiveAt: { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000) }
+    });
+
+    // 获取星种统计
+    const starSeedCount = await StarSeed.countDocuments({
+      authorId: { $in: memberIds },
+      createdAt: { $gte: cluster.createdAt }
+    });
+
+    // 获取互动统计
+    const interactionCount = await Interaction.countDocuments({
+      userId: { $in: memberIds },
+      createdAt: { $gte: cluster.createdAt }
+    });
+
+    // 计算共鸣值分布
+    const resonanceValues = cluster.members.map(member => member.resonanceValue);
+    const resonanceStats = {
+      min: Math.min(...resonanceValues),
+      max: Math.max(...resonanceValues),
+      average: cluster.averageResonance,
+      median: resonanceValues.sort((a, b) => a - b)[Math.floor(resonanceValues.length / 2)]
+    };
+
+    res.json({
+      success: true,
+      data: {
+        clusterId: cluster._id,
+        stats: {
+          totalMembers: cluster.members.length,
+          activeMembers,
+          starSeedCount,
+          interactionCount,
+          resonanceStats,
+          averageResonance: cluster.averageResonance,
+          resonanceThreshold: cluster.resonanceThreshold,
+          createdAt: cluster.createdAt,
+          expiresAt: cluster.expiresAt,
+          status: cluster.status
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Get cluster stats error:', error);
+    res.status(500).json({
+      success: false,
+      message: '获取星团统计失败，请稍后重试'
+    });
+  }
+});
+
+/**
+ * @swagger
+ * /api/clusters/{id}/recommendations:
+ *   get:
+ *     summary: 获取星团推荐
+ *     description: 基于星团成员获取推荐内容
+ *     tags: [Clusters]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: 星团ID
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: 推荐数量
+ *     responses:
+ *       200:
+ *         description: 获取推荐成功
+ *       404:
+ *         description: 星团不存在
+ */
+// 获取星团推荐
+router.get('/:id/recommendations', async (req, res) => {
+  try {
+    const clusterId = req.params.id;
+    const limit = parseInt(req.query.limit) || 10;
+
+    // 查找星团
+    const cluster = await Cluster.findById(clusterId);
+    if (!cluster) {
+      return res.status(404).json({
+        success: false,
+        message: '星团不存在'
+      });
+    }
+
+    const memberIds = cluster.members.map(member => member.userId);
+
+    // 获取成员发布的星种
+    const starSeeds = await StarSeed.find({
+      authorId: { $in: memberIds },
+      createdAt: { $gte: cluster.createdAt }
+    })
+    .populate('authorId', 'nickname avatar')
+    .sort({ luminosity: -1 })
+    .limit(limit);
+
+    // 获取相关用户推荐
+    const allUserTags = [];
+    cluster.members.forEach(member => {
+      if (member.user && member.user.tags) {
+        allUserTags.push(...member.user.tags);
+      }
+    });
+
+    const commonTags = [...new Set(allUserTags)];
+    const recommendedUsers = await User.find({
+      _id: { $nin: memberIds },
+      tags: { $in: commonTags },
+      currentCluster: null
+    })
+    .select('nickname avatar tags')
+    .limit(5);
+
+    res.json({
+      success: true,
+      data: {
+        clusterId: cluster._id,
+        recommendations: {
+          starSeeds: starSeeds.map(seed => ({
+            id: seed._id,
+            content: seed.content,
+            luminosity: seed.luminosity,
+            author: {
+              id: seed.authorId._id,
+              nickname: seed.authorId.nickname,
+              avatar: seed.authorId.avatar
+            },
+            createdAt: seed.createdAt
+          })),
+          users: recommendedUsers.map(user => ({
+            id: user._id,
+            nickname: user.nickname,
+            avatar: user.avatar,
+            tags: user.tags
+          }))
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Get cluster recommendations error:', error);
+    res.status(500).json({
+      success: false,
+      message: '获取星团推荐失败，请稍后重试'
+    });
+  }
+});
+
 module.exports = router;
 
