@@ -21,6 +21,9 @@ const { setupSwaggerUI, validateApiSpec, formatApiResponse, generateApiDocs } = 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+// 在反向代理（如Zeabur、Nginx）后运行时，信任代理以获得正确的IP等信息
+app.set('trust proxy', 1);
+
 // 安全中间件
 app.use(helmet());
 

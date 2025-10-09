@@ -17,15 +17,21 @@ class RedisService {
         return false;
       }
 
-      // 构造连接URL（优先 REDIS_URL，其次 host/port/password）
+      // 构造连接URL（优先 ZEABUR_REDIS_URL / REDIS_URL，其次 host/port/password）
       const host = process.env.REDIS_HOST || '127.0.0.1'; // 避免 ::1 IPv6 回环导致连接拒绝
       const port = process.env.REDIS_PORT || '6379';
       const password = process.env.REDIS_PASSWORD ? `:${process.env.REDIS_PASSWORD}@` : '';
+      const zeaburUrl = process.env.ZEABUR_REDIS_URL; // 兼容 Zeabur 约定
+      const configuredUrl = process.env.REDIS_URL || zeaburUrl;
       const fallbackUrl = `redis://${password}${host}:${port}`;
 
+      const url = configuredUrl || fallbackUrl;
+      const enableTls = url.startsWith('rediss://') || (process.env.REDIS_TLS || '').toLowerCase() === 'true';
+
       this.client = redis.createClient({
-        url: process.env.REDIS_URL || fallbackUrl,
+        url,
         socket: {
+          ...(enableTls ? { tls: true } : {}),
           reconnectStrategy: (retries) => {
             // 指数退避，最大 5 秒
             return Math.min(retries * 100, 5000);
