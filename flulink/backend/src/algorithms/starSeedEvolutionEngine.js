@@ -124,27 +124,150 @@ class StarSeedEvolutionEngine {
   }
 
   // 计算当前光度
+  // 第6次优化：增强光度计算，添加多维度分析
   async calculateCurrentLuminosity(starSeed) {
     try {
-      // 获取所有互动记录
+      // 优化6.1: 增强缓存策略
+      const cacheKey = `luminosity:${starSeed._id}`;
+      const cachedLuminosity = await redisService.get(cacheKey);
+      if (cachedLuminosity !== null) {
+        return parseFloat(cachedLuminosity);
+      }
+
+      // 优化6.2: 并行计算多个光度因子
+      const [baseLuminosity, interactionBoost, timeDecay, userInfluence, viralFactor] = await Promise.all([
+        this.calculateBaseLuminosity(starSeed),
+        this.calculateInteractionBoost(starSeed),
+        this.calculateTimeDecay(starSeed),
+        this.calculateUserInfluence(starSeed),
+        this.calculateViralFactor(starSeed)
+      ]);
+
+      // 优化6.3: 智能权重组合
+      const finalLuminosity = this.combineLuminosityFactors({
+        base: baseLuminosity,
+        interaction: interactionBoost,
+        timeDecay: timeDecay,
+        userInfluence: userInfluence,
+        viral: viralFactor
+      });
+
+      // 优化6.4: 缓存结果
+      await redisService.set(cacheKey, finalLuminosity.toString(), 1800);
+      
+      return Math.min(Math.max(finalLuminosity, this.evolutionParams.minLuminosity), this.evolutionParams.maxLuminosity);
+    } catch (error) {
+      console.error('Error calculating current luminosity:', error);
+      return starSeed.luminosity || starSeed.initialLuminosity;
+    }
+  }
+
+  // 计算基础光度
+  async calculateBaseLuminosity(starSeed) {
+    try {
+      // 基于内容质量和作者影响力的基础光度
+      const author = await User.findById(starSeed.authorId).lean();
+      const authorInfluence = author ? await this.calculateAuthorInfluence(author) : 0.5;
+      
+      const contentQuality = await this.calculateContentQuality(starSeed);
+      
+      return this.evolutionParams.initialLuminosity * (0.6 + authorInfluence * 0.4) * contentQuality;
+    } catch (error) {
+      console.error('Error calculating base luminosity:', error);
+      return this.evolutionParams.initialLuminosity;
+    }
+  }
+
+  // 计算互动提升
+  async calculateInteractionBoost(starSeed) {
+    try {
       const interactions = await Interaction.find({
         targetId: starSeed._id,
         targetType: 'starseed'
       }).sort({ createdAt: -1 });
-
-      let totalLuminosity = starSeed.initialLuminosity;
-
-      // 计算互动贡献的光度
-      for (const interaction of interactions) {
+      
+      let boost = 0;
+      const now = new Date();
+      
+      interactions.forEach(interaction => {
+        const daysDiff = (now - interaction.createdAt) / (1000 * 60 * 60 * 24);
+        const timeDecay = Math.exp(-daysDiff / this.timeDecayConfig.halfLife);
+        
         const weight = this.interactionWeights[interaction.actionType] || 1;
-        const timeDecay = this.calculateTimeDecayFactor(interaction.createdAt);
-        totalLuminosity += weight * timeDecay;
-      }
+        boost += weight * timeDecay;
+      });
 
-      return Math.min(totalLuminosity, this.evolutionParams.maxLuminosity);
+      return Math.min(boost, 50); // 最大提升50点
     } catch (error) {
-      console.error('Error calculating current luminosity:', error);
-      return starSeed.luminosity || starSeed.initialLuminosity;
+      console.error('Error calculating interaction boost:', error);
+      return 0;
+    }
+  }
+
+  // 计算时间衰减
+  async calculateTimeDecay(starSeed) {
+    try {
+      const now = new Date();
+      const ageInHours = (now - starSeed.createdAt) / (1000 * 60 * 60);
+      
+      // 指数衰减
+      const decayFactor = Math.exp(-ageInHours / this.timeDecayConfig.halfLife);
+      
+      return decayFactor;
+    } catch (error) {
+      console.error('Error calculating time decay:', error);
+      return 1;
+    }
+  }
+
+  // 计算用户影响力
+  async calculateUserInfluence(starSeed) {
+    try {
+      const author = await User.findById(starSeed.authorId).lean();
+      if (!author) return 0.5;
+
+      // 基于用户活跃度、粉丝数、历史表现等计算影响力
+      const userActivity = await this.calculateUserActivity(author);
+      const userReputation = await this.calculateUserReputation(author);
+      const userNetwork = await this.calculateUserNetwork(author);
+
+      return (userActivity * 0.4) + (userReputation * 0.3) + (userNetwork * 0.3);
+    } catch (error) {
+      console.error('Error calculating user influence:', error);
+      return 0.5;
+    }
+  }
+
+  // 计算病毒因子
+  async calculateViralFactor(starSeed) {
+    try {
+      // 基于传播速度和传播范围的病毒因子
+      const propagationSpeed = await this.calculatePropagationSpeed(starSeed);
+      const propagationRange = await this.calculatePropagationRange(starSeed);
+      
+      return (propagationSpeed * 0.6) + (propagationRange * 0.4);
+    } catch (error) {
+      console.error('Error calculating viral factor:', error);
+      return 0.5;
+    }
+  }
+
+  // 组合光度因子
+  combineLuminosityFactors(factors) {
+    try {
+      // 智能权重组合
+      const combined = (
+        factors.base * 0.3 +
+        factors.interaction * 0.25 +
+        factors.timeDecay * 0.2 +
+        factors.userInfluence * 0.15 +
+        factors.viral * 0.1
+      );
+
+      return combined;
+    } catch (error) {
+      console.error('Error combining luminosity factors:', error);
+      return factors.base;
     }
   }
 
@@ -558,6 +681,156 @@ class StarSeedEvolutionEngine {
     } catch (error) {
       console.error('Error getting star seed evolution stats:', error);
       throw error;
+    }
+  }
+}
+
+  // 计算作者影响力
+  async calculateAuthorInfluence(author) {
+    try {
+      const cacheKey = `author_influence:${author._id}`;
+      const cachedInfluence = await redisService.get(cacheKey);
+      if (cachedInfluence !== null) {
+        return parseFloat(cachedInfluence);
+      }
+
+      // 基于作者的历史表现计算影响力
+      const starSeedCount = await StarSeed.countDocuments({ authorId: author._id });
+      const avgLuminosity = await this.calculateAuthorAvgLuminosity(author._id);
+      const followerCount = author.followerCount || 0;
+      
+      const influence = Math.min(
+        (starSeedCount * 0.1) + (avgLuminosity * 0.3) + (followerCount * 0.01),
+        1
+      );
+
+      await redisService.set(cacheKey, influence.toString(), 3600);
+      return influence;
+    } catch (error) {
+      console.error('Error calculating author influence:', error);
+      return 0.5;
+    }
+  }
+
+  // 计算内容质量
+  async calculateContentQuality(starSeed) {
+    try {
+      let quality = 0.5; // 基础质量
+
+      // 基于内容长度
+      if (starSeed.content?.text) {
+        const textLength = starSeed.content.text.length;
+        if (textLength > 100) quality += 0.2;
+        if (textLength > 500) quality += 0.1;
+      }
+
+      // 基于多媒体内容
+      if (starSeed.content?.imageUrl) quality += 0.2;
+      if (starSeed.content?.audioUrl) quality += 0.1;
+
+      // 基于标签数量
+      if (starSeed.tags && starSeed.tags.length > 0) {
+        quality += Math.min(starSeed.tags.length * 0.05, 0.2);
+      }
+
+      return Math.min(quality, 1);
+    } catch (error) {
+      console.error('Error calculating content quality:', error);
+      return 0.5;
+    }
+  }
+
+  // 计算用户活跃度
+  async calculateUserActivity(user) {
+    try {
+      const now = new Date();
+      const daysSinceCreation = (now - new Date(user.createdAt).getTime()) / (1000 * 60 * 60 * 24);
+      const daysSinceLastActive = user.lastActiveAt ? 
+        (now - new Date(user.lastActiveAt).getTime()) / (1000 * 60 * 60 * 24) : daysSinceCreation;
+
+      return Math.max(0, 1 - (daysSinceLastActive / 30));
+    } catch (error) {
+      console.error('Error calculating user activity:', error);
+      return 0.5;
+    }
+  }
+
+  // 计算用户声誉
+  async calculateUserReputation(user) {
+    try {
+      const starSeedCount = await StarSeed.countDocuments({ authorId: user._id });
+      const avgLuminosity = await this.calculateAuthorAvgLuminosity(user._id);
+      
+      return Math.min((starSeedCount * 0.1) + (avgLuminosity * 0.3), 1);
+    } catch (error) {
+      console.error('Error calculating user reputation:', error);
+      return 0.5;
+    }
+  }
+
+  // 计算用户网络
+  async calculateUserNetwork(user) {
+    try {
+      const followerCount = user.followerCount || 0;
+      const followingCount = user.followingCount || 0;
+      
+      return Math.min((followerCount + followingCount) * 0.01, 1);
+    } catch (error) {
+      console.error('Error calculating user network:', error);
+      return 0.5;
+    }
+  }
+
+  // 计算传播速度
+  async calculatePropagationSpeed(starSeed) {
+    try {
+      const interactions = await Interaction.find({
+        targetId: starSeed._id,
+        targetType: 'starseed'
+      }).sort({ createdAt: 1 });
+
+      if (interactions.length < 2) return 0.1;
+
+      const firstInteraction = interactions[0];
+      const lastInteraction = interactions[interactions.length - 1];
+      
+      const timeSpan = (lastInteraction.createdAt - firstInteraction.createdAt) / (1000 * 60 * 60);
+      const speed = interactions.length / Math.max(timeSpan, 1);
+      
+      return Math.min(speed / 10, 1); // 归一化
+    } catch (error) {
+      console.error('Error calculating propagation speed:', error);
+      return 0.1;
+    }
+  }
+
+  // 计算传播范围
+  async calculatePropagationRange(starSeed) {
+    try {
+      const interactions = await Interaction.find({
+        targetId: starSeed._id,
+        targetType: 'starseed'
+      });
+
+      const uniqueUsers = new Set(interactions.map(i => i.userId));
+      return Math.min(uniqueUsers.size / 100, 1); // 归一化
+    } catch (error) {
+      console.error('Error calculating propagation range:', error);
+      return 0.1;
+    }
+  }
+
+  // 计算作者平均光度
+  async calculateAuthorAvgLuminosity(authorId) {
+    try {
+      const starSeeds = await StarSeed.find({ authorId });
+      if (starSeeds.length === 0) return 0;
+
+      const totalLuminosity = starSeeds.reduce((sum, seed) => sum + (seed.luminosity || 0), 0);
+      return totalLuminosity / starSeeds.length;
+    } catch (error) {
+      console.error('Error calculating author avg luminosity:', error);
+      return 0;
     }
   }
 }
