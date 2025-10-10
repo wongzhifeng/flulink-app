@@ -15,6 +15,7 @@ const clusterDissolutionRoutes = require('./clusterDissolution');
 const resonanceRoutes = require('./resonance');
 const resonanceHistoryRoutes = require('./resonanceHistory');
 const uploadRoutes = require('./upload');
+const userServicesRoutes = require('./userServices'); // 用户服务路由
 
 const router = express.Router();
 
@@ -139,6 +140,7 @@ router.use('/clusters', clusterDissolutionRoutes);
 router.use('/resonance', resonanceRoutes);
 router.use('/resonance', resonanceHistoryRoutes);
 router.use('/upload', uploadRoutes);
+router.use('/services', userServicesRoutes); // 用户服务API
 
 // 404处理 - 使用中间件方式
 router.use((req, res) => {

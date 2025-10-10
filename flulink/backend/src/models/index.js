@@ -88,6 +88,58 @@ const userSchema = new mongoose.Schema({
   daysActive: {
     type: Number,
     default: 0
+  },
+  
+  // 服务槽位管理（"知止不殆" - 最多3个服务）
+  serviceSlots: {
+    maxServices: {
+      type: Number,
+      default: 1,
+      min: 1,
+      max: 3
+    },
+    currentServices: {
+      type: Number,
+      default: 0
+    }
+  },
+  
+  // 地理位置信息（用于服务匹配）
+  location: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      default: 'Point'
+    },
+    coordinates: {
+      type: [Number],
+      index: '2dsphere'
+    },
+    lastUpdated: {
+      type: Date,
+      default: Date.now
+    }
+  },
+  
+  // 轨迹围栏数据
+  locationHistory: [{
+    coordinates: [Number],
+    timestamp: Date,
+    accuracy: Number
+  }],
+  
+  // 信用评分系统（集成共鸣算法）
+  creditScore: {
+    type: Number,
+    default: 80,
+    min: 60,
+    max: 100
+  },
+  
+  // 新用户标识（影响服务发布限制）
+  isNewUser: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true
@@ -377,18 +429,129 @@ const resonanceSchema = new mongoose.Schema({
   }]
 });
 
+// 用户服务模型（长期服务标签 - "毒株"）
+const userServiceSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    index: true
+  },
+  serviceType: {
+    type: String,
+    enum: ['housing', 'repair', 'education', 'health', 'transport', 'other'],
+    required: true,
+    index: true
+  },
+  title: {
+    type: String,
+    required: true,
+    maxlength: 50
+  },
+  description: {
+    type: String,
+    required: true,
+    maxlength: 200
+  },
+  images: [{
+    type: String,
+    validate: {
+      validator: function(v) {
+        return this.images.length <= 3;
+      },
+      message: '知足不辱：图片最多3张'
+    }
+  }],
+  
+  // 地理位置（用于围栏匹配）
+  location: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      default: 'Point'
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+      index: '2dsphere'
+    }
+  },
+  
+  // 服务范围（公里）
+  serviceRadius: {
+    type: Number,
+    default: 1.0,
+    min: 0.1,
+    max: 5.0
+  },
+  
+  // 信用分数（继承自用户）
+  creditScore: {
+    type: Number,
+    default: 80,
+    min: 60,
+    max: 100
+  },
+  
+  // 道德状态
+  moralStatus: {
+    type: String,
+    enum: ['active', 'warning', 'suspended'],
+    default: 'active'
+  },
+  
+  // 评价统计
+  ratings: {
+    totalCount: { type: Number, default: 0 },
+    averageScore: { type: Number, default: 0 },
+    negativeRate: { type: Number, default: 0 }
+  },
+  
+  isActive: {
+    type: Boolean,
+    default: true,
+    index: true
+  },
+  
+  lastUpdated: {
+    type: Date,
+    default: Date.now,
+    index: true
+  },
+  
+  // 德道经引用
+  daoQuote: {
+    type: String,
+    default: '天道无亲，常与善人'
+  },
+  
+  // 元数据（用于风控）
+  metadata: {
+    ipAddress: String,
+    userAgent: String,
+    deviceId: String
+  }
+}, {
+  timestamps: true
+});
+
+// 地理空间索引
+userServiceSchema.index({ location: '2dsphere' });
+
 // 创建模型
 const User = mongoose.model('User', userSchema);
 const StarSeed = mongoose.model('StarSeed', starSeedSchema);
 const Cluster = mongoose.model('Cluster', clusterSchema);
 const Interaction = mongoose.model('Interaction', interactionSchema);
 const Resonance = mongoose.model('Resonance', resonanceSchema);
+const UserService = mongoose.model('UserService', userServiceSchema);
 
 module.exports = {
   User,
   StarSeed,
   Cluster,
   Interaction,
-  Resonance
+  Resonance,
+  UserService
 };
 
