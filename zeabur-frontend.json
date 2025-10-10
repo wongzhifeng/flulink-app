@@ -2,6 +2,7 @@
   "build": {
     "builder": "DOCKERFILE",
     "dockerfilePath": "flulink/frontend/Dockerfile",
+    "buildContext": "flulink/frontend",
     "buildArgs": {
       "NODE_ENV": "production",
       "BUILD_TIMESTAMP": "${NOW}"
