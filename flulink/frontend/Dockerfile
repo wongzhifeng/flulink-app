@@ -2,21 +2,22 @@ FROM node:18-alpine AS build
 LABEL "language"="nodejs"
 LABEL "framework"="vite"
 
-# 构建参数
-ARG BUILD_TIMESTAMP
-ARG CACHE_BUST
-ARG NODE_ENV=production
-
 WORKDIR /app
 
 # 复制整个项目
 COPY . .
 
-# 安装依赖并构建
-RUN cd flulink/frontend && \
-    echo "Build timestamp: $BUILD_TIMESTAMP" && \
-    echo "Cache bust: $CACHE_BUST" && \
+# 检查文件结构并安装前端依赖
+RUN ls -la && \
+    ls -la flulink/ && \
+    cd flulink/frontend && \
+    echo "检查 Navigation.tsx 文件:" && \
+    cat src/components/Navigation/Navigation.tsx | head -15 && \
+    echo "检查 AppContext.tsx 是否存在:" && \
+    ls -la src/context/ && \
+    echo "开始安装依赖..." && \
     npm install && \
+    echo "开始构建..." && \
     npm run build
 
 # 使用静态文件服务器
