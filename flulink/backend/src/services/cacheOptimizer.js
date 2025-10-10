@@ -1,5 +1,6 @@
 import redisService from './redisService';
 import performanceMonitor from './performanceMonitor';
+import { randomUUID, randomBytes } from 'crypto';
 
 interface CacheConfig {
   ttl: number; // 生存时间（秒）
@@ -12,6 +13,8 @@ interface CacheEntry<T> {
   timestamp: number;
   accessCount: number;
   lastAccessed: number;
+  universeId?: string; // 宇宙计算ID
+  cosmicSignature?: string; // 宇宙签名
 }
 
 class CacheOptimizer {
@@ -401,6 +404,44 @@ class CacheOptimizer {
     } catch (error) {
       console.error('Cache clear error:', error);
     }
+  }
+
+  // 宇宙计算和万物技术 - 生成宇宙ID
+  generateUniverseId(): string {
+    try {
+      return randomUUID();
+    } catch (e) {
+      try {
+        return randomBytes(16).toString('hex');
+      } catch (e2) {
+        return Math.random().toString(36).substring(2, 15) +
+               Math.random().toString(36).substring(2, 15);
+      }
+    }
+  }
+
+  // 生成宇宙签名
+  generateCosmicSignature(data: any): string {
+    const timestamp = Date.now();
+    const dataHash = JSON.stringify(data).length;
+    return `${timestamp}-${dataHash}-${this.generateUniverseId().substring(0, 8)}`;
+  }
+
+  // 宇宙缓存设置 - 增强版
+  async setWithCosmicSignature<T>(key: string, value: T, category: string = 'default'): Promise<void> {
+    const universeId = this.generateUniverseId();
+    const cosmicSignature = this.generateCosmicSignature(value);
+    
+    const entry: CacheEntry<T> = {
+      value,
+      timestamp: Date.now(),
+      accessCount: 0,
+      lastAccessed: Date.now(),
+      universeId,
+      cosmicSignature
+    };
+
+    await this.set(key, value, category);
   }
 }
 

@@ -1,0 +1,1099 @@
+{
+  "timestamp": "2025-10-10T05:41:51.272Z",
+  "overallScore": 17,
+  "qualityReport": {
+    "timestamp": "2025-10-10T05:41:50.857Z",
+    "overallScore": 0,
+    "files": [
+      {
+        "file": "advancedPerformanceProfiler.js",
+        "linesOfCode": 469,
+        "cyclomaticComplexity": 12706,
+        "maintainabilityIndex": 61.727078891257996,
+        "codeDuplication": 34,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理",
+          "参数过多的函数"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "architectureAnalyzer.js",
+        "linesOfCode": 526,
+        "cyclomaticComplexity": 16008,
+        "maintainabilityIndex": 54.942965779467684,
+        "codeDuplication": 39,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "codeQualityAnalyzer.js",
+        "linesOfCode": 522,
+        "cyclomaticComplexity": 17041,
+        "maintainabilityIndex": 63.2183908045977,
+        "codeDuplication": 32,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "codeQualityChecker.js",
+        "linesOfCode": 223,
+        "cyclomaticComplexity": 7413,
+        "maintainabilityIndex": 61.210762331838566,
+        "codeDuplication": 37,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "codeRefactoringTool.js",
+        "linesOfCode": 358,
+        "cyclomaticComplexity": 10769,
+        "maintainabilityIndex": 56.42458100558659,
+        "codeDuplication": 38,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "comprehensiveAnalyzer.js",
+        "linesOfCode": 251,
+        "cyclomaticComplexity": 8850,
+        "maintainabilityIndex": 53.984063745019924,
+        "codeDuplication": 29,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "comprehensiveArchitectureRefactor.js",
+        "linesOfCode": 450,
+        "cyclomaticComplexity": 14683,
+        "maintainabilityIndex": 53.111111111111114,
+        "codeDuplication": 32,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "comprehensivePerformanceAnalyzer.js",
+        "linesOfCode": 415,
+        "cyclomaticComplexity": 16278,
+        "maintainabilityIndex": 58.19277108433735,
+        "codeDuplication": 32,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "comprehensiveSecurityAnalyzer.js",
+        "linesOfCode": 383,
+        "cyclomaticComplexity": 15212,
+        "maintainabilityIndex": 54.438642297650134,
+        "codeDuplication": 34,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "designPatternDetector.js",
+        "linesOfCode": 618,
+        "cyclomaticComplexity": 16345,
+        "maintainabilityIndex": 59.54692556634304,
+        "codeDuplication": 51,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "enhancedCodeQualityAnalyzer.js",
+        "linesOfCode": 300,
+        "cyclomaticComplexity": 8511,
+        "maintainabilityIndex": 52.333333333333336,
+        "codeDuplication": 37,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [
+          "未完成的功能",
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "memoryAnalyzer.js",
+        "linesOfCode": 438,
+        "cyclomaticComplexity": 11454,
+        "maintainabilityIndex": 61.64383561643835,
+        "codeDuplication": 41,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理",
+          "参数过多的函数"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "performanceOptimizationAnalyzer.js",
+        "linesOfCode": 288,
+        "cyclomaticComplexity": 10263,
+        "maintainabilityIndex": 53.81944444444444,
+        "codeDuplication": 33,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "securityHardeningTool.js",
+        "linesOfCode": 642,
+        "cyclomaticComplexity": 16387,
+        "maintainabilityIndex": 56.386292834890966,
+        "codeDuplication": 39,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "securityScanner.js",
+        "linesOfCode": 712,
+        "cyclomaticComplexity": 20979,
+        "maintainabilityIndex": 57.443820224719104,
+        "codeDuplication": 37,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "simpleCodeQualityAnalyzer.js",
+        "linesOfCode": 305,
+        "cyclomaticComplexity": 9440,
+        "maintainabilityIndex": 51.31147540983606,
+        "codeDuplication": 33,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [
+          "未完成的功能",
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "simplePerformanceAnalyzer.js",
+        "linesOfCode": 192,
+        "cyclomaticComplexity": 5153,
+        "maintainabilityIndex": 52.604166666666664,
+        "codeDuplication": 42,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分"
+        ]
+      },
+      {
+        "file": "simpleSecurityScanner.js",
+        "linesOfCode": 252,
+        "cyclomaticComplexity": 6310,
+        "maintainabilityIndex": 52.38095238095238,
+        "codeDuplication": 46,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      }
+    ],
+    "summary": {
+      "totalFiles": 18,
+      "averageComplexity": 12433,
+      "averageMaintainability": 56,
+      "totalIssues": 5,
+      "criticalIssues": 0,
+      "recommendations": [
+        "修复安全性和性能问题",
+        "降低代码复杂度",
+        "增加代码注释"
+      ]
+    }
+  },
+  "performanceReport": {
+    "timestamp": "2025-10-10T05:41:50.916Z",
+    "performanceScore": 0,
+    "files": [
+      {
+        "file": "advancedPerformanceProfiler.js",
+        "linesOfCode": 469,
+        "performanceIssues": 1,
+        "memoryIssues": 1,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化",
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "architectureAnalyzer.js",
+        "linesOfCode": 526,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "codeQualityAnalyzer.js",
+        "linesOfCode": 522,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "codeQualityChecker.js",
+        "linesOfCode": 223,
+        "performanceIssues": 0,
+        "memoryIssues": 4,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "codeRefactoringTool.js",
+        "linesOfCode": 358,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "comprehensiveAnalyzer.js",
+        "linesOfCode": 251,
+        "performanceIssues": 0,
+        "memoryIssues": 1,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "comprehensiveArchitectureRefactor.js",
+        "linesOfCode": 450,
+        "performanceIssues": 0,
+        "memoryIssues": 1,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "comprehensivePerformanceAnalyzer.js",
+        "linesOfCode": 415,
+        "performanceIssues": 1,
+        "memoryIssues": 6,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化",
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "comprehensiveSecurityAnalyzer.js",
+        "linesOfCode": 383,
+        "performanceIssues": 0,
+        "memoryIssues": 3,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "designPatternDetector.js",
+        "linesOfCode": 618,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "enhancedCodeQualityAnalyzer.js",
+        "linesOfCode": 300,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "memoryAnalyzer.js",
+        "linesOfCode": 438,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "performanceOptimizationAnalyzer.js",
+        "linesOfCode": 288,
+        "performanceIssues": 1,
+        "memoryIssues": 5,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化",
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "securityHardeningTool.js",
+        "linesOfCode": 642,
+        "performanceIssues": 0,
+        "memoryIssues": 3,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "securityScanner.js",
+        "linesOfCode": 712,
+        "performanceIssues": 0,
+        "memoryIssues": 1,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "simpleCodeQualityAnalyzer.js",
+        "linesOfCode": 305,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "simplePerformanceAnalyzer.js",
+        "linesOfCode": 192,
+        "performanceIssues": 3,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "simpleSecurityScanner.js",
+        "linesOfCode": 252,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      }
+    ],
+    "summary": {
+      "totalFiles": 18,
+      "totalPerformanceIssues": 11,
+      "totalMemoryIssues": 25,
+      "totalAsyncIssues": 0,
+      "criticalIssues": 6,
+      "recommendations": [
+        "优化性能瓶颈",
+        "优化内存使用",
+        "异步处理良好"
+      ]
+    }
+  },
+  "securityReport": {
+    "timestamp": "2025-10-10T05:41:51.269Z",
+    "securityScore": 50,
+    "files": [
+      {
+        "file": "advancedPerformanceProfiler.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 325,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 327,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 329,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "architectureAnalyzer.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 73,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 88,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 89,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 90,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 91,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 92,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 169,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 174,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 296,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "codeQualityAnalyzer.js",
+        "vulnerabilities": [
+          {
+            "type": "XSS",
+            "severity": "high",
+            "line": 154,
+            "description": "检测到可能的XSS漏洞",
+            "suggestion": "对用户输入进行转义"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 352,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 357,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "codeRefactoringTool.js",
+        "vulnerabilities": [
+          {
+            "type": "SQL注入",
+            "severity": "critical",
+            "line": 128,
+            "description": "检测到可能的SQL注入漏洞",
+            "suggestion": "使用参数化查询"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 227,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 232,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "designPatternDetector.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 413,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 418,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 433,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 434,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 435,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 441,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 442,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 443,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 449,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 450,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 451,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 457,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 458,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 459,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 465,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 466,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 467,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 473,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 474,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 475,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 481,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 482,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 483,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 489,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 490,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 491,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "enhancedCodeQualityAnalyzer.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 46,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 51,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 186,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 189,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 214,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 217,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 220,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 223,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 226,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "securityHardeningTool.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 224,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 422,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 499,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "securityScanner.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 190,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 195,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "XSS",
+            "severity": "high",
+            "line": 292,
+            "description": "检测到可能的XSS漏洞",
+            "suggestion": "对用户输入进行转义"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 413,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "simpleCodeQualityAnalyzer.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 46,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 51,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 181,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 184,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "simplePerformanceAnalyzer.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 46,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 51,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "simpleSecurityScanner.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 51,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 56,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "XSS",
+            "severity": "high",
+            "line": 156,
+            "description": "检测到可能的XSS漏洞",
+            "suggestion": "对用户输入进行转义"
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "totalFiles": 11,
+      "totalVulnerabilities": 69,
+      "criticalVulnerabilities": 1,
+      "highVulnerabilities": 3,
+      "mediumVulnerabilities": 65,
+      "recommendations": [
+        "立即修复关键安全漏洞",
+        "优先修复高危安全漏洞",
+        "加强安全防护措施"
+      ]
+    }
+  },
+  "summary": {
+    "totalFiles": 18,
+    "overallScore": 17,
+    "qualityScore": 0,
+    "performanceScore": 0,
+    "securityScore": 50,
+    "criticalIssues": 1,
+    "recommendations": [
+      "修复安全性和性能问题",
+      "降低代码复杂度",
+      "增加代码注释",
+      "优化性能瓶颈",
+      "优化内存使用",
+      "异步处理良好",
+      "立即修复关键安全漏洞",
+      "优先修复高危安全漏洞",
+      "加强安全防护措施"
+    ]
+  }
+}

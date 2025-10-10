@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { randomUUID, randomBytes } from 'crypto';
 import performanceMonitor from '../services/performanceMonitor';
 
 interface ErrorResponse {
@@ -19,7 +20,7 @@ interface CustomError extends Error {
 class ErrorHandler {
   // 全局错误处理中间件
   static handle(err: CustomError, req: Request, res: Response, next: NextFunction) {
-    const requestId = req.headers['x-request-id'] as string || this.generateRequestId();
+    const requestId = (req.headers['x-request-id'] as string) || this.generateRequestId();
     
     // 记录错误到性能监控
     performanceMonitor.emit('error', {
@@ -72,6 +73,11 @@ class ErrorHandler {
       isOperational = true;
     }
 
+    // 在生产环境中对非可操作性错误隐藏详细信息
+    if (process.env.NODE_ENV !== 'development' && !isOperational) {
+      message = 'Internal Server Error';
+    }
+
     // 构建错误响应
     const errorResponse: ErrorResponse = {
       success: false,
@@ -99,6 +105,13 @@ class ErrorHandler {
       isOperational
     });
 
+    // 设置基础安全响应头与请求ID
+    res.set('X-Request-Id', requestId);
+    res.set('X-Content-Type-Options', 'nosniff');
+    res.set('X-Frame-Options', 'DENY');
+    res.set('Referrer-Policy', 'no-referrer');
+    res.set('Content-Security-Policy', "default-src 'none'");
+
     // 发送错误响应
     res.status(statusCode).json(errorResponse);
   }
@@ -123,8 +136,16 @@ class ErrorHandler {
 
   // 生成请求ID
   private static generateRequestId(): string {
-    return Math.random().toString(36).substring(2, 15) + 
-           Math.random().toString(36).substring(2, 15);
+    try {
+      return randomUUID();
+    } catch (e) {
+      try {
+        return randomBytes(16).toString('hex');
+      } catch (e2) {
+        return Math.random().toString(36).substring(2, 15) +
+               Math.random().toString(36).substring(2, 15);
+      }
+    }
   }
 
   // 创建自定义错误

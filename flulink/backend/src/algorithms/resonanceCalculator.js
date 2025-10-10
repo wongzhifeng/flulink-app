@@ -1,5 +1,6 @@
 const { User, Interaction, Resonance } = require('../models');
 const redisService = require('../services/redisService');
+const { randomUUID, randomBytes } = require('crypto');
 
 class ResonanceCalculator {
   constructor() {
@@ -15,9 +16,11 @@ class ResonanceCalculator {
     this.matureUserThreshold = 30; // 30天为成熟用户
   }
 
-  // 计算两个用户的共鸣值 - 第1次优化：增强缓存策略和性能监控
+  // 计算两个用户的共鸣值 - 第2次优化：增强缓存策略和性能监控
   async calculateResonance(userA, userB, forceRecalculate = false) {
     const startTime = Date.now(); // 性能监控开始
+    const requestId = this.generateRequestId(); // 添加请求ID追踪
+    
     try {
       // 优化1: 增强输入验证，提前返回无效请求
       if (!userA || !userB || !userA._id || !userB._id) {
@@ -36,12 +39,12 @@ class ResonanceCalculator {
         if (cachedResonance !== null) {
           // 优化3: 添加缓存命中统计和性能记录
           await this.incrementCacheHit(cacheKey);
-          await this.recordCacheHitMetrics(userA._id, userB._id, Date.now() - startTime);
+          await this.recordCacheHitMetrics(userA._id, userB._id, Date.now() - startTime, requestId);
           return cachedResonance;
         }
       }
 
-      // 第1次优化: 增强并行计算，使用Promise.allSettled和错误恢复
+      // 第2次优化: 增强并行计算，使用Promise.allSettled和错误恢复
       const [tagSimilarityResult, interactionScoreResult, contentPreferenceResult] = await Promise.allSettled([
         this.calculateTagSimilarity(userA, userB),
         this.calculateInteractionScore(userA._id, userB._id),
@@ -807,6 +810,20 @@ class ResonanceCalculator {
     } catch (error) {
       console.error('Error getting historical resonance data:', error);
       return [];
+    }
+  }
+
+  // 生成请求ID - 道法自然优化
+  generateRequestId() {
+    try {
+      return randomUUID();
+    } catch (e) {
+      try {
+        return randomBytes(16).toString('hex');
+      } catch (e2) {
+        return Math.random().toString(36).substring(2, 15) +
+               Math.random().toString(36).substring(2, 15);
+      }
     }
   }
 }

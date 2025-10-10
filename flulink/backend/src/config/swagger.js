@@ -1,5 +1,6 @@
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const rateLimit = require('express-rate-limit');
 
 // spec-kit增强的Swagger配置选项
 const swaggerOptions = {
@@ -40,7 +41,14 @@ const swaggerOptions = {
         bearerAuth: {
           type: 'http',
           scheme: 'bearer',
-          bearerFormat: 'JWT'
+          bearerFormat: 'JWT',
+          description: 'JWT认证令牌'
+        },
+        apiKey: {
+          type: 'apiKey',
+          in: 'header',
+          name: 'X-API-Key',
+          description: 'API密钥认证'
         }
       },
       schemas: {
@@ -152,7 +160,34 @@ const swaggerOptions = {
 // 生成Swagger规范
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
+// 创建Swagger UI配置
+const swaggerUiOptions = {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'FluLink API - 道法自然',
+  swaggerOptions: {
+    persistAuthorization: true,
+    displayRequestDuration: true,
+    filter: true,
+    tryItOutEnabled: true
+  }
+};
+
+// 创建API文档限流中间件
+const apiDocsLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15分钟
+  max: 100, // 限制每个IP 15分钟内最多100次请求
+  message: {
+    success: false,
+    message: 'API文档访问频率过高，请稍后再试',
+    timestamp: new Date().toISOString()
+  },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
 module.exports = {
   swaggerSpec,
-  swaggerUi
+  swaggerUi,
+  swaggerUiOptions,
+  apiDocsLimiter
 };

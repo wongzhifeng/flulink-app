@@ -32,29 +32,127 @@ class TagMatchingAlgorithm {
       'creative': ['摄影', '艺术', '手工', '园艺'],
       'tech': ['科技', '游戏']
     };
+    
+    // 优化1: 添加LRU缓存，提升重复计算性能
+    this.similarityCache = new Map();
+    this.cacheMaxSize = 10000;
+    this.cacheHitCount = 0;
+    this.cacheMissCount = 0;
+    
+    // 优化2: 预计算分类映射，避免重复遍历
+    this.tagToCategoryMap = this._buildTagToCategoryMap();
+    
+    // 优化3: 添加性能统计
+    this.performanceStats = {
+      totalCalculations: 0,
+      cacheHits: 0,
+      cacheMisses: 0,
+      averageCalculationTime: 0
+    };
+  }
+  
+  // 优化2: 构建标签到分类的映射，O(1)查找
+  _buildTagToCategoryMap() {
+    const map = new Map();
+    Object.entries(this.tagCategories).forEach(([category, tags]) => {
+      tags.forEach(tag => {
+        if (!map.has(tag)) {
+          map.set(tag, []);
+        }
+        map.get(tag).push(category);
+      });
+    });
+    return map;
+  }
+  
+  // 优化1: 生成缓存键
+  _getCacheKey(tagsA, tagsB) {
+    const sortedA = [...tagsA].sort().join(',');
+    const sortedB = [...tagsB].sort().join(',');
+    return sortedA <= sortedB ? `${sortedA}|${sortedB}` : `${sortedB}|${sortedA}`;
+  }
+  
+  // 优化1: 从缓存获取或计算
+  _getFromCacheOrCalculate(key, calculateFn) {
+    if (this.similarityCache.has(key)) {
+      this.cacheHitCount++;
+      this.performanceStats.cacheHits++;
+      const entry = this.similarityCache.get(key);
+      // LRU: 更新访问时间
+      this.similarityCache.delete(key);
+      this.similarityCache.set(key, entry);
+      return entry.value;
+    }
+    
+    this.cacheMissCount++;
+    this.performanceStats.cacheMisses++;
+    
+    const value = calculateFn();
+    
+    // LRU: 如果缓存满了，删除最旧的条目
+    if (this.similarityCache.size >= this.cacheMaxSize) {
+      const firstKey = this.similarityCache.keys().next().value;
+      this.similarityCache.delete(firstKey);
+    }
+    
+    this.similarityCache.set(key, { value, timestamp: Date.now() });
+    return value;
+  }
+  
+  // 优化1: 清理缓存
+  clearCache() {
+    this.similarityCache.clear();
+    this.cacheHitCount = 0;
+    this.cacheMissCount = 0;
+  }
+  
+  // 优化1: 获取缓存统计
+  getCacheStats() {
+    return {
+      size: this.similarityCache.size,
+      maxSize: this.cacheMaxSize,
+      hitCount: this.cacheHitCount,
+      missCount: this.cacheMissCount,
+      hitRate: this.cacheHitCount / (this.cacheHitCount + this.cacheMissCount) || 0
+    };
   }
 
-  // 计算标签相似度（主要方法）
+  // 计算标签相似度（主要方法）- 优化3: 添加缓存和性能追踪
   calculateTagSimilarity(tagsA, tagsB) {
+    const startTime = Date.now();
+    
     if (!tagsA || !tagsB || tagsA.length === 0 || tagsB.length === 0) {
       return 0.1; // 没有标签时给低相似度
     }
 
-    // 计算多种相似度
-    const jaccardSimilarity = this.calculateJaccardSimilarity(tagsA, tagsB);
-    const cosineSimilarity = this.calculateCosineSimilarity(tagsA, tagsB);
-    const weightedSimilarity = this.calculateWeightedSimilarity(tagsA, tagsB);
-    const categorySimilarity = this.calculateCategorySimilarity(tagsA, tagsB);
+    // 优化1: 使用缓存
+    const cacheKey = this._getCacheKey(tagsA, tagsB);
+    const cachedResult = this._getFromCacheOrCalculate(cacheKey, () => {
+      // 计算多种相似度
+      const jaccardSimilarity = this.calculateJaccardSimilarity(tagsA, tagsB);
+      const cosineSimilarity = this.calculateCosineSimilarity(tagsA, tagsB);
+      const weightedSimilarity = this.calculateWeightedSimilarity(tagsA, tagsB);
+      const categorySimilarity = this.calculateCategorySimilarity(tagsA, tagsB);
 
-    // 综合相似度（加权平均）
-    const combinedSimilarity = (
-      jaccardSimilarity * 0.3 +
-      cosineSimilarity * 0.3 +
-      weightedSimilarity * 0.25 +
-      categorySimilarity * 0.15
-    );
+      // 综合相似度（加权平均）
+      const combinedSimilarity = (
+        jaccardSimilarity * 0.3 +
+        cosineSimilarity * 0.3 +
+        weightedSimilarity * 0.25 +
+        categorySimilarity * 0.15
+      );
 
-    return Math.min(combinedSimilarity, 1.0);
+      return Math.min(combinedSimilarity, 1.0);
+    });
+    
+    // 优化3: 更新性能统计
+    const calculationTime = Date.now() - startTime;
+    this.performanceStats.totalCalculations++;
+    this.performanceStats.averageCalculationTime = 
+      (this.performanceStats.averageCalculationTime * (this.performanceStats.totalCalculations - 1) + calculationTime) / 
+      this.performanceStats.totalCalculations;
+    
+    return cachedResult;
   }
 
   // 计算Jaccard相似度
@@ -149,16 +247,15 @@ class TagMatchingAlgorithm {
     return intersection.size / union.size;
   }
 
-  // 获取标签所属分类
+  // 获取标签所属分类 - 优化2: 使用预计算的映射，O(n)而不是O(n*m)
   getTagCategories(tags) {
     const categories = new Set();
     
     tags.forEach(tag => {
-      Object.entries(this.tagCategories).forEach(([category, categoryTags]) => {
-        if (categoryTags.includes(tag)) {
-          categories.add(category);
-        }
-      });
+      const tagCategories = this.tagToCategoryMap.get(tag);
+      if (tagCategories) {
+        tagCategories.forEach(category => categories.add(category));
+      }
     });
 
     return categories;
@@ -256,6 +353,25 @@ class TagMatchingAlgorithm {
     stats.weightedTags.sort((a, b) => b.weight - a.weight);
 
     return stats;
+  }
+  
+  // 优化3: 获取性能统计
+  getPerformanceStats() {
+    return {
+      ...this.performanceStats,
+      cache: this.getCacheStats()
+    };
+  }
+  
+  // 优化3: 重置性能统计
+  resetPerformanceStats() {
+    this.performanceStats = {
+      totalCalculations: 0,
+      cacheHits: 0,
+      cacheMisses: 0,
+      averageCalculationTime: 0
+    };
+    this.clearCache();
   }
 }
 
