@@ -9,6 +9,7 @@ import ProfilePage from './pages/ProfilePage'
 import StarSeedDetail from './pages/StarSeedDetail'
 import AuthPage from './pages/AuthPage'
 import ServicesPage from './pages/ServicesPage'
+import OfflineModeIndicator from './components/OfflineModeIndicator'
 import './App.css'
 
 const App: React.FC = () => {
@@ -25,6 +26,7 @@ const App: React.FC = () => {
       <AppProvider>
         <Router>
           <div className="app">
+            <OfflineModeIndicator />
             <Routes>
               <Route path="/" element={<StarMap />} />
               <Route path="/publish" element={<PublishPage />} />

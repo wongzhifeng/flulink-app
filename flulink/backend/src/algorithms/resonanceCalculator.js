@@ -85,11 +85,11 @@ class ResonanceCalculator {
       // 优化6: 异步保存记录，不阻塞主流程
       setImmediate(() => {
         this.saveResonanceRecord(userA._id, userB._id, {
-          tagSimilarity,
-          interactionScore,
-          contentPreferenceMatch,
-          randomFactor,
-          totalResonance
+        tagSimilarity,
+        interactionScore,
+        contentPreferenceMatch,
+        randomFactor,
+        totalResonance
         }).catch(err => console.error('Async save error:', err));
       });
 
@@ -408,30 +408,30 @@ class ResonanceCalculator {
 
   // 计算基础互动得分
   calculateBaseInteractionScore(interactions) {
-    const actionWeights = {
-      'like': 1,
-      'comment': 5,
-      'forward': 3,
+      const actionWeights = {
+        'like': 1,
+        'comment': 5,
+        'forward': 3,
       'view': 0.5,
       'share': 4,
       'bookmark': 2,
       'follow': 6
-    };
+      };
 
     let score = 0;
-    const now = new Date();
+      const now = new Date();
 
-    interactions.forEach(interaction => {
-      const daysDiff = (now - interaction.createdAt) / (1000 * 60 * 60 * 24);
-      const timeDecay = Math.exp(-daysDiff / 30); // 30天半衰期
-      
-      const actionWeight = actionWeights[interaction.actionType] || 1;
-      score += actionWeight * timeDecay;
-    });
+      interactions.forEach(interaction => {
+        const daysDiff = (now - interaction.createdAt) / (1000 * 60 * 60 * 24);
+        const timeDecay = Math.exp(-daysDiff / 30); // 30天半衰期
+        
+        const actionWeight = actionWeights[interaction.actionType] || 1;
+        score += actionWeight * timeDecay;
+      });
 
     // 归一化
     const maxPossibleScore = 100;
-    return Math.min(score / maxPossibleScore, 1.0);
+      return Math.min(score / maxPossibleScore, 1.0);
   }
 
   // 计算互惠性得分

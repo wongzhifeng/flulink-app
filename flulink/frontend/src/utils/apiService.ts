@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios'
 import { ApiResponse, User, StarSeed, Cluster, ResonanceValue } from '../types'
+import offlineService from './offlineService'
 
 // 性能优化：API缓存接口
 interface CacheItem {
@@ -76,15 +77,72 @@ class ApiService {
   private api: AxiosInstance
   private cache = new ApiCache()
   private requestQueue = new Map<string, Promise<any>>() // 请求去重
+  private isOfflineMode = false
+  private mockData = {
+    user: {
+      _id: 'mock-user-1',
+      username: '演示用户',
+      email: 'demo@flulink.com',
+      avatar: 'https://via.placeholder.com/100x100/1890ff/ffffff?text=Demo',
+      tags: ['技术', '设计', '音乐'],
+      location: {
+        type: 'Point',
+        coordinates: [116.3974, 39.9092]
+      },
+      creditScore: 85,
+      serviceSlots: {
+        maxServices: 3,
+        currentServices: 0
+      }
+    },
+    starSeeds: [
+      {
+        _id: 'mock-starseed-1',
+        userId: 'mock-user-1',
+        content: {
+          text: '欢迎使用FluLink星尘共鸣版！这是一个演示星种。'
+        },
+        spectrum: ['欢迎', '演示', 'FluLink'],
+        luminosity: 75,
+        createdAt: new Date().toISOString()
+      }
+    ],
+    services: [
+      {
+        _id: 'mock-service-1',
+        userId: 'mock-user-1',
+        serviceType: 'education',
+        title: '前端开发教学',
+        description: '提供React、Vue等前端框架的教学服务',
+        images: ['https://via.placeholder.com/300x200/1890ff/ffffff?text=Frontend'],
+        location: {
+          type: 'Point',
+          coordinates: [116.3974, 39.9092]
+        },
+        serviceRadius: 1.0,
+        creditScore: 85,
+        isActive: true
+      }
+    ]
+  }
 
   constructor() {
+    // 检测后端是否可用，如果不可用则使用离线模式
+    const backendUrl = process.env.REACT_APP_API_URL || 'https://flulink-backend-v2.zeabur.app/api'
+    const isOfflineMode = localStorage.getItem('offline_mode') === 'true'
+    
     this.api = axios.create({
-      baseURL: process.env.REACT_APP_API_URL || 'https://flulink-backend-v2.zeabur.app/api',
-      timeout: 10000,
+      baseURL: isOfflineMode ? '' : backendUrl,
+      timeout: 3000, // 减少超时时间
       headers: {
         'Content-Type': 'application/json',
       },
     })
+
+    // 初始化离线模式
+    if (isOfflineMode) {
+      offlineService.initializeOfflineData()
+    }
 
     // 性能优化：请求拦截器 - 添加缓存和去重逻辑
     this.api.interceptors.request.use(
@@ -163,10 +221,21 @@ class ApiService {
 
   // 性能优化：认证相关API - 添加去重
   async login(username: string, password: string): Promise<ApiResponse<{ user: User; token: string }>> {
+    // 检查是否在离线模式
+    if (offlineService.isOfflineMode()) {
+      return offlineService.login(username, password)
+    }
+
     const requestKey = `login:${username}`
     return this.deduplicateRequest(requestKey, async () => {
-      const response = await this.api.post('/auth/login', { username, password })
-      return response.data
+      try {
+        const response = await this.api.post('/auth/login', { username, password })
+        return response.data
+      } catch (error) {
+        // 如果后端不可用，自动切换到离线模式
+        offlineService.enableOfflineMode()
+        return offlineService.login(username, password)
+      }
     })
   }
 
@@ -358,6 +427,64 @@ class ApiService {
 
   delete(url: string, config?: any) {
     return this.api.delete(url, config)
+  }
+
+  // 用户服务相关API - 支持离线模式
+  async publishService(serviceData: any) {
+    if (offlineService.isOfflineMode()) {
+      return offlineService.publishService(serviceData)
+    }
+
+    try {
+      const response = await this.api.post('/services/publish', serviceData)
+      return response.data
+    } catch (error) {
+      offlineService.enableOfflineMode()
+      return offlineService.publishService(serviceData)
+    }
+  }
+
+  async getMyServices() {
+    if (offlineService.isOfflineMode()) {
+      return offlineService.getMyServices()
+    }
+
+    try {
+      const response = await this.api.get('/services/my-services')
+      return response.data
+    } catch (error) {
+      offlineService.enableOfflineMode()
+      return offlineService.getMyServices()
+    }
+  }
+
+  async matchServices(need: string) {
+    if (offlineService.isOfflineMode()) {
+      return offlineService.matchServices(need)
+    }
+
+    try {
+      const response = await this.api.post('/services/match', { need })
+      return response.data
+    } catch (error) {
+      offlineService.enableOfflineMode()
+      return offlineService.matchServices(need)
+    }
+  }
+
+  // 健康检查 - 支持离线模式
+  async healthCheck() {
+    if (offlineService.isOfflineMode()) {
+      return offlineService.healthCheck()
+    }
+
+    try {
+      const response = await this.api.get('/health')
+      return response.data
+    } catch (error) {
+      offlineService.enableOfflineMode()
+      return offlineService.healthCheck()
+    }
   }
 }
 

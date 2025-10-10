@@ -1,16 +1,18 @@
 {
   "build": {
     "builder": "DOCKERFILE",
-    "dockerfilePath": "Dockerfile",
+    "dockerfilePath": "flulink/frontend/Dockerfile",
+    "buildContext": "flulink/frontend",
     "buildArgs": {
       "NODE_ENV": "production",
-      "BUILD_TIMESTAMP": "${NOW}"
+      "BUILD_TIMESTAMP": "2024-10-10-15:30:00",
+      "CACHE_BUST": "v2.0.0"
     }
   },
   "deploy": {
     "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 5,
-    "port": 8080,
+    "restartPolicyMaxRetries": 10,
+    "port": 80,
     "replicas": 1,
     "resources": {
       "cpu": "500m",
@@ -19,18 +21,17 @@
   },
   "env": {
     "NODE_ENV": "production",
-    "PORT": "8080",
-    "NODE_OPTIONS": "--max-old-space-size=200",
-    "REDIS_ENABLED": "false",
-    "MONGODB_URI": "mongodb://localhost:27017/flulink"
+    "REACT_APP_API_URL": "https://flulink-backend-v2.zeabur.app/api",
+    "REACT_APP_WS_URL": "wss://flulink-backend-v2.zeabur.app",
+    "REACT_APP_ENV": "production"
   },
   "healthCheck": {
-    "path": "/api/health",
+    "path": "/",
     "interval": 30,
     "timeout": 10,
     "retries": 3
   },
   "domains": [
-    "flulink-backend-v2.zeabur.app"
+    "flulink-app.zeabur.app"
   ]
 }
