@@ -6,7 +6,7 @@ const options = {
     openapi: '3.0.0',
     info: {
       title: 'FluLink API - Enhanced Specification',
-      version: '2.0.0',
+      version: '2.2.0',
       description: `
         # FluLink API - 星尘共鸣社交网络平台
         
@@ -32,6 +32,7 @@ const options = {
         - v1.0.0: 基础功能实现
         - v2.0.0: 性能优化和监控增强
         - v2.1.0: API文档增强和测试覆盖扩展
+        - v2.2.0: 增强示例和用例，添加边界测试和压力测试
         
         ## API使用示例
         
@@ -145,6 +146,66 @@ const options = {
           if (data.type === 'starseed_radiation') {
             // 处理星种辐射事件
           }
+        };
+        \`\`\`
+        
+        ### 边界测试示例
+        \`\`\`javascript
+        // 测试最大内容长度
+        const maxContentTest = {
+          content: 'A'.repeat(10000), // 最大长度测试
+          tags: ['tag1', 'tag2', 'tag3', 'tag4', 'tag5'], // 最大标签数
+          spectrum: Array(100).fill(0).map((_, i) => i) // 最大光谱数组
+        };
+        
+        // 测试空值和特殊字符
+        const edgeCaseTest = {
+          content: '', // 空内容
+          tags: [], // 空标签数组
+          spectrum: null, // null值测试
+          specialChars: '!@#$%^&*()_+-=[]{}|;:,.<>?' // 特殊字符测试
+        };
+        
+        // 测试并发请求
+        const concurrentTest = async () => {
+          const promises = Array(100).fill(0).map(() => 
+            fetch('/api/starseeds', { method: 'POST', body: JSON.stringify(testData) })
+          );
+          const results = await Promise.all(promises);
+          return results;
+        };
+        \`\`\`
+        
+        ### 压力测试示例
+        \`\`\`javascript
+        // 内存使用测试
+        const memoryTest = async () => {
+          const startMemory = process.memoryUsage();
+          const largeData = Array(10000).fill(0).map((_, i) => ({
+            id: i,
+            content: `Test content ${i}`,
+            tags: [`tag${i % 10}`]
+          }));
+          const endMemory = process.memoryUsage();
+          return {
+            memoryUsed: endMemory.heapUsed - startMemory.heapUsed,
+            dataSize: largeData.length
+          };
+        };
+        
+        // 数据库连接测试
+        const dbConnectionTest = async () => {
+          const startTime = Date.now();
+          const connections = Array(50).fill(0).map(() => 
+            fetch('/api/users/profile')
+          );
+          await Promise.all(connections);
+          const endTime = Date.now();
+          return {
+            connections: 50,
+            totalTime: endTime - startTime,
+            avgTime: (endTime - startTime) / 50
+          };
         };
         \`\`\`
       `,

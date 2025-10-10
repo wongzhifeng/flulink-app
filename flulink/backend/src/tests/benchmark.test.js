@@ -18,6 +18,18 @@ interface BenchmarkResult {
   throughput: number; // requests per second
   errorCount: number;
   totalRequests: number;
+  memoryUsage: {
+    before: number;
+    after: number;
+    increase: number;
+  };
+  cpuUsage: {
+    before: number;
+    after: number;
+    increase: number;
+  };
+  cacheHitRate?: number;
+  databaseQueryTime?: number;
 }
 
 class APIBenchmark {

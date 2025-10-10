@@ -7,7 +7,7 @@ import redisService from '../services/redisService';
 
 const request = supertest(app);
 
-describe('FluLink API - Enhanced Test Suite', () => {
+describe('FluLink API - Enhanced Test Suite v2.2.0', () => {
   let authToken: string;
   let testUser: any;
   let testStarSeed: any;
@@ -737,6 +737,132 @@ describe('FluLink API - Enhanced Test Suite', () => {
       
       expect(response.status).to.equal(200);
       expect(endTime - startTime).to.be.lessThan(2000); // 应该在2秒内响应
+    });
+  });
+
+  describe('Boundary Testing - Enhanced v2.2.0', () => {
+    it('should handle maximum content length', async () => {
+      const maxContent = 'A'.repeat(10000);
+      
+      const response = await request.post('/api/starseeds')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({
+          content: maxContent,
+          tags: ['test']
+        });
+      
+      expect(response.status).to.equal(201);
+      expect(response.body.data.content).to.have.length(10000);
+    });
+
+    it('should handle maximum tags array', async () => {
+      const maxTags = Array(50).fill(0).map((_, i) => `tag${i}`);
+      
+      const response = await request.post('/api/starseeds')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({
+          content: 'Test content',
+          tags: maxTags
+        });
+      
+      expect(response.status).to.equal(201);
+      expect(response.body.data.tags).to.have.length(50);
+    });
+
+    it('should handle empty content', async () => {
+      const response = await request.post('/api/starseeds')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({
+          content: '',
+          tags: ['test']
+        });
+      
+      expect(response.status).to.equal(400);
+    });
+
+    it('should handle special characters', async () => {
+      const specialChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+      
+      const response = await request.post('/api/starseeds')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({
+          content: specialChars,
+          tags: ['test']
+        });
+      
+      expect(response.status).to.equal(201);
+      expect(response.body.data.content).to.equal(specialChars);
+    });
+  });
+
+  describe('Stress Testing - Enhanced v2.2.0', () => {
+    it('should handle concurrent user registrations', async () => {
+      const promises = Array(50).fill(0).map((_, i) => 
+        request.post('/api/auth/register')
+          .send({
+            phone: `138${String(i).padStart(8, '0')}`,
+            password: 'test123'
+          })
+      );
+      
+      const responses = await Promise.all(promises);
+      const successCount = responses.filter(r => r.status === 201).length;
+      
+      expect(successCount).to.be.greaterThan(40); // 至少80%成功
+    });
+
+    it('should handle concurrent star seed creation', async () => {
+      const promises = Array(100).fill(0).map((_, i) => 
+        request.post('/api/starseeds')
+          .set('Authorization', `Bearer ${authToken}`)
+          .send({
+            content: `Concurrent test content ${i}`,
+            tags: [`tag${i % 10}`]
+          })
+      );
+      
+      const responses = await Promise.all(promises);
+      const successCount = responses.filter(r => r.status === 201).length;
+      
+      expect(successCount).to.be.greaterThan(90); // 至少90%成功
+    });
+
+    it('should handle rapid sequential requests', async () => {
+      const startTime = Date.now();
+      
+      for (let i = 0; i < 20; i++) {
+        const response = await request.get('/api/starseeds')
+          .set('Authorization', `Bearer ${authToken}`);
+        expect(response.status).to.equal(200);
+      }
+      
+      const endTime = Date.now();
+      const avgTime = (endTime - startTime) / 20;
+      
+      expect(avgTime).to.be.lessThan(1000); // 平均响应时间小于1秒
+    });
+
+    it('should handle memory pressure', async () => {
+      const startMemory = process.memoryUsage();
+      
+      // 创建大量数据
+      const largeData = Array(1000).fill(0).map((_, i) => ({
+        content: `Memory test content ${i}`.repeat(100),
+        tags: [`tag${i % 20}`]
+      }));
+      
+      const promises = largeData.map(data => 
+        request.post('/api/starseeds')
+          .set('Authorization', `Bearer ${authToken}`)
+          .send(data)
+      );
+      
+      await Promise.all(promises);
+      
+      const endMemory = process.memoryUsage();
+      const memoryIncrease = endMemory.heapUsed - startMemory.heapUsed;
+      
+      expect(memoryIncrease).to.be.lessThan(100 * 1024 * 1024); // 内存增长小于100MB
     });
   });
 });
