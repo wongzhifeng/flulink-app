@@ -31,6 +31,122 @@ const options = {
         ## 版本历史
         - v1.0.0: 基础功能实现
         - v2.0.0: 性能优化和监控增强
+        - v2.1.0: API文档增强和测试覆盖扩展
+        
+        ## API使用示例
+        
+        ### 用户认证流程
+        \`\`\`javascript
+        // 1. 发送验证码
+        const response = await fetch('/api/auth/send-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone: '13800138000' })
+        });
+        
+        // 2. 验证码登录
+        const loginResponse = await fetch('/api/auth/login-with-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            phone: '13800138000', 
+            code: '123456' 
+          })
+        });
+        
+        const { token } = await loginResponse.json();
+        \`\`\`
+        
+        ### 星种发布和互动
+        \`\`\`javascript
+        // 发布星种
+        const starSeed = await fetch('/api/starseeds', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': \`Bearer \${token}\`
+          },
+          body: JSON.stringify({
+            content: '分享一个有趣的想法...',
+            spectrum: ['科技', '创新']
+          })
+        });
+        
+        // 点亮星种
+        await fetch(\`/api/starseeds/\${starSeedId}/light\`, {
+          method: 'POST',
+          headers: { 'Authorization': \`Bearer \${token}\` }
+        });
+        \`\`\`
+        
+        ### 星团生成和加入
+        \`\`\`javascript
+        // 生成星团
+        const cluster = await fetch('/api/clusters/generate', {
+          method: 'POST',
+          headers: { 'Authorization': \`Bearer \${token}\` }
+        });
+        
+        // 获取星团成员
+        const members = await fetch(\`/api/clusters/\${clusterId}/members\`, {
+          headers: { 'Authorization': \`Bearer \${token}\` }
+        });
+        \`\`\`
+        
+        ## 错误处理最佳实践
+        
+        ### 统一错误响应格式
+        所有API都遵循统一的错误响应格式：
+        \`\`\`json
+        {
+          "success": false,
+          "message": "错误描述",
+          "error": "详细错误信息（仅开发环境）",
+          "timestamp": "2024-01-01T00:00:00.000Z",
+          "requestId": "req_123456789"
+        }
+        \`\`\`
+        
+        ### 常见错误码
+        - \`400\`: 参数验证失败
+        - \`401\`: 认证失败
+        - \`403\`: 权限不足
+        - \`404\`: 资源未找到
+        - \`429\`: 请求频率限制
+        - \`500\`: 服务器内部错误
+        
+        ## 性能优化建议
+        
+        ### 缓存策略
+        - 用户信息缓存：5分钟
+        - 星种列表缓存：2分钟
+        - 星团信息缓存：10分钟
+        
+        ### 分页查询
+        所有列表接口都支持分页：
+        \`\`\`javascript
+        const params = new URLSearchParams({
+          page: '1',
+          limit: '20',
+          sort: 'createdAt',
+          order: 'desc'
+        });
+        
+        const response = await fetch(\`/api/starseeds?\${params}\`);
+        \`\`\`
+        
+        ### 实时更新
+        使用WebSocket获取实时更新：
+        \`\`\`javascript
+        const ws = new WebSocket('wss://flulink-backend-v2.zeabur.app/ws');
+        
+        ws.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          if (data.type === 'starseed_radiation') {
+            // 处理星种辐射事件
+          }
+        };
+        \`\`\`
       `,
       contact: {
         name: 'FluLink Development Team',

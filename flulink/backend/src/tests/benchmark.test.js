@@ -193,6 +193,185 @@ class APIBenchmark {
     console.log('全面API基准测试完成');
   }
 
+  async runAdvancedBenchmark() {
+    console.log('开始高级API基准测试...');
+
+    // 内存使用测试
+    await this.benchmarkMemoryUsage();
+
+    // 并发连接测试
+    await this.benchmarkConcurrentConnections();
+
+    // 大数据量测试
+    await this.benchmarkLargeDataHandling();
+
+    // 缓存性能测试
+    await this.benchmarkCachePerformance();
+
+    // 数据库查询性能测试
+    await this.benchmarkDatabaseQueries();
+
+    console.log('高级API基准测试完成');
+  }
+
+  async benchmarkMemoryUsage() {
+    console.log('开始内存使用基准测试...');
+    
+    const initialMemory = process.memoryUsage();
+    const memorySnapshots: NodeJS.MemoryUsage[] = [];
+    
+    // 执行大量请求并监控内存使用
+    for (let i = 0; i < 100; i++) {
+      await request.get('/api/starseeds').set('Authorization', `Bearer ${this.authToken}`);
+      
+      if (i % 10 === 0) {
+        memorySnapshots.push(process.memoryUsage());
+      }
+    }
+    
+    const finalMemory = process.memoryUsage();
+    const memoryIncrease = finalMemory.heapUsed - initialMemory.heapUsed;
+    
+    console.log(`内存使用测试完成:`);
+    console.log(`初始内存: ${(initialMemory.heapUsed / 1024 / 1024).toFixed(2)}MB`);
+    console.log(`最终内存: ${(finalMemory.heapUsed / 1024 / 1024).toFixed(2)}MB`);
+    console.log(`内存增长: ${(memoryIncrease / 1024 / 1024).toFixed(2)}MB`);
+    
+    // 检查内存泄漏
+    const memoryGrowthRate = memoryIncrease / 100; // 每个请求的平均内存增长
+    if (memoryGrowthRate > 1024) { // 超过1KB
+      console.log('⚠️  检测到潜在内存泄漏');
+    }
+  }
+
+  async benchmarkConcurrentConnections() {
+    console.log('开始并发连接基准测试...');
+    
+    const concurrencyLevels = [1, 5, 10, 20, 50];
+    const results: any[] = [];
+    
+    for (const concurrency of concurrencyLevels) {
+      const startTime = performance.now();
+      const promises: Promise<any>[] = [];
+      
+      for (let i = 0; i < concurrency; i++) {
+        promises.push(
+          request.get('/api/starseeds').set('Authorization', `Bearer ${this.authToken}`)
+        );
+      }
+      
+      await Promise.all(promises);
+      const endTime = performance.now();
+      const totalTime = endTime - startTime;
+      
+      results.push({
+        concurrency,
+        totalTime,
+        avgTimePerRequest: totalTime / concurrency,
+        requestsPerSecond: (concurrency / totalTime) * 1000
+      });
+    }
+    
+    console.log('并发连接测试结果:');
+    results.forEach(result => {
+      console.log(`并发${result.concurrency}: ${result.avgTimePerRequest.toFixed(2)}ms/请求, ${result.requestsPerSecond.toFixed(2)}rps`);
+    });
+  }
+
+  async benchmarkLargeDataHandling() {
+    console.log('开始大数据量处理基准测试...');
+    
+    // 创建大量星种数据
+    const largeDataPromises = [];
+    for (let i = 0; i < 20; i++) {
+      largeDataPromises.push(
+        request
+          .post('/api/starseeds/publish')
+          .set('Authorization', `Bearer ${this.authToken}`)
+          .send({
+            content: `大数据量测试星种 ${i} - ${'x'.repeat(200)}`,
+            spectrum: Array(5).fill(0).map((_, j) => `tag${j}`)
+          })
+      );
+    }
+    
+    const startTime = performance.now();
+    await Promise.all(largeDataPromises);
+    const endTime = performance.now();
+    
+    console.log(`大数据量创建完成: ${(endTime - startTime).toFixed(2)}ms`);
+    
+    // 测试大数据量查询
+    const queryStartTime = performance.now();
+    const response = await request
+      .get('/api/starseeds?limit=100')
+      .set('Authorization', `Bearer ${this.authToken}`);
+    const queryEndTime = performance.now();
+    
+    console.log(`大数据量查询完成: ${(queryEndTime - queryStartTime).toFixed(2)}ms`);
+    console.log(`返回数据量: ${response.body.data.starSeeds.length} 条记录`);
+  }
+
+  async benchmarkCachePerformance() {
+    console.log('开始缓存性能基准测试...');
+    
+    // 测试缓存命中率
+    const cacheTestPromises = [];
+    const testEndpoint = '/api/starseeds';
+    
+    // 第一次请求（缓存未命中）
+    const firstRequestStart = performance.now();
+    await request.get(testEndpoint).set('Authorization', `Bearer ${this.authToken}`);
+    const firstRequestEnd = performance.now();
+    const firstRequestTime = firstRequestEnd - firstRequestStart;
+    
+    // 多次请求（缓存命中）
+    for (let i = 0; i < 10; i++) {
+      cacheTestPromises.push(
+        request.get(testEndpoint).set('Authorization', `Bearer ${this.authToken}`)
+      );
+    }
+    
+    const cacheRequestStart = performance.now();
+    await Promise.all(cacheTestPromises);
+    const cacheRequestEnd = performance.now();
+    const cacheRequestTime = cacheRequestEnd - cacheRequestStart;
+    const avgCacheRequestTime = cacheRequestTime / 10;
+    
+    console.log(`缓存性能测试结果:`);
+    console.log(`首次请求时间: ${firstRequestTime.toFixed(2)}ms`);
+    console.log(`缓存请求平均时间: ${avgCacheRequestTime.toFixed(2)}ms`);
+    console.log(`缓存加速比: ${(firstRequestTime / avgCacheRequestTime).toFixed(2)}x`);
+  }
+
+  async benchmarkDatabaseQueries() {
+    console.log('开始数据库查询性能基准测试...');
+    
+    const queryTypes = [
+      { name: '简单查询', endpoint: '/api/starseeds?limit=10' },
+      { name: '复杂查询', endpoint: '/api/starseeds?limit=50&sort=createdAt&order=desc' },
+      { name: '聚合查询', endpoint: '/api/performance/report' },
+      { name: '关联查询', endpoint: '/api/clusters' }
+    ];
+    
+    for (const queryType of queryTypes) {
+      const times: number[] = [];
+      
+      for (let i = 0; i < 10; i++) {
+        const startTime = performance.now();
+        await request.get(queryType.endpoint).set('Authorization', `Bearer ${this.authToken}`);
+        const endTime = performance.now();
+        times.push(endTime - startTime);
+      }
+      
+      const avgTime = times.reduce((sum, time) => sum + time, 0) / times.length;
+      const minTime = Math.min(...times);
+      const maxTime = Math.max(...times);
+      
+      console.log(`${queryType.name}: 平均${avgTime.toFixed(2)}ms, 最小${minTime.toFixed(2)}ms, 最大${maxTime.toFixed(2)}ms`);
+    }
+  }
+
   generateReport(): string {
     let report = '\n=== API性能基准测试报告 ===\n\n';
     

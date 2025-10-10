@@ -468,4 +468,275 @@ describe('FluLink API - Enhanced Test Suite', () => {
       expect(response.body).to.have.property('success', false);
     });
   });
+
+  describe('Boundary Testing', () => {
+    it('should handle maximum content length', async () => {
+      const maxContent = 'a'.repeat(500); // 正好500字符
+
+      const response = await request
+        .post('/api/starseeds/publish')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({ content: maxContent });
+
+      expect(response.status).to.equal(201);
+      expect(response.body).to.have.property('success', true);
+    });
+
+    it('should handle empty spectrum array', async () => {
+      const response = await request
+        .post('/api/starseeds/publish')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({ 
+          content: '测试内容',
+          spectrum: []
+        });
+
+      expect(response.status).to.equal(201);
+      expect(response.body).to.have.property('success', true);
+    });
+
+    it('should handle maximum spectrum tags', async () => {
+      const maxTags = Array(10).fill('tag').map((tag, i) => `${tag}${i}`);
+
+      const response = await request
+        .post('/api/starseeds/publish')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({ 
+          content: '测试内容',
+          spectrum: maxTags
+        });
+
+      expect(response.status).to.equal(201);
+      expect(response.body).to.have.property('success', true);
+    });
+
+    it('should handle special characters in content', async () => {
+      const specialContent = '测试内容 🚀 @#$%^&*()_+{}|:"<>?[]\\;\'.,/`~';
+
+      const response = await request
+        .post('/api/starseeds/publish')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({ content: specialContent });
+
+      expect(response.status).to.equal(201);
+      expect(response.body).to.have.property('success', true);
+    });
+  });
+
+  describe('Stress Testing', () => {
+    it('should handle concurrent user registrations', async () => {
+      const promises = [];
+      
+      for (let i = 0; i < 5; i++) {
+        promises.push(
+          request.post('/api/auth/register').send({
+            phone: `1380013800${i}`,
+            password: 'password123',
+            nickname: `测试用户${i}`
+          })
+        );
+      }
+
+      const responses = await Promise.all(promises);
+      
+      // 所有请求都应该成功
+      responses.forEach(response => {
+        expect(response.status).to.equal(201);
+        expect(response.body).to.have.property('success', true);
+      });
+    });
+
+    it('should handle concurrent star seed publishing', async () => {
+      const promises = [];
+      
+      for (let i = 0; i < 3; i++) {
+        promises.push(
+          request
+            .post('/api/starseeds/publish')
+            .set('Authorization', `Bearer ${authToken}`)
+            .send({
+              content: `并发测试星种 ${i}`,
+              spectrum: ['测试', '并发']
+            })
+        );
+      }
+
+      const responses = await Promise.all(promises);
+      
+      // 所有请求都应该成功
+      responses.forEach(response => {
+        expect(response.status).to.equal(201);
+        expect(response.body).to.have.property('success', true);
+      });
+    });
+
+    it('should handle rapid sequential requests', async () => {
+      const requests = [];
+      
+      for (let i = 0; i < 10; i++) {
+        requests.push(
+          request
+            .get('/api/starseeds')
+            .set('Authorization', `Bearer ${authToken}`)
+        );
+      }
+
+      const responses = await Promise.all(requests);
+      
+      // 所有请求都应该成功
+      responses.forEach(response => {
+        expect(response.status).to.equal(200);
+        expect(response.body).to.have.property('success', true);
+      });
+    });
+  });
+
+  describe('Edge Cases', () => {
+    it('should handle malformed JSON', async () => {
+      const response = await request
+        .post('/api/auth/login')
+        .set('Content-Type', 'application/json')
+        .send('{"phone": "13800138001", "password": "password123"'); // 缺少闭合括号
+
+      expect(response.status).to.equal(400);
+    });
+
+    it('should handle extremely long URLs', async () => {
+      const longUrl = 'https://example.com/' + 'a'.repeat(2000);
+
+      const response = await request
+        .post('/api/starseeds/publish')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({
+          content: '测试内容',
+          imageUrl: longUrl
+        });
+
+      expect(response.status).to.equal(400);
+      expect(response.body).to.have.property('success', false);
+    });
+
+    it('should handle null values', async () => {
+      const response = await request
+        .post('/api/starseeds/publish')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({
+          content: null,
+          spectrum: null
+        });
+
+      expect(response.status).to.equal(400);
+      expect(response.body).to.have.property('success', false);
+    });
+
+    it('should handle undefined values', async () => {
+      const response = await request
+        .post('/api/starseeds/publish')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({
+          content: undefined,
+          spectrum: undefined
+        });
+
+      expect(response.status).to.equal(400);
+      expect(response.body).to.have.property('success', false);
+    });
+  });
+
+  describe('Security Testing', () => {
+    it('should prevent SQL injection attempts', async () => {
+      const maliciousContent = "'; DROP TABLE users; --";
+
+      const response = await request
+        .post('/api/starseeds/publish')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({ content: maliciousContent });
+
+      // 应该正常处理，不会导致SQL注入
+      expect(response.status).to.equal(201);
+      expect(response.body).to.have.property('success', true);
+    });
+
+    it('should prevent XSS attempts', async () => {
+      const xssContent = '<script>alert("XSS")</script>';
+
+      const response = await request
+        .post('/api/starseeds/publish')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({ content: xssContent });
+
+      expect(response.status).to.equal(201);
+      expect(response.body).to.have.property('success', true);
+      
+      // 检查返回的内容是否被正确转义
+      const returnedContent = response.body.data.starSeed.content;
+      expect(returnedContent).to.not.include('<script>');
+    });
+
+    it('should validate JWT token format', async () => {
+      const invalidToken = 'invalid.jwt.token';
+
+      const response = await request
+        .get('/api/starseeds')
+        .set('Authorization', `Bearer ${invalidToken}`);
+
+      expect(response.status).to.equal(401);
+      expect(response.body).to.have.property('success', false);
+    });
+
+    it('should handle expired tokens gracefully', async () => {
+      // 这里需要创建一个过期的token进行测试
+      // 由于JWT生成逻辑在服务端，这里主要测试错误处理
+      const response = await request
+        .get('/api/starseeds')
+        .set('Authorization', 'Bearer expired.token.here');
+
+      expect(response.status).to.equal(401);
+      expect(response.body).to.have.property('success', false);
+    });
+  });
+
+  describe('Performance Testing', () => {
+    it('should respond within acceptable time limits', async () => {
+      const startTime = Date.now();
+      
+      const response = await request
+        .get('/api/starseeds')
+        .set('Authorization', `Bearer ${authToken}`);
+      
+      const endTime = Date.now();
+      const responseTime = endTime - startTime;
+      
+      expect(response.status).to.equal(200);
+      expect(responseTime).to.be.lessThan(1000); // 应该在1秒内响应
+    });
+
+    it('should handle large datasets efficiently', async () => {
+      // 创建多个星种来测试大数据集处理
+      const promises = [];
+      
+      for (let i = 0; i < 5; i++) {
+        promises.push(
+          request
+            .post('/api/starseeds/publish')
+            .set('Authorization', `Bearer ${authToken}`)
+            .send({
+              content: `大数据集测试星种 ${i}`,
+              spectrum: ['测试', '性能']
+            })
+        );
+      }
+
+      await Promise.all(promises);
+
+      const startTime = Date.now();
+      const response = await request
+        .get('/api/starseeds?limit=50')
+        .set('Authorization', `Bearer ${authToken}`);
+      const endTime = Date.now();
+      
+      expect(response.status).to.equal(200);
+      expect(endTime - startTime).to.be.lessThan(2000); // 应该在2秒内响应
+    });
+  });
 });
