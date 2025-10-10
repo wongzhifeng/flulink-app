@@ -86,21 +86,29 @@ app.use((error, req, res, next) => {
 // 启动服务器
 async function startServer() {
   try {
-    // 初始化数据库连接
-    const dbConnected = await databaseService.initialize();
-    if (!dbConnected) {
-      console.warn('⚠️ 数据库连接失败，服务将以降级模式运行');
-      // 在Zeabur环境中，允许服务在没有数据库的情况下启动
-      if (process.env.NODE_ENV !== 'production' || !process.env.ZEABUR) {
-        throw new Error('数据库连接失败');
+    // 初始化数据库连接（允许失败）
+    try {
+      const dbConnected = await databaseService.initialize();
+      if (!dbConnected) {
+        console.warn('⚠️ 数据库连接失败，服务将以降级模式运行');
       }
+    } catch (error) {
+      console.warn('⚠️ 数据库初始化失败，服务将以降级模式运行:', error.message);
     }
 
-    // 初始化Redis连接
-    await redisService.connect();
+    // 初始化Redis连接（允许失败）
+    try {
+      await redisService.connect();
+    } catch (error) {
+      console.warn('⚠️ Redis连接失败，服务将以降级模式运行:', error.message);
+    }
 
-    // 创建数据库索引
-    await databaseService.createIndexes();
+    // 创建数据库索引（允许失败）
+    try {
+      await databaseService.createIndexes();
+    } catch (error) {
+      console.warn('⚠️ 数据库索引创建失败，服务将继续运行:', error.message);
+    }
 
     // 启动服务器
     app.listen(PORT, () => {
