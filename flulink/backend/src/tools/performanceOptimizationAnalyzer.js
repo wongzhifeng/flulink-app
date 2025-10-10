@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-interface PerformanceOptimization {
+// interface PerformanceOptimization {
   category: string;
   priority: 'low' | 'medium' | 'high' | 'critical';
   title: string;
@@ -17,7 +17,7 @@ interface PerformanceOptimization {
   };
 }
 
-interface OptimizationReport {
+// interface OptimizationReport {
   timestamp: string;
   totalOptimizations: number;
   criticalOptimizations: number;

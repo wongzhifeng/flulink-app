@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-interface SecurityVulnerability {
+// interface SecurityVulnerability {
   id: string;
   severity: 'low' | 'medium' | 'high' | 'critical';
   category: 'injection' | 'authentication' | 'authorization' | 'data-exposure' | 'crypto' | 'dependencies';
@@ -17,7 +17,7 @@ interface SecurityVulnerability {
   owasp?: string;
 }
 
-interface SecurityReport {
+// interface SecurityReport {
   timestamp: string;
   totalVulnerabilities: number;
   criticalVulnerabilities: number;

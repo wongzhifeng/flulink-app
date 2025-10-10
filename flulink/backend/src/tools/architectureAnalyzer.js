@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-interface DependencyNode {
+// interface DependencyNode {
   name: string;
   path: string;
   type: 'file' | 'module' | 'package';
@@ -11,7 +11,7 @@ interface DependencyNode {
   complexity: number;
 }
 
-interface ArchitectureMetrics {
+// interface ArchitectureMetrics {
   totalFiles: number;
   totalModules: number;
   totalPackages: number;
@@ -23,7 +23,7 @@ interface ArchitectureMetrics {
   modularityScore: number;
 }
 
-interface ArchitectureReport {
+// interface ArchitectureReport {
   timestamp: string;
   metrics: ArchitectureMetrics;
   dependencyGraph: DependencyNode[];

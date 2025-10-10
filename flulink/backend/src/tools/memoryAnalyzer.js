@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-interface MemoryLeakDetection {
+// interface MemoryLeakDetection {
   objectType: string;
   count: number;
   size: number;
@@ -11,7 +11,7 @@ interface MemoryLeakDetection {
   suspicious: boolean;
 }
 
-interface MemoryAnalysis {
+// interface MemoryAnalysis {
   timestamp: string;
   heapUsed: number;
   heapTotal: number;
@@ -22,7 +22,7 @@ interface MemoryAnalysis {
   recommendations: string[];
 }
 
-interface MemoryReport {
+// interface MemoryReport {
   timestamp: string;
   duration: number;
   analyses: MemoryAnalysis[];

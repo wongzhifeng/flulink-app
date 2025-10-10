@@ -5,7 +5,7 @@ import { DesignPatternDetector } from './designPatternDetector.js';
 import fs from 'fs';
 import path from 'path';
 
-interface RefactoringSuggestion {
+// interface RefactoringSuggestion {
   id: string;
   type: 'extract' | 'inline' | 'move' | 'rename' | 'split' | 'merge';
   title: string;
@@ -20,7 +20,7 @@ interface RefactoringSuggestion {
   benefits: string[];
 }
 
-interface ComprehensiveArchitectureReport {
+// interface ComprehensiveArchitectureReport {
   timestamp: string;
   architectureAnalysis: any;
   patternAnalysis: any;

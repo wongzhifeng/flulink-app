@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-interface DesignPattern {
+// interface DesignPattern {
   name: string;
   type: 'creational' | 'structural' | 'behavioral';
   description: string;
@@ -13,7 +13,7 @@ interface DesignPattern {
   implementation: string;
 }
 
-interface PatternReport {
+// interface PatternReport {
   timestamp: string;
   totalPatterns: number;
   patternsByType: {

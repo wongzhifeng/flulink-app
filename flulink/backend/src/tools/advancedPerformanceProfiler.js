@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-interface PerformanceProfile {
+// interface PerformanceProfile {
   functionName: string;
   fileName: string;
   lineNumber: number;
@@ -17,7 +17,7 @@ interface PerformanceProfile {
   cpuUsage: number;
 }
 
-interface MemoryProfile {
+// interface MemoryProfile {
   timestamp: number;
   heapUsed: number;
   heapTotal: number;
@@ -26,13 +26,13 @@ interface MemoryProfile {
   arrayBuffers: number;
 }
 
-interface CPUTimeProfile {
+// interface CPUTimeProfile {
   timestamp: number;
   user: number;
   system: number;
 }
 
-interface PerformanceReport {
+// interface PerformanceReport {
   timestamp: string;
   duration: number;
   profiles: PerformanceProfile[];

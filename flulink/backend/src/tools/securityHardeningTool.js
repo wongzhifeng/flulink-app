@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-interface SecurityHardening {
+// interface SecurityHardening {
   id: string;
   category: 'authentication' | 'authorization' | 'data-protection' | 'network' | 'logging' | 'headers';
   title: string;
@@ -12,7 +12,7 @@ interface SecurityHardening {
   impact: string;
 }
 
-interface HardeningReport {
+// interface HardeningReport {
   timestamp: string;
   totalHardening: number;
   criticalHardening: number;

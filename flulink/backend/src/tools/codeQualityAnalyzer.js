@@ -2,22 +2,23 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-interface CodeQualityMetrics {
-  file: string;
-  linesOfCode: number;
-  cyclomaticComplexity: number;
-  maintainabilityIndex: number;
-  codeDuplication: number;
-  testCoverage: number;
-  securityIssues: number;
-  performanceIssues: number;
-  accessibilityIssues: number;
-  codeSmells: string[];
-  suggestions: string[];
-}
+// Code Quality Metrics
+// interface CodeQualityMetrics {
+//   file: string;
+//   linesOfCode: number;
+//   cyclomaticComplexity: number;
+//   maintainabilityIndex: number;
+//   codeDuplication: number;
+//   testCoverage: number;
+//   securityIssues: number;
+//   performanceIssues: number;
+//   accessibilityIssues: number;
+//   codeSmells: string[];
+//   suggestions: string[];
+// }
 
-interface QualityReport {
-  timestamp: string;
+// interface QualityReport {
+//   timestamp: string;
   overallScore: number;
   files: CodeQualityMetrics[];
   summary: {

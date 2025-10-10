@@ -2,6 +2,7 @@
   "name": "flulink-backend",
   "version": "1.0.0",
   "description": "FluLink星尘共鸣版后端发牌手服务 - 云端开发模式",
+  "type": "module",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",

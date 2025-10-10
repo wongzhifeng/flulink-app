@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-interface RefactoringRule {
+// interface RefactoringRule {
   name: string;
   description: string;
   pattern: RegExp;
@@ -10,7 +10,7 @@ interface RefactoringRule {
   category: 'performance' | 'security' | 'maintainability' | 'readability';
 }
 
-interface RefactoringResult {
+// interface RefactoringResult {
   file: string;
   rule: string;
   line: number;
