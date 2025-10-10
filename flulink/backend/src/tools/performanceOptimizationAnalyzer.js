@@ -35,15 +35,15 @@ import path from 'path';
 }
 
 class PerformanceOptimizationAnalyzer {
-  private optimizations: PerformanceOptimization[] = [];
-  private projectRoot: string;
+  // private optimizations: PerformanceOptimization[] = [];
+  // private projectRoot: string;
 
   constructor(projectRoot: string) {
     this.projectRoot = projectRoot;
     this.initializeOptimizations();
   }
 
-  private initializeOptimizations() {
+  // private initializeOptimizations() {
     this.optimizations = [
       {
         category: 'database',
@@ -141,7 +141,7 @@ class PerformanceOptimizationAnalyzer {
     };
   }
 
-  private filterRelevantOptimizations(): PerformanceOptimization[] {
+  // private filterRelevantOptimizations(): PerformanceOptimization[] {
     const relevantOptimizations: PerformanceOptimization[] = [];
     const hasDatabase = this.checkForDatabase();
     const hasRedis = this.checkForRedis();
@@ -172,7 +172,7 @@ class PerformanceOptimizationAnalyzer {
     return relevantOptimizations;
   }
 
-  private checkForDatabase(): boolean {
+  // private checkForDatabase(): boolean {
     try {
       const packageJson = JSON.parse(fs.readFileSync(path.join(this.projectRoot, 'package.json'), 'utf8'));
       return packageJson.dependencies && (
@@ -184,7 +184,7 @@ class PerformanceOptimizationAnalyzer {
     }
   }
 
-  private checkForRedis(): boolean {
+  // private checkForRedis(): boolean {
     try {
       const packageJson = JSON.parse(fs.readFileSync(path.join(this.projectRoot, 'package.json'), 'utf8'));
       return packageJson.dependencies && packageJson.dependencies.redis;
@@ -193,7 +193,7 @@ class PerformanceOptimizationAnalyzer {
     }
   }
 
-  private checkForFrontend(): boolean {
+  // private checkForFrontend(): boolean {
     try {
       const packageJson = JSON.parse(fs.readFileSync(path.join(this.projectRoot, 'package.json'), 'utf8'));
       return packageJson.dependencies && packageJson.dependencies.react;
@@ -202,7 +202,7 @@ class PerformanceOptimizationAnalyzer {
     }
   }
 
-  private calculateSummary(optimizations: PerformanceOptimization[]): any {
+  // private calculateSummary(optimizations: PerformanceOptimization[]): any {
     const totalOptimizations = optimizations.length;
     
     if (totalOptimizations === 0) {
@@ -234,7 +234,7 @@ class PerformanceOptimizationAnalyzer {
     };
   }
 
-  private generateRecommendations(optimizations: PerformanceOptimization[]): string[] {
+  // private generateRecommendations(optimizations: PerformanceOptimization[]): string[] {
     const recommendations: string[] = [];
     
     const criticalCount = optimizations.filter(o => o.priority === 'critical').length;

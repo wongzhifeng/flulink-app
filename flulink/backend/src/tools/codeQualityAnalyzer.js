@@ -19,21 +19,21 @@ import { execSync } from 'child_process';
 
 // interface QualityReport {
 //   timestamp: string;
-  overallScore: number;
-  files: CodeQualityMetrics[];
-  summary: {
-    totalFiles: number;
-    averageComplexity: number;
-    averageMaintainability: number;
-    totalIssues: number;
-    criticalIssues: number;
-    recommendations: string[];
-  };
-}
+//   overallScore: number;
+//   files: CodeQualityMetrics[];
+//   summary: {
+//     totalFiles: number;
+//     averageComplexity: number;
+//     averageMaintainability: number;
+//     totalIssues: number;
+//     criticalIssues: number;
+//     recommendations: string[];
+//   };
+// }
 
 class CodeQualityAnalyzer {
-  private projectRoot: string;
-  private results: CodeQualityMetrics[] = [];
+  // private projectRoot: string;
+  // private results: CodeQualityMetrics[] = [];
 
   constructor(projectRoot: string) {
     this.projectRoot = projectRoot;
@@ -65,7 +65,7 @@ class CodeQualityAnalyzer {
   }
 
   // 计算代码行数
-  private calculateLinesOfCode(lines: string[]): number {
+  // private calculateLinesOfCode(lines: string[]): number {
     return lines.filter(line => {
       const trimmed = line.trim();
       return trimmed.length > 0 && !trimmed.startsWith('//') && !trimmed.startsWith('/*');
@@ -73,7 +73,7 @@ class CodeQualityAnalyzer {
   }
 
   // 计算圈复杂度
-  private calculateCyclomaticComplexity(content: string): number {
+  // private calculateCyclomaticComplexity(content: string): number {
     const complexityKeywords = [
       'if', 'else', 'while', 'for', 'switch', 'case', 'catch', '&&', '||', '?', ':'
     ];
@@ -92,7 +92,7 @@ class CodeQualityAnalyzer {
   }
 
   // 计算可维护性指数
-  private calculateMaintainabilityIndex(content: string): number {
+  // private calculateMaintainabilityIndex(content: string): number {
     const linesOfCode = content.split('\n').length;
     const cyclomaticComplexity = this.calculateCyclomaticComplexity(content);
     const commentRatio = this.calculateCommentRatio(content);
@@ -108,7 +108,7 @@ class CodeQualityAnalyzer {
   }
 
   // 计算注释比例
-  private calculateCommentRatio(content: string): number {
+  // private calculateCommentRatio(content: string): number {
     const lines = content.split('\n');
     const commentLines = lines.filter(line => {
       const trimmed = line.trim();
@@ -119,7 +119,7 @@ class CodeQualityAnalyzer {
   }
 
   // 计算代码重复率
-  private calculateCodeDuplication(content: string): number {
+  // private calculateCodeDuplication(content: string): number {
     const lines = content.split('\n').filter(line => line.trim().length > 0);
     const uniqueLines = new Set(lines);
     
@@ -127,7 +127,7 @@ class CodeQualityAnalyzer {
   }
 
   // 计算测试覆盖率
-  private calculateTestCoverage(filePath: string): number {
+  // private calculateTestCoverage(filePath: string): number {
     const testFile = filePath.replace(/\.(js|ts|tsx)$/, '.test.$1');
     
     if (fs.existsSync(testFile)) {
@@ -142,7 +142,7 @@ class CodeQualityAnalyzer {
   }
 
   // 分析安全问题
-  private analyzeSecurityIssues(content: string): number {
+  // private analyzeSecurityIssues(content: string): number {
     const securityPatterns = [
       /eval\s*\(/g,
       /innerHTML\s*=/g,
@@ -169,7 +169,7 @@ class CodeQualityAnalyzer {
   }
 
   // 分析性能问题
-  private analyzePerformanceIssues(content: string): number {
+  // private analyzePerformanceIssues(content: string): number {
     const performancePatterns = [
       /for\s*\(\s*var\s+/g,
       /\.length\s*>\s*0/g,
@@ -196,7 +196,7 @@ class CodeQualityAnalyzer {
   }
 
   // 分析可访问性问题
-  private analyzeAccessibilityIssues(content: string): number {
+  // private analyzeAccessibilityIssues(content: string): number {
     const accessibilityPatterns = [
       /<img\s+(?!.*alt=)/g,
       /<input\s+(?!.*aria-)/g,
@@ -220,7 +220,7 @@ class CodeQualityAnalyzer {
   }
 
   // 检测代码异味
-  private detectCodeSmells(content: string): string[] {
+  // private detectCodeSmells(content: string): string[] {
     const smells: string[] = [];
     
     // 长函数
@@ -260,7 +260,7 @@ class CodeQualityAnalyzer {
   }
 
   // 查找重复行
-  private findDuplicateLines(content: string): string[] {
+  // private findDuplicateLines(content: string): string[] {
     const lines = content.split('\n').filter(line => line.trim().length > 0);
     const lineCount = new Map<string, number>();
     
@@ -277,7 +277,7 @@ class CodeQualityAnalyzer {
   }
 
   // 生成建议
-  private generateSuggestions(metrics: CodeQualityMetrics): string[] {
+  // private generateSuggestions(metrics: CodeQualityMetrics): string[] {
     const suggestions: string[] = [];
     
     if (metrics.cyclomaticComplexity > 10) {
@@ -336,7 +336,7 @@ class CodeQualityAnalyzer {
   }
 
   // 获取所有源文件
-  private getAllSourceFiles(): string[] {
+  // private getAllSourceFiles(): string[] {
     const files: string[] = [];
     const extensions = ['.js', '.ts', '.tsx', '.jsx'];
     
@@ -366,7 +366,7 @@ class CodeQualityAnalyzer {
   }
 
   // 生成报告
-  private generateReport(): QualityReport {
+  // private generateReport(): QualityReport {
     const totalFiles = this.results.length;
     const averageComplexity = this.results.reduce((sum, r) => sum + r.cyclomaticComplexity, 0) / totalFiles;
     const averageMaintainability = this.results.reduce((sum, r) => sum + r.maintainabilityIndex, 0) / totalFiles;

@@ -21,15 +21,15 @@ import path from 'path';
 }
 
 class CodeRefactoringTool {
-  private rules: RefactoringRule[] = [];
-  private results: RefactoringResult[] = [];
+  // private rules: RefactoringRule[] = [];
+  // private results: RefactoringResult[] = [];
 
   constructor() {
     this.initializeRules();
   }
 
   // 初始化重构规则
-  private initializeRules() {
+  // private initializeRules() {
     this.rules = [
       // 性能优化规则
       {
@@ -212,7 +212,7 @@ class CodeRefactoringTool {
   }
 
   // 获取所有源文件
-  private getAllSourceFiles(projectRoot: string): string[] {
+  // private getAllSourceFiles(projectRoot: string): string[] {
     const files: string[] = [];
     const extensions = ['.js', '.ts', '.tsx', '.jsx'];
     

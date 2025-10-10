@@ -6,9 +6,9 @@ import fs from 'fs';
 import path from 'path';
 
 class CodeQualityChecker {
-  private projectRoot: string;
-  private analyzer: CodeQualityAnalyzer;
-  private refactoringTool: CodeRefactoringTool;
+  // private projectRoot: string;
+  // private analyzer: CodeQualityAnalyzer;
+  // private refactoringTool: CodeRefactoringTool;
 
   constructor(projectRoot: string) {
     this.projectRoot = projectRoot;
@@ -41,7 +41,7 @@ class CodeQualityChecker {
     }
   }
 
-  private async generateReports(qualityReport: any, refactoringResults: any[]): Promise<void> {
+  // private async generateReports(qualityReport: any, refactoringResults: any[]): Promise<void> {
     const reportsDir = path.join(this.projectRoot, 'reports');
     
     // 确保reports目录存在
@@ -72,7 +72,7 @@ class CodeQualityChecker {
     console.log(`✅ 重构结果已保存: ${refactoringJsonPath}`);
   }
 
-  private printSummary(qualityReport: any, refactoringResults: any[]): void {
+  // private printSummary(qualityReport: any, refactoringResults: any[]): void {
     console.log('\n' + '='.repeat(60));
     console.log('📋 代码质量分析总结');
     console.log('='.repeat(60));

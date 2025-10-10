@@ -6,9 +6,9 @@ import fs from 'fs';
 import path from 'path';
 
 class ComprehensiveSecurityAnalyzer {
-  private projectRoot: string;
-  private securityScanner: SecurityScanner;
-  private hardeningTool: SecurityHardeningTool;
+  // private projectRoot: string;
+  // private securityScanner: SecurityScanner;
+  // private hardeningTool: SecurityHardeningTool;
 
   constructor(projectRoot: string) {
     this.projectRoot = projectRoot;
@@ -41,7 +41,7 @@ class ComprehensiveSecurityAnalyzer {
     }
   }
 
-  private async generateComprehensiveReport(
+  // private async generateComprehensiveReport(
     securityReport: any,
     hardeningReport: any
   ): Promise<void> {
@@ -74,7 +74,7 @@ class ComprehensiveSecurityAnalyzer {
     console.log(`✅ 综合安全文本报告已保存: ${textReportPath}`);
   }
 
-  private generateHTMLReport(securityReport: any, hardeningReport: any): string {
+  // private generateHTMLReport(securityReport: any, hardeningReport: any): string {
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -267,7 +267,7 @@ class ComprehensiveSecurityAnalyzer {
 </html>`;
   }
 
-  private generateTextReport(securityReport: any, hardeningReport: any): string {
+  // private generateTextReport(securityReport: any, hardeningReport: any): string {
     let report = '\n=== FluLink 综合安全分析报告 ===\n\n';
     report += `生成时间: ${new Date().toLocaleString()}\n\n`;
     
@@ -304,7 +304,7 @@ class ComprehensiveSecurityAnalyzer {
     return report;
   }
 
-  private printSummary(securityReport: any, hardeningReport: any): void {
+  // private printSummary(securityReport: any, hardeningReport: any): void {
     console.log('\n' + '='.repeat(60));
     console.log('🔒 综合安全分析总结');
     console.log('='.repeat(60));

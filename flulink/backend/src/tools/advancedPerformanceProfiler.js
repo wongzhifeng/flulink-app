@@ -50,12 +50,12 @@ import { execSync } from 'child_process';
 }
 
 class AdvancedPerformanceProfiler extends EventEmitter {
-  private profiles: Map<string, PerformanceProfile> = new Map();
-  private memorySnapshots: MemoryProfile[] = [];
-  private cpuSnapshots: CPUTimeProfile[] = [];
-  private isProfiling: boolean = false;
-  private profilingInterval: NodeJS.Timeout | null = null;
-  private startTime: number = 0;
+  // private profiles: Map<string, PerformanceProfile> = new Map();
+  // private memorySnapshots: MemoryProfile[] = [];
+  // private cpuSnapshots: CPUTimeProfile[] = [];
+  // private isProfiling: boolean = false;
+  // private profilingInterval: NodeJS.Timeout | null = null;
+  // private startTime: number = 0;
 
   constructor() {
     super();
@@ -63,7 +63,7 @@ class AdvancedPerformanceProfiler extends EventEmitter {
   }
 
   // 设置性能分析
-  private setupProfiling() {
+  // private setupProfiling() {
     // 监控内存使用
     process.on('beforeExit', () => {
       this.captureMemorySnapshot();
@@ -171,7 +171,7 @@ class AdvancedPerformanceProfiler extends EventEmitter {
   }
 
   // 记录函数性能数据
-  private recordFunctionProfile(data: {
+  // private recordFunctionProfile(data: {
     functionName: string;
     fileName: string;
     lineNumber: number;
@@ -209,7 +209,7 @@ class AdvancedPerformanceProfiler extends EventEmitter {
   }
 
   // 捕获内存快照
-  private captureMemorySnapshot(): void {
+  // private captureMemorySnapshot(): void {
     const memoryUsage = process.memoryUsage();
     const snapshot: MemoryProfile = {
       timestamp: Date.now(),
@@ -231,7 +231,7 @@ class AdvancedPerformanceProfiler extends EventEmitter {
   }
 
   // 捕获CPU快照
-  private captureCPUSnapshot(): void {
+  // private captureCPUSnapshot(): void {
     const cpuUsage = process.cpuUsage();
     const snapshot: CPUTimeProfile = {
       timestamp: Date.now(),
@@ -250,7 +250,7 @@ class AdvancedPerformanceProfiler extends EventEmitter {
   }
 
   // 生成性能报告
-  private generateReport(duration: number): PerformanceReport {
+  // private generateReport(duration: number): PerformanceReport {
     const profiles = Array.from(this.profiles.values());
     
     // 找出性能瓶颈
@@ -275,7 +275,7 @@ class AdvancedPerformanceProfiler extends EventEmitter {
   }
 
   // 识别性能瓶颈
-  private identifyBottlenecks(profiles: PerformanceProfile[]): string[] {
+  // private identifyBottlenecks(profiles: PerformanceProfile[]): string[] {
     const bottlenecks: string[] = [];
     
     // 按平均执行时间排序
@@ -317,7 +317,7 @@ class AdvancedPerformanceProfiler extends EventEmitter {
   }
 
   // 生成优化建议
-  private generateRecommendations(profiles: PerformanceProfile[], bottlenecks: string[]): string[] {
+  // private generateRecommendations(profiles: PerformanceProfile[], bottlenecks: string[]): string[] {
     const recommendations: string[] = [];
     
     // 基于瓶颈生成建议
@@ -357,7 +357,7 @@ class AdvancedPerformanceProfiler extends EventEmitter {
   }
 
   // 计算内存增长
-  private calculateMemoryGrowth(): number {
+  // private calculateMemoryGrowth(): number {
     if (this.memorySnapshots.length < 2) return 0;
     
     const first = this.memorySnapshots[0];
@@ -367,7 +367,7 @@ class AdvancedPerformanceProfiler extends EventEmitter {
   }
 
   // 计算CPU增长
-  private calculateCPUGrowth(): number {
+  // private calculateCPUGrowth(): number {
     if (this.cpuSnapshots.length < 2) return 0;
     
     const first = this.cpuSnapshots[0];
@@ -380,7 +380,7 @@ class AdvancedPerformanceProfiler extends EventEmitter {
   }
 
   // 计算统计信息
-  private calculateSummary(profiles: PerformanceProfile[]): any {
+  // private calculateSummary(profiles: PerformanceProfile[]): any {
     const totalFunctions = profiles.length;
     
     const slowestFunction = profiles.reduce((slowest, current) => 

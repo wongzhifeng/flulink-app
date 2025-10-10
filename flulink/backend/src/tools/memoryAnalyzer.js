@@ -37,18 +37,18 @@ import { execSync } from 'child_process';
 }
 
 class MemoryAnalyzer {
-  private analyses: MemoryAnalysis[] = [];
-  private isAnalyzing: boolean = false;
-  private analysisInterval: NodeJS.Timeout | null = null;
-  private startTime: number = 0;
-  private baselineMemory: NodeJS.MemoryUsage | null = null;
+  // private analyses: MemoryAnalysis[] = [];
+  // private isAnalyzing: boolean = false;
+  // private analysisInterval: NodeJS.Timeout | null = null;
+  // private startTime: number = 0;
+  // private baselineMemory: NodeJS.MemoryUsage | null = null;
 
   constructor() {
     this.setupMemoryMonitoring();
   }
 
   // 设置内存监控
-  private setupMemoryMonitoring() {
+  // private setupMemoryMonitoring() {
     // 监控内存使用
     process.on('beforeExit', () => {
       this.captureMemorySnapshot();
@@ -110,7 +110,7 @@ class MemoryAnalyzer {
   }
 
   // 捕获内存快照
-  private captureMemorySnapshot(): void {
+  // private captureMemorySnapshot(): void {
     const memoryUsage = process.memoryUsage();
     const leakDetections = this.detectMemoryLeaks();
     const recommendations = this.generateMemoryRecommendations(memoryUsage, leakDetections);
@@ -135,7 +135,7 @@ class MemoryAnalyzer {
   }
 
   // 检测内存泄漏
-  private detectMemoryLeaks(): MemoryLeakDetection[] {
+  // private detectMemoryLeaks(): MemoryLeakDetection[] {
     const detections: MemoryLeakDetection[] = [];
     
     // 分析内存使用模式
@@ -184,7 +184,7 @@ class MemoryAnalyzer {
   }
 
   // 计算内存增长
-  private calculateMemoryGrowth(analyses: MemoryAnalysis[]): number {
+  // private calculateMemoryGrowth(analyses: MemoryAnalysis[]): number {
     if (analyses.length < 2) return 0;
     
     const first = analyses[0];
@@ -194,7 +194,7 @@ class MemoryAnalyzer {
   }
 
   // 计算堆内存增长
-  private calculateHeapGrowth(analyses: MemoryAnalysis[]): number {
+  // private calculateHeapGrowth(analyses: MemoryAnalysis[]): number {
     if (analyses.length < 2) return 0;
     
     const first = analyses[0];
@@ -204,7 +204,7 @@ class MemoryAnalyzer {
   }
 
   // 计算外部内存增长
-  private calculateExternalGrowth(analyses: MemoryAnalysis[]): number {
+  // private calculateExternalGrowth(analyses: MemoryAnalysis[]): number {
     if (analyses.length < 2) return 0;
     
     const first = analyses[0];
@@ -214,7 +214,7 @@ class MemoryAnalyzer {
   }
 
   // 生成内存建议
-  private generateMemoryRecommendations(memoryUsage: NodeJS.MemoryUsage, leakDetections: MemoryLeakDetection[]): string[] {
+  // private generateMemoryRecommendations(memoryUsage: NodeJS.MemoryUsage, leakDetections: MemoryLeakDetection[]): string[] {
     const recommendations: string[] = [];
     
     // 基于内存使用量生成建议
@@ -249,7 +249,7 @@ class MemoryAnalyzer {
   }
 
   // 计算内存趋势
-  private calculateMemoryTrend(): number {
+  // private calculateMemoryTrend(): number {
     if (this.analyses.length < 5) return 0;
     
     const recent = this.analyses.slice(-5);
@@ -260,7 +260,7 @@ class MemoryAnalyzer {
   }
 
   // 生成内存报告
-  private generateReport(duration: number): MemoryReport {
+  // private generateReport(duration: number): MemoryReport {
     const summary = this.calculateSummary();
     const recommendations = this.generateOverallRecommendations();
 
@@ -274,7 +274,7 @@ class MemoryAnalyzer {
   }
 
   // 计算总结信息
-  private calculateSummary(): any {
+  // private calculateSummary(): any {
     if (this.analyses.length === 0) {
       return {
         peakMemory: 0,
@@ -308,7 +308,7 @@ class MemoryAnalyzer {
   }
 
   // 生成总体建议
-  private generateOverallRecommendations(): string[] {
+  // private generateOverallRecommendations(): string[] {
     const recommendations: string[] = [];
     
     if (this.analyses.length === 0) {

@@ -37,9 +37,9 @@ import path from 'path';
 }
 
 class ArchitectureAnalyzer {
-  private projectRoot: string;
-  private dependencyGraph: Map<string, DependencyNode> = new Map();
-  private circularDependencies: string[][] = [];
+  // private projectRoot: string;
+  // private dependencyGraph: Map<string, DependencyNode> = new Map();
+  // private circularDependencies: string[][] = [];
 
   constructor(projectRoot: string) {
     this.projectRoot = projectRoot;
@@ -74,7 +74,7 @@ class ArchitectureAnalyzer {
     };
   }
 
-  private async buildDependencyGraph(): Promise<void> {
+  // private async buildDependencyGraph(): Promise<void> {
     const files = this.getAllSourceFiles();
     console.log(`📁 分析 ${files.length} 个源文件的依赖关系...`);
     
@@ -87,7 +87,7 @@ class ArchitectureAnalyzer {
     this.buildDependencyRelations();
   }
 
-  private getAllSourceFiles(): string[] {
+  // private getAllSourceFiles(): string[] {
     const files: string[] = [];
     const extensions = ['.js', '.ts', '.tsx', '.jsx'];
     
@@ -115,7 +115,7 @@ class ArchitectureAnalyzer {
     return files;
   }
 
-  private async analyzeFile(filePath: string): Promise<DependencyNode> {
+  // private async analyzeFile(filePath: string): Promise<DependencyNode> {
     const content = fs.readFileSync(filePath, 'utf8');
     const relativePath = path.relative(this.projectRoot, filePath);
     const fileName = path.basename(filePath, path.extname(filePath));
@@ -140,7 +140,7 @@ class ArchitectureAnalyzer {
     };
   }
 
-  private extractDependencies(content: string): string[] {
+  // private extractDependencies(content: string): string[] {
     const dependencies: string[] = [];
     
     // 提取import语句
@@ -171,7 +171,7 @@ class ArchitectureAnalyzer {
     return [...new Set(dependencies)]; // 去重
   }
 
-  private determineFileType(relativePath: string): 'file' | 'module' | 'package' {
+  // private determineFileType(relativePath: string): 'file' | 'module' | 'package' {
     if (relativePath.includes('node_modules')) {
       return 'package';
     } else if (relativePath.includes('/src/') || relativePath.includes('/lib/')) {
@@ -181,7 +181,7 @@ class ArchitectureAnalyzer {
     }
   }
 
-  private calculateComplexity(content: string): number {
+  // private calculateComplexity(content: string): number {
     const lines = content.split('\n');
     let complexity = 1; // 基础复杂度
     
@@ -216,7 +216,7 @@ class ArchitectureAnalyzer {
     return complexity + maxNesting;
   }
 
-  private buildDependencyRelations(): void {
+  // private buildDependencyRelations(): void {
     // 建立依赖关系
     for (const [nodeName, node] of this.dependencyGraph) {
       node.dependencies.forEach(depName => {
@@ -228,7 +228,7 @@ class ArchitectureAnalyzer {
     }
   }
 
-  private detectCircularDependencies(): void {
+  // private detectCircularDependencies(): void {
     this.circularDependencies = [];
     const visited = new Set<string>();
     const recursionStack = new Set<string>();
@@ -240,7 +240,7 @@ class ArchitectureAnalyzer {
     }
   }
 
-  private dfsDetectCycle(
+  // private dfsDetectCycle(
     nodeName: string,
     visited: Set<string>,
     recursionStack: Set<string>,
@@ -268,7 +268,7 @@ class ArchitectureAnalyzer {
     recursionStack.delete(nodeName);
   }
 
-  private calculateArchitectureMetrics(): ArchitectureMetrics {
+  // private calculateArchitectureMetrics(): ArchitectureMetrics {
     const nodes = Array.from(this.dependencyGraph.values());
     const files = nodes.filter(n => n.type === 'file');
     const modules = nodes.filter(n => n.type === 'module');
@@ -300,7 +300,7 @@ class ArchitectureAnalyzer {
     };
   }
 
-  private calculateCouplingScore(nodes: DependencyNode[]): number {
+  // private calculateCouplingScore(nodes: DependencyNode[]): number {
     let totalCoupling = 0;
     let totalPossibleCoupling = 0;
     
@@ -312,7 +312,7 @@ class ArchitectureAnalyzer {
     return totalPossibleCoupling > 0 ? totalCoupling / totalPossibleCoupling : 0;
   }
 
-  private calculateCohesionScore(nodes: DependencyNode[]): number {
+  // private calculateCohesionScore(nodes: DependencyNode[]): number {
     // 简化的内聚度计算：基于模块内部文件的相关性
     const modules = new Map<string, DependencyNode[]>();
     
@@ -348,7 +348,7 @@ class ArchitectureAnalyzer {
     return moduleCount > 0 ? totalCohesion / moduleCount : 0;
   }
 
-  private calculateModularityScore(nodes: DependencyNode[]): number {
+  // private calculateModularityScore(nodes: DependencyNode[]): number {
     const modules = new Map<string, DependencyNode[]>();
     
     nodes.forEach(node => {
@@ -366,7 +366,7 @@ class ArchitectureAnalyzer {
     return totalFiles > 0 ? moduleCount / totalFiles : 0;
   }
 
-  private getModuleName(filePath: string): string {
+  // private getModuleName(filePath: string): string {
     const parts = filePath.split('/');
     if (parts.includes('src')) {
       const srcIndex = parts.indexOf('src');
@@ -375,7 +375,7 @@ class ArchitectureAnalyzer {
     return parts[0];
   }
 
-  private generateRecommendations(): string[] {
+  // private generateRecommendations(): string[] {
     const recommendations: string[] = [];
     
     // 循环依赖建议
@@ -417,7 +417,7 @@ class ArchitectureAnalyzer {
     return recommendations;
   }
 
-  private calculateSummary(metrics: ArchitectureMetrics): any {
+  // private calculateSummary(metrics: ArchitectureMetrics): any {
     let score = 100;
     
     // 循环依赖扣分

@@ -29,15 +29,15 @@ import path from 'path';
 }
 
 class SecurityHardeningTool {
-  private hardening: SecurityHardening[] = [];
-  private projectRoot: string;
+  // private hardening: SecurityHardening[] = [];
+  // private projectRoot: string;
 
   constructor(projectRoot: string) {
     this.projectRoot = projectRoot;
     this.initializeHardening();
   }
 
-  private initializeHardening() {
+  // private initializeHardening() {
     this.hardening = [
       // 认证加固
       {
@@ -533,7 +533,7 @@ app.use(securityMonitoring);
     };
   }
 
-  private filterRelevantHardening(): SecurityHardening[] {
+  // private filterRelevantHardening(): SecurityHardening[] {
     // 根据项目特点过滤相关加固措施
     return this.hardening.filter(hardening => {
       // 所有加固措施都相关
@@ -541,7 +541,7 @@ app.use(securityMonitoring);
     });
   }
 
-  private calculateSummary(hardening: SecurityHardening[]): any {
+  // private calculateSummary(hardening: SecurityHardening[]): any {
     const totalHardening = hardening.length;
     
     if (totalHardening === 0) {
@@ -583,7 +583,7 @@ app.use(securityMonitoring);
     };
   }
 
-  private generateRecommendations(hardening: SecurityHardening[]): string[] {
+  // private generateRecommendations(hardening: SecurityHardening[]): string[] {
     const recommendations: string[] = [];
     
     const criticalCount = hardening.filter(h => h.priority === 'critical').length;

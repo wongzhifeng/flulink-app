@@ -36,9 +36,9 @@ import path from 'path';
 }
 
 class ComprehensiveArchitectureRefactor {
-  private projectRoot: string;
-  private architectureAnalyzer: ArchitectureAnalyzer;
-  private patternDetector: DesignPatternDetector;
+  // private projectRoot: string;
+  // private architectureAnalyzer: ArchitectureAnalyzer;
+  // private patternDetector: DesignPatternDetector;
 
   constructor(projectRoot: string) {
     this.projectRoot = projectRoot;
@@ -96,7 +96,7 @@ class ComprehensiveArchitectureRefactor {
     }
   }
 
-  private generateRefactoringSuggestions(
+  // private generateRefactoringSuggestions(
     architectureAnalysis: any,
     patternAnalysis: any
   ): RefactoringSuggestion[] {
@@ -114,7 +114,7 @@ class ComprehensiveArchitectureRefactor {
     return suggestions;
   }
 
-  private generateArchitectureBasedSuggestions(
+  // private generateArchitectureBasedSuggestions(
     architectureAnalysis: any,
     suggestions: RefactoringSuggestion[]
   ): void {
@@ -181,7 +181,7 @@ class ComprehensiveArchitectureRefactor {
     });
   }
 
-  private generatePatternBasedSuggestions(
+  // private generatePatternBasedSuggestions(
     patternAnalysis: any,
     suggestions: RefactoringSuggestion[]
   ): void {
@@ -228,7 +228,7 @@ class ComprehensiveArchitectureRefactor {
     });
   }
 
-  private generateQualityBasedSuggestions(
+  // private generateQualityBasedSuggestions(
     architectureAnalysis: any,
     suggestions: RefactoringSuggestion[]
   ): void {
@@ -271,7 +271,7 @@ class ComprehensiveArchitectureRefactor {
     }
   }
 
-  private getPatternRefactoringInfo(patternName: string): any {
+  // private getPatternRefactoringInfo(patternName: string): any {
     const patternRefactoringInfo: Record<string, any> = {
       'Singleton': {
         effort: 'low',
@@ -306,7 +306,7 @@ class ComprehensiveArchitectureRefactor {
     return patternRefactoringInfo[patternName];
   }
 
-  private calculateComprehensiveSummary(
+  // private calculateComprehensiveSummary(
     architectureAnalysis: any,
     patternAnalysis: any,
     refactoringSuggestions: RefactoringSuggestion[]
@@ -345,7 +345,7 @@ class ComprehensiveArchitectureRefactor {
     };
   }
 
-  private generateComprehensiveRecommendations(
+  // private generateComprehensiveRecommendations(
     architectureAnalysis: any,
     patternAnalysis: any,
     refactoringSuggestions: RefactoringSuggestion[]
@@ -415,7 +415,7 @@ class ComprehensiveArchitectureRefactor {
     console.log(`✅ 综合架构文本报告已保存: ${textReportPath}`);
   }
 
-  private generateHTMLReport(report: ComprehensiveArchitectureReport): string {
+  // private generateHTMLReport(report: ComprehensiveArchitectureReport): string {
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -555,7 +555,7 @@ class ComprehensiveArchitectureRefactor {
 </html>`;
   }
 
-  private generateTextReport(report: ComprehensiveArchitectureReport): string {
+  // private generateTextReport(report: ComprehensiveArchitectureReport): string {
     let output = '\n=== FluLink 综合架构重构报告 ===\n\n';
     output += `生成时间: ${report.timestamp}\n\n`;
     

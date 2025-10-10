@@ -35,16 +35,16 @@ import { execSync } from 'child_process';
 }
 
 class SecurityScanner {
-  private vulnerabilities: SecurityVulnerability[] = [];
-  private projectRoot: string;
-  private securityRules: SecurityVulnerability[] = [];
+  // private vulnerabilities: SecurityVulnerability[] = [];
+  // private projectRoot: string;
+  // private securityRules: SecurityVulnerability[] = [];
 
   constructor(projectRoot: string) {
     this.projectRoot = projectRoot;
     this.initializeSecurityRules();
   }
 
-  private initializeSecurityRules() {
+  // private initializeSecurityRules() {
     this.securityRules = [
       // SQL注入检测
       {
@@ -161,7 +161,7 @@ class SecurityScanner {
     return report;
   }
 
-  private async scanSourceCode(): Promise<void> {
+  // private async scanSourceCode(): Promise<void> {
     const files = this.getAllSourceFiles();
     console.log(`📁 扫描 ${files.length} 个源文件...`);
     
@@ -175,7 +175,7 @@ class SecurityScanner {
     });
   }
 
-  private getAllSourceFiles(): string[] {
+  // private getAllSourceFiles(): string[] {
     const files: string[] = [];
     const extensions = ['.js', '.ts', '.tsx', '.jsx', '.json'];
     
@@ -203,7 +203,7 @@ class SecurityScanner {
     return files;
   }
 
-  private scanFileContent(filePath: string, content: string): void {
+  // private scanFileContent(filePath: string, content: string): void {
     const lines = content.split('\n');
     const relativePath = path.relative(this.projectRoot, filePath);
     
@@ -273,7 +273,7 @@ class SecurityScanner {
     });
   }
 
-  private detectSQLInjection(line: string): boolean {
+  // private detectSQLInjection(line: string): boolean {
     const patterns = [
       /SELECT\s+.*\s+FROM\s+.*\s+WHERE\s+.*\$\{/i,
       /INSERT\s+INTO\s+.*\s+VALUES\s*\(.*\$\{/i,
@@ -286,7 +286,7 @@ class SecurityScanner {
     return patterns.some(pattern => pattern.test(line));
   }
 
-  private detectXSS(line: string): boolean {
+  // private detectXSS(line: string): boolean {
     const patterns = [
       /\.innerHTML\s*=\s*[^;]+/i,
       /dangerouslySetInnerHTML/i,
@@ -299,7 +299,7 @@ class SecurityScanner {
     return patterns.some(pattern => pattern.test(line));
   }
 
-  private detectAuthBypass(line: string): boolean {
+  // private detectAuthBypass(line: string): boolean {
     const patterns = [
       /if\s*\(\s*!.*auth/i,
       /if\s*\(\s*!.*login/i,
@@ -312,7 +312,7 @@ class SecurityScanner {
     return patterns.some(pattern => pattern.test(line));
   }
 
-  private detectDataExposure(line: string): boolean {
+  // private detectDataExposure(line: string): boolean {
     const patterns = [
       /password\s*:\s*["`'][^"`']+["`']/i,
       /secret\s*:\s*["`'][^"`']+["`']/i,
@@ -325,7 +325,7 @@ class SecurityScanner {
     return patterns.some(pattern => pattern.test(line));
   }
 
-  private detectWeakCrypto(line: string): boolean {
+  // private detectWeakCrypto(line: string): boolean {
     const patterns = [
       /md5\s*\(/i,
       /sha1\s*\(/i,
@@ -338,7 +338,7 @@ class SecurityScanner {
     return patterns.some(pattern => pattern.test(line));
   }
 
-  private detectHardcodedCredentials(line: string): boolean {
+  // private detectHardcodedCredentials(line: string): boolean {
     const patterns = [
       /password\s*=\s*["`'][^"`']{8,}["`']/i,
       /secret\s*=\s*["`'][^"`']{8,}["`']/i,
@@ -352,7 +352,7 @@ class SecurityScanner {
     return patterns.some(pattern => pattern.test(line));
   }
 
-  private addVulnerability(vulnerability: SecurityVulnerability): void {
+  // private addVulnerability(vulnerability: SecurityVulnerability): void {
     // 避免重复添加相同的漏洞
     const exists = this.vulnerabilities.some(v => 
       v.file === vulnerability.file && 
@@ -365,7 +365,7 @@ class SecurityScanner {
     }
   }
 
-  private async scanDependencies(): Promise<void> {
+  // private async scanDependencies(): Promise<void> {
     try {
       console.log('📦 扫描依赖项安全漏洞...');
       
@@ -400,7 +400,7 @@ class SecurityScanner {
     }
   }
 
-  private checkVulnerablePackages(dependencies: Record<string, string>): Array<{name: string, version: string}> {
+  // private checkVulnerablePackages(dependencies: Record<string, string>): Array<{name: string, version: string}> {
     const vulnerablePackages: Array<{name: string, version: string}> = [];
     
     // 已知的易受攻击的包列表
@@ -422,7 +422,7 @@ class SecurityScanner {
     return vulnerablePackages;
   }
 
-  private isOldVersion(packageName: string, version: string): boolean {
+  // private isOldVersion(packageName: string, version: string): boolean {
     // 简化的版本检查逻辑
     const versionParts = version.split('.').map(Number);
     const major = versionParts[0] || 0;
@@ -444,7 +444,7 @@ class SecurityScanner {
     return major < (minVersions[packageName] || 1);
   }
 
-  private async scanConfigurationFiles(): Promise<void> {
+  // private async scanConfigurationFiles(): Promise<void> {
     console.log('⚙️ 扫描配置文件...');
     
     const configFiles = [
@@ -470,7 +470,7 @@ class SecurityScanner {
     });
   }
 
-  private scanConfigFile(fileName: string, content: string): void {
+  // private scanConfigFile(fileName: string, content: string): void {
     const lines = content.split('\n');
     
     lines.forEach((line, index) => {
@@ -496,7 +496,7 @@ class SecurityScanner {
     });
   }
 
-  private detectConfigSensitiveData(line: string): boolean {
+  // private detectConfigSensitiveData(line: string): boolean {
     const patterns = [
       /password\s*=\s*[^=\s]+/i,
       /secret\s*=\s*[^=\s]+/i,
@@ -510,7 +510,7 @@ class SecurityScanner {
     return patterns.some(pattern => pattern.test(line));
   }
 
-  private generateReport(): SecurityReport {
+  // private generateReport(): SecurityReport {
     const totalVulnerabilities = this.vulnerabilities.length;
     const criticalVulnerabilities = this.vulnerabilities.filter(v => v.severity === 'critical').length;
     const highVulnerabilities = this.vulnerabilities.filter(v => v.severity === 'high').length;
@@ -533,7 +533,7 @@ class SecurityScanner {
     };
   }
 
-  private calculateSummary(): any {
+  // private calculateSummary(): any {
     const totalVulnerabilities = this.vulnerabilities.length;
     
     if (totalVulnerabilities === 0) {
@@ -575,7 +575,7 @@ class SecurityScanner {
     };
   }
 
-  private generateRecommendations(): string[] {
+  // private generateRecommendations(): string[] {
     const recommendations: string[] = [];
     
     const criticalCount = this.vulnerabilities.filter(v => v.severity === 'critical').length;

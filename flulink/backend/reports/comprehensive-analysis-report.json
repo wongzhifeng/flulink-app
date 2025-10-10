@@ -1,0 +1,2288 @@
+{
+  "timestamp": "2025-10-10T01:09:27.116Z",
+  "overallScore": 7,
+  "qualityReport": {
+    "timestamp": "2025-10-10T01:09:25.742Z",
+    "overallScore": 0,
+    "files": [
+      {
+        "file": "mongo-init.js",
+        "linesOfCode": 47,
+        "cyclomaticComplexity": 1212,
+        "maintainabilityIndex": 58.51063829787234,
+        "codeDuplication": 17,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分"
+        ]
+      },
+      {
+        "file": "src/algorithms/activityBalanceAlgorithm.js",
+        "linesOfCode": 453,
+        "cyclomaticComplexity": 14637,
+        "maintainabilityIndex": 60.375275938189844,
+        "codeDuplication": 42,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/algorithms/clusterGenerator.js",
+        "linesOfCode": 1048,
+        "cyclomaticComplexity": 33069,
+        "maintainabilityIndex": 60.20992366412214,
+        "codeDuplication": 43,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/algorithms/clusterMatchingAlgorithm.js",
+        "linesOfCode": 456,
+        "cyclomaticComplexity": 13332,
+        "maintainabilityIndex": 60.08771929824562,
+        "codeDuplication": 43,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 3,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/algorithms/dynamicWeightAdjuster.js",
+        "linesOfCode": 409,
+        "cyclomaticComplexity": 10913,
+        "maintainabilityIndex": 61.24694376528117,
+        "codeDuplication": 47,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/algorithms/interactionHistoryCalculator.js",
+        "linesOfCode": 328,
+        "cyclomaticComplexity": 8709,
+        "maintainabilityIndex": 60.36585365853659,
+        "codeDuplication": 41,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/algorithms/jumpConditionEvaluator.js",
+        "linesOfCode": 674,
+        "cyclomaticComplexity": 18968,
+        "maintainabilityIndex": 56.97329376854599,
+        "codeDuplication": 52,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/algorithms/luminosityCalculator.js",
+        "linesOfCode": 473,
+        "cyclomaticComplexity": 12988,
+        "maintainabilityIndex": 58.24524312896406,
+        "codeDuplication": 38,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/algorithms/resonanceCalculator.js",
+        "linesOfCode": 948,
+        "cyclomaticComplexity": 29025,
+        "maintainabilityIndex": 60.654008438818565,
+        "codeDuplication": 41,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/algorithms/spectrumEvolutionEngine.js",
+        "linesOfCode": 842,
+        "cyclomaticComplexity": 24731,
+        "maintainabilityIndex": 58.66983372921615,
+        "codeDuplication": 48,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/algorithms/starSeedEvolutionEngine.js",
+        "linesOfCode": 840,
+        "cyclomaticComplexity": 24321,
+        "maintainabilityIndex": 63.214285714285715,
+        "codeDuplication": 44,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/algorithms/tagDiversityAlgorithm.js",
+        "linesOfCode": 554,
+        "cyclomaticComplexity": 16949,
+        "maintainabilityIndex": 58.12274368231047,
+        "codeDuplication": 47,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/algorithms/tagMatchingAlgorithm.js",
+        "linesOfCode": 264,
+        "cyclomaticComplexity": 6809,
+        "maintainabilityIndex": 57.57575757575758,
+        "codeDuplication": 36,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/config/specKit.js",
+        "linesOfCode": 177,
+        "cyclomaticComplexity": 3475,
+        "maintainabilityIndex": 60.16949152542373,
+        "codeDuplication": 28,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分"
+        ]
+      },
+      {
+        "file": "src/config/swagger.js",
+        "linesOfCode": 159,
+        "cyclomaticComplexity": 5270,
+        "maintainabilityIndex": 55.660377358490564,
+        "codeDuplication": 32,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分"
+        ]
+      },
+      {
+        "file": "src/config/swaggerEnhanced.js",
+        "linesOfCode": 627,
+        "cyclomaticComplexity": 16830,
+        "maintainabilityIndex": 51.59489633173844,
+        "codeDuplication": 48,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/index.js",
+        "linesOfCode": 140,
+        "cyclomaticComplexity": 3498,
+        "maintainabilityIndex": 65.71428571428571,
+        "codeDuplication": 29,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分"
+        ]
+      },
+      {
+        "file": "src/middleware/accessControl.js",
+        "linesOfCode": 24,
+        "cyclomaticComplexity": 517,
+        "maintainabilityIndex": 58.33333333333333,
+        "codeDuplication": 42,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分"
+        ]
+      },
+      {
+        "file": "src/middleware/auth.js",
+        "linesOfCode": 317,
+        "cyclomaticComplexity": 7929,
+        "maintainabilityIndex": 68.29652996845425,
+        "codeDuplication": 46,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/middleware/errorHandler.js",
+        "linesOfCode": 257,
+        "cyclomaticComplexity": 6754,
+        "maintainabilityIndex": 62.45136186770428,
+        "codeDuplication": 39,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/middleware/swaggerMiddleware.js",
+        "linesOfCode": 142,
+        "cyclomaticComplexity": 3249,
+        "maintainabilityIndex": 85.91549295774648,
+        "codeDuplication": 38,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分"
+        ]
+      },
+      {
+        "file": "src/models/index.js",
+        "linesOfCode": 395,
+        "cyclomaticComplexity": 6286,
+        "maintainabilityIndex": 56.835443037974684,
+        "codeDuplication": 59,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/auth.js",
+        "linesOfCode": 701,
+        "cyclomaticComplexity": 15676,
+        "maintainabilityIndex": 75.67760342368045,
+        "codeDuplication": 61,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/clusterDissolution.js",
+        "linesOfCode": 381,
+        "cyclomaticComplexity": 10157,
+        "maintainabilityIndex": 54.46194225721785,
+        "codeDuplication": 59,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/clusterQueries.js",
+        "linesOfCode": 467,
+        "cyclomaticComplexity": 12694,
+        "maintainabilityIndex": 55.78158458244111,
+        "codeDuplication": 51,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/clusters.js",
+        "linesOfCode": 878,
+        "cyclomaticComplexity": 22882,
+        "maintainabilityIndex": 71.2984054669704,
+        "codeDuplication": 57,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/index.js",
+        "linesOfCode": 164,
+        "cyclomaticComplexity": 4678,
+        "maintainabilityIndex": 77.4390243902439,
+        "codeDuplication": 20,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/performance.js",
+        "linesOfCode": 275,
+        "cyclomaticComplexity": 6267,
+        "maintainabilityIndex": 54,
+        "codeDuplication": 57,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/resonance.js",
+        "linesOfCode": 455,
+        "cyclomaticComplexity": 11125,
+        "maintainabilityIndex": 66.7032967032967,
+        "codeDuplication": 57,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/resonanceHistory.js",
+        "linesOfCode": 452,
+        "cyclomaticComplexity": 11866,
+        "maintainabilityIndex": 55.530973451327434,
+        "codeDuplication": 48,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/starseedEvolution.js",
+        "linesOfCode": 383,
+        "cyclomaticComplexity": 9560,
+        "maintainabilityIndex": 55.74412532637076,
+        "codeDuplication": 65,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/starseedInteractions.js",
+        "linesOfCode": 494,
+        "cyclomaticComplexity": 12047,
+        "maintainabilityIndex": 56.072874493927124,
+        "codeDuplication": 65,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/starseeds.js",
+        "linesOfCode": 914,
+        "cyclomaticComplexity": 22707,
+        "maintainabilityIndex": 75.38293216630197,
+        "codeDuplication": 60,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/upload.js",
+        "linesOfCode": 73,
+        "cyclomaticComplexity": 2164,
+        "maintainabilityIndex": 56.84931506849315,
+        "codeDuplication": 30,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/userTags.js",
+        "linesOfCode": 391,
+        "cyclomaticComplexity": 8492,
+        "maintainabilityIndex": 56.1381074168798,
+        "codeDuplication": 69,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/routes/users.js",
+        "linesOfCode": 442,
+        "cyclomaticComplexity": 10029,
+        "maintainabilityIndex": 62.89592760180996,
+        "codeDuplication": 60,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/services/cacheOptimizer.js",
+        "linesOfCode": 411,
+        "cyclomaticComplexity": 10874,
+        "maintainabilityIndex": 61.67883211678832,
+        "codeDuplication": 45,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/services/databaseService.js",
+        "linesOfCode": 224,
+        "cyclomaticComplexity": 6573,
+        "maintainabilityIndex": 59.375,
+        "codeDuplication": 40,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/services/performanceMonitor.js",
+        "linesOfCode": 416,
+        "cyclomaticComplexity": 10932,
+        "maintainabilityIndex": 56.97115384615385,
+        "codeDuplication": 38,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/services/redisService.js",
+        "linesOfCode": 268,
+        "cyclomaticComplexity": 7125,
+        "maintainabilityIndex": 57.08955223880597,
+        "codeDuplication": 54,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/services/storageService.js",
+        "linesOfCode": 64,
+        "cyclomaticComplexity": 1244,
+        "maintainabilityIndex": 50,
+        "codeDuplication": 47,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分"
+        ]
+      },
+      {
+        "file": "src/services/webSocketService.js",
+        "linesOfCode": 379,
+        "cyclomaticComplexity": 9602,
+        "maintainabilityIndex": 62.928759894459105,
+        "codeDuplication": 50,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tests/api-test.js",
+        "linesOfCode": 347,
+        "cyclomaticComplexity": 7561,
+        "maintainabilityIndex": 68.44380403458213,
+        "codeDuplication": 39,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理",
+          "参数过多的函数"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tests/apiEnhanced.test.js",
+        "linesOfCode": 743,
+        "cyclomaticComplexity": 23967,
+        "maintainabilityIndex": 52.42261103633916,
+        "codeDuplication": 65,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tests/benchmark.test.js",
+        "linesOfCode": 519,
+        "cyclomaticComplexity": 16449,
+        "maintainabilityIndex": 55.78034682080925,
+        "codeDuplication": 37,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 3,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tests/mock-server.js",
+        "linesOfCode": 373,
+        "cyclomaticComplexity": 7516,
+        "maintainabilityIndex": 55.09383378016086,
+        "codeDuplication": 47,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/advancedPerformanceProfiler.js",
+        "linesOfCode": 469,
+        "cyclomaticComplexity": 12706,
+        "maintainabilityIndex": 61.727078891257996,
+        "codeDuplication": 34,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理",
+          "参数过多的函数"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/architectureAnalyzer.js",
+        "linesOfCode": 496,
+        "cyclomaticComplexity": 14336,
+        "maintainabilityIndex": 61.08870967741935,
+        "codeDuplication": 38,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/codeQualityAnalyzer.js",
+        "linesOfCode": 522,
+        "cyclomaticComplexity": 17041,
+        "maintainabilityIndex": 63.2183908045977,
+        "codeDuplication": 32,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/codeQualityChecker.js",
+        "linesOfCode": 223,
+        "cyclomaticComplexity": 7413,
+        "maintainabilityIndex": 61.210762331838566,
+        "codeDuplication": 37,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/codeRefactoringTool.js",
+        "linesOfCode": 358,
+        "cyclomaticComplexity": 10769,
+        "maintainabilityIndex": 56.42458100558659,
+        "codeDuplication": 38,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/comprehensiveAnalyzer.js",
+        "linesOfCode": 251,
+        "cyclomaticComplexity": 8850,
+        "maintainabilityIndex": 53.984063745019924,
+        "codeDuplication": 29,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/comprehensiveArchitectureRefactor.js",
+        "linesOfCode": 664,
+        "cyclomaticComplexity": 24570,
+        "maintainabilityIndex": 56.174698795180724,
+        "codeDuplication": 34,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/comprehensivePerformanceAnalyzer.js",
+        "linesOfCode": 415,
+        "cyclomaticComplexity": 16278,
+        "maintainabilityIndex": 58.19277108433735,
+        "codeDuplication": 32,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/comprehensiveSecurityAnalyzer.js",
+        "linesOfCode": 383,
+        "cyclomaticComplexity": 15212,
+        "maintainabilityIndex": 54.438642297650134,
+        "codeDuplication": 34,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/designPatternDetector.js",
+        "linesOfCode": 473,
+        "cyclomaticComplexity": 14127,
+        "maintainabilityIndex": 56.553911205073994,
+        "codeDuplication": 30,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/memoryAnalyzer.js",
+        "linesOfCode": 438,
+        "cyclomaticComplexity": 11454,
+        "maintainabilityIndex": 61.64383561643835,
+        "codeDuplication": 41,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理",
+          "参数过多的函数"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/performanceOptimizationAnalyzer.js",
+        "linesOfCode": 288,
+        "cyclomaticComplexity": 10263,
+        "maintainabilityIndex": 53.81944444444444,
+        "codeDuplication": 33,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/securityHardeningTool.js",
+        "linesOfCode": 642,
+        "cyclomaticComplexity": 16387,
+        "maintainabilityIndex": 56.386292834890966,
+        "codeDuplication": 39,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/securityScanner.js",
+        "linesOfCode": 712,
+        "cyclomaticComplexity": 20979,
+        "maintainabilityIndex": 57.443820224719104,
+        "codeDuplication": 37,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/simpleCodeQualityAnalyzer.js",
+        "linesOfCode": 305,
+        "cyclomaticComplexity": 9440,
+        "maintainabilityIndex": 51.31147540983606,
+        "codeDuplication": 33,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [
+          "未完成的功能",
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/simplePerformanceAnalyzer.js",
+        "linesOfCode": 192,
+        "cyclomaticComplexity": 5153,
+        "maintainabilityIndex": 52.604166666666664,
+        "codeDuplication": 42,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 1,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分"
+        ]
+      },
+      {
+        "file": "src/tools/simpleSecurityScanner.js",
+        "linesOfCode": 252,
+        "cyclomaticComplexity": 6310,
+        "maintainabilityIndex": 52.38095238095238,
+        "codeDuplication": 46,
+        "testCoverage": 0,
+        "securityIssues": 0,
+        "performanceIssues": 0,
+        "codeSmells": [
+          "调试代码未清理"
+        ],
+        "suggestions": [
+          "方法复杂度过高，建议拆分",
+          "文件过长，建议拆分"
+        ]
+      }
+    ],
+    "summary": {
+      "totalFiles": 63,
+      "averageComplexity": 11952,
+      "averageMaintainability": 60,
+      "totalIssues": 15,
+      "criticalIssues": 0,
+      "recommendations": [
+        "修复安全性和性能问题",
+        "降低代码复杂度",
+        "增加代码注释"
+      ]
+    }
+  },
+  "performanceReport": {
+    "timestamp": "2025-10-10T01:09:26.132Z",
+    "performanceScore": 0,
+    "files": [
+      {
+        "file": "mongo-init.js",
+        "linesOfCode": 47,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/algorithms/activityBalanceAlgorithm.js",
+        "linesOfCode": 453,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/algorithms/clusterGenerator.js",
+        "linesOfCode": 1048,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/algorithms/clusterMatchingAlgorithm.js",
+        "linesOfCode": 456,
+        "performanceIssues": 3,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/algorithms/dynamicWeightAdjuster.js",
+        "linesOfCode": 409,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/algorithms/interactionHistoryCalculator.js",
+        "linesOfCode": 328,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/algorithms/jumpConditionEvaluator.js",
+        "linesOfCode": 674,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/algorithms/luminosityCalculator.js",
+        "linesOfCode": 473,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/algorithms/resonanceCalculator.js",
+        "linesOfCode": 948,
+        "performanceIssues": 0,
+        "memoryIssues": 8,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/algorithms/spectrumEvolutionEngine.js",
+        "linesOfCode": 842,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/algorithms/starSeedEvolutionEngine.js",
+        "linesOfCode": 840,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/algorithms/tagDiversityAlgorithm.js",
+        "linesOfCode": 554,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/algorithms/tagMatchingAlgorithm.js",
+        "linesOfCode": 264,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/config/specKit.js",
+        "linesOfCode": 177,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/config/swagger.js",
+        "linesOfCode": 159,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/config/swaggerEnhanced.js",
+        "linesOfCode": 627,
+        "performanceIssues": 0,
+        "memoryIssues": 4,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/index.js",
+        "linesOfCode": 140,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/middleware/accessControl.js",
+        "linesOfCode": 24,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/middleware/auth.js",
+        "linesOfCode": 317,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/middleware/errorHandler.js",
+        "linesOfCode": 257,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/middleware/swaggerMiddleware.js",
+        "linesOfCode": 142,
+        "performanceIssues": 0,
+        "memoryIssues": 1,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/models/index.js",
+        "linesOfCode": 395,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/routes/auth.js",
+        "linesOfCode": 701,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/routes/clusterDissolution.js",
+        "linesOfCode": 381,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/routes/clusterQueries.js",
+        "linesOfCode": 467,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/routes/clusters.js",
+        "linesOfCode": 878,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/routes/index.js",
+        "linesOfCode": 164,
+        "performanceIssues": 0,
+        "memoryIssues": 1,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/routes/performance.js",
+        "linesOfCode": 275,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/routes/resonance.js",
+        "linesOfCode": 455,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/routes/resonanceHistory.js",
+        "linesOfCode": 452,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/routes/starseedEvolution.js",
+        "linesOfCode": 383,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/routes/starseedInteractions.js",
+        "linesOfCode": 494,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/routes/starseeds.js",
+        "linesOfCode": 914,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/routes/upload.js",
+        "linesOfCode": 73,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/routes/userTags.js",
+        "linesOfCode": 391,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/routes/users.js",
+        "linesOfCode": 442,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/services/cacheOptimizer.js",
+        "linesOfCode": 411,
+        "performanceIssues": 1,
+        "memoryIssues": 4,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化",
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/services/databaseService.js",
+        "linesOfCode": 224,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/services/performanceMonitor.js",
+        "linesOfCode": 416,
+        "performanceIssues": 1,
+        "memoryIssues": 1,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化",
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/services/redisService.js",
+        "linesOfCode": 268,
+        "performanceIssues": 0,
+        "memoryIssues": 6,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/services/storageService.js",
+        "linesOfCode": 64,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/services/webSocketService.js",
+        "linesOfCode": 379,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/tests/api-test.js",
+        "linesOfCode": 347,
+        "performanceIssues": 0,
+        "memoryIssues": 1,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tests/apiEnhanced.test.js",
+        "linesOfCode": 743,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/tests/benchmark.test.js",
+        "linesOfCode": 519,
+        "performanceIssues": 4,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tests/mock-server.js",
+        "linesOfCode": 373,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      },
+      {
+        "file": "src/tools/advancedPerformanceProfiler.js",
+        "linesOfCode": 469,
+        "performanceIssues": 1,
+        "memoryIssues": 1,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化",
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/architectureAnalyzer.js",
+        "linesOfCode": 496,
+        "performanceIssues": 2,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/codeQualityAnalyzer.js",
+        "linesOfCode": 522,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/codeQualityChecker.js",
+        "linesOfCode": 223,
+        "performanceIssues": 0,
+        "memoryIssues": 4,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/codeRefactoringTool.js",
+        "linesOfCode": 358,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/comprehensiveAnalyzer.js",
+        "linesOfCode": 251,
+        "performanceIssues": 0,
+        "memoryIssues": 1,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/comprehensiveArchitectureRefactor.js",
+        "linesOfCode": 664,
+        "performanceIssues": 0,
+        "memoryIssues": 1,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/comprehensivePerformanceAnalyzer.js",
+        "linesOfCode": 415,
+        "performanceIssues": 1,
+        "memoryIssues": 6,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化",
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/comprehensiveSecurityAnalyzer.js",
+        "linesOfCode": 383,
+        "performanceIssues": 0,
+        "memoryIssues": 3,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/designPatternDetector.js",
+        "linesOfCode": 473,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/memoryAnalyzer.js",
+        "linesOfCode": 438,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/performanceOptimizationAnalyzer.js",
+        "linesOfCode": 288,
+        "performanceIssues": 1,
+        "memoryIssues": 5,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化",
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/securityHardeningTool.js",
+        "linesOfCode": 642,
+        "performanceIssues": 0,
+        "memoryIssues": 3,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/securityScanner.js",
+        "linesOfCode": 712,
+        "performanceIssues": 0,
+        "memoryIssues": 1,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在内存问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/simpleCodeQualityAnalyzer.js",
+        "linesOfCode": 305,
+        "performanceIssues": 1,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/simplePerformanceAnalyzer.js",
+        "linesOfCode": 192,
+        "performanceIssues": 3,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": [
+          "存在性能问题，需要优化"
+        ]
+      },
+      {
+        "file": "src/tools/simpleSecurityScanner.js",
+        "linesOfCode": 252,
+        "performanceIssues": 0,
+        "memoryIssues": 0,
+        "asyncIssues": 0,
+        "suggestions": []
+      }
+    ],
+    "summary": {
+      "totalFiles": 63,
+      "totalPerformanceIssues": 26,
+      "totalMemoryIssues": 51,
+      "totalAsyncIssues": 0,
+      "criticalIssues": 12,
+      "recommendations": [
+        "优化性能瓶颈",
+        "优化内存使用",
+        "异步处理良好"
+      ]
+    }
+  },
+  "securityReport": {
+    "timestamp": "2025-10-10T01:09:27.106Z",
+    "securityScore": 20,
+    "files": [
+      {
+        "file": "src/algorithms/clusterGenerator.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 44,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 112,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 115,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 392,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 595,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/algorithms/resonanceCalculator.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 162,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 171,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 172,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 205,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 215,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 236,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 244,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/algorithms/spectrumEvolutionEngine.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 577,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/algorithms/starSeedEvolutionEngine.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 352,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/algorithms/tagDiversityAlgorithm.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 129,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 187,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 329,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 415,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 425,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/algorithms/tagMatchingAlgorithm.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 122,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 129,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 158,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 178,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/routes/upload.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 18,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/routes/userTags.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 190,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 242,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 368,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/tests/api-test.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 49,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "数据暴露",
+            "severity": "high",
+            "line": 118,
+            "description": "检测到敏感数据暴露",
+            "suggestion": "加密敏感数据"
+          }
+        ]
+      },
+      {
+        "file": "src/tests/apiEnhanced.test.js",
+        "vulnerabilities": [
+          {
+            "type": "硬编码凭据",
+            "severity": "critical",
+            "line": 677,
+            "description": "检测到硬编码的凭据",
+            "suggestion": "使用环境变量"
+          }
+        ]
+      },
+      {
+        "file": "src/tests/mock-server.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 337,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 340,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 343,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/tools/advancedPerformanceProfiler.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 325,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 327,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 329,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/tools/architectureAnalyzer.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 102,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 107,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 175,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 177,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 207,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 211,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 371,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/tools/codeQualityAnalyzer.js",
+        "vulnerabilities": [
+          {
+            "type": "XSS",
+            "severity": "high",
+            "line": 154,
+            "description": "检测到可能的XSS漏洞",
+            "suggestion": "对用户输入进行转义"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 352,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 357,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/tools/codeRefactoringTool.js",
+        "vulnerabilities": [
+          {
+            "type": "SQL注入",
+            "severity": "critical",
+            "line": 128,
+            "description": "检测到可能的SQL注入漏洞",
+            "suggestion": "使用参数化查询"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 227,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 232,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/tools/designPatternDetector.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 174,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 179,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 221,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 346,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 352,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 356,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 362,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 411,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 415,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 419,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 423,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/tools/securityHardeningTool.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 224,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 422,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 499,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/tools/securityScanner.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 190,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 195,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "XSS",
+            "severity": "high",
+            "line": 292,
+            "description": "检测到可能的XSS漏洞",
+            "suggestion": "对用户输入进行转义"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 413,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/tools/simpleCodeQualityAnalyzer.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 46,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 51,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 181,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 184,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/tools/simplePerformanceAnalyzer.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 46,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 51,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          }
+        ]
+      },
+      {
+        "file": "src/tools/simpleSecurityScanner.js",
+        "vulnerabilities": [
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 51,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "弱加密",
+            "severity": "medium",
+            "line": 56,
+            "description": "检测到弱加密算法",
+            "suggestion": "使用强加密算法"
+          },
+          {
+            "type": "XSS",
+            "severity": "high",
+            "line": 156,
+            "description": "检测到可能的XSS漏洞",
+            "suggestion": "对用户输入进行转义"
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "totalFiles": 21,
+      "totalVulnerabilities": 76,
+      "criticalVulnerabilities": 2,
+      "highVulnerabilities": 4,
+      "mediumVulnerabilities": 70,
+      "recommendations": [
+        "立即修复关键安全漏洞",
+        "优先修复高危安全漏洞",
+        "加强安全防护措施"
+      ]
+    }
+  },
+  "summary": {
+    "totalFiles": 63,
+    "overallScore": 7,
+    "qualityScore": 0,
+    "performanceScore": 0,
+    "securityScore": 20,
+    "criticalIssues": 2,
+    "recommendations": [
+      "修复安全性和性能问题",
+      "降低代码复杂度",
+      "增加代码注释",
+      "优化性能瓶颈",
+      "优化内存使用",
+      "异步处理良好",
+      "立即修复关键安全漏洞",
+      "优先修复高危安全漏洞",
+      "加强安全防护措施"
+    ]
+  }
+}

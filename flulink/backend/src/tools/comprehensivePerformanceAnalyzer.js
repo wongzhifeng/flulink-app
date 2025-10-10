@@ -7,10 +7,10 @@ import fs from 'fs';
 import path from 'path';
 
 class ComprehensivePerformanceAnalyzer {
-  private projectRoot: string;
-  private profiler: AdvancedPerformanceProfiler;
-  private memoryAnalyzer: MemoryAnalyzer;
-  private optimizationAnalyzer: PerformanceOptimizationAnalyzer;
+  // private projectRoot: string;
+  // private profiler: AdvancedPerformanceProfiler;
+  // private memoryAnalyzer: MemoryAnalyzer;
+  // private optimizationAnalyzer: PerformanceOptimizationAnalyzer;
 
   constructor(projectRoot: string) {
     this.projectRoot = projectRoot;
@@ -53,7 +53,7 @@ class ComprehensivePerformanceAnalyzer {
     }
   }
 
-  private async runAnalysisTasks(): Promise<void> {
+  // private async runAnalysisTasks(): Promise<void> {
     // 模拟一些分析任务
     const tasks = [
       () => this.simulateDatabaseQueries(),
@@ -67,26 +67,26 @@ class ComprehensivePerformanceAnalyzer {
     await Promise.all(promises);
   }
 
-  private async runTaskWithProfiling(task: () => Promise<void>): Promise<void> {
+  // private async runTaskWithProfiling(task: () => Promise<void>): Promise<void> {
     const taskName = task.name || 'UnknownTask';
     const fileName = 'PerformanceAnalyzer';
     
     return this.profiler.profileFunction(taskName, fileName, 0, task);
   }
 
-  private async simulateDatabaseQueries(): Promise<void> {
+  // private async simulateDatabaseQueries(): Promise<void> {
     for (let i = 0; i < 10; i++) {
       await new Promise(resolve => setTimeout(resolve, Math.random() * 100));
     }
   }
 
-  private async simulateApiCalls(): Promise<void> {
+  // private async simulateApiCalls(): Promise<void> {
     for (let i = 0; i < 20; i++) {
       await new Promise(resolve => setTimeout(resolve, Math.random() * 50));
     }
   }
 
-  private async simulateAlgorithmExecution(): Promise<void> {
+  // private async simulateAlgorithmExecution(): Promise<void> {
     // 模拟共鸣计算
     const users = Array.from({ length: 100 }, (_, i) => ({
       id: i,
@@ -103,7 +103,7 @@ class ComprehensivePerformanceAnalyzer {
     }
   }
 
-  private calculateSimilarity(tags1: string[], tags2: string[]): number {
+  // private calculateSimilarity(tags1: string[], tags2: string[]): number {
     const set1 = new Set(tags1);
     const set2 = new Set(tags2);
     const intersection = new Set([...set1].filter(x => set2.has(x)));
@@ -111,7 +111,7 @@ class ComprehensivePerformanceAnalyzer {
     return intersection.size / union.size;
   }
 
-  private async simulateMemoryOperations(): Promise<void> {
+  // private async simulateMemoryOperations(): Promise<void> {
     const arrays = [];
     for (let i = 0; i < 100; i++) {
       arrays.push(new Array(1000).fill(Math.random()));
@@ -124,7 +124,7 @@ class ComprehensivePerformanceAnalyzer {
     arrays.length = 0;
   }
 
-  private async generateComprehensiveReport(
+  // private async generateComprehensiveReport(
     performanceReport: any,
     memoryReport: any,
     optimizationReport: any
@@ -163,7 +163,7 @@ class ComprehensivePerformanceAnalyzer {
     console.log(`✅ 综合文本报告已保存: ${textReportPath}`);
   }
 
-  private generateHTMLReport(performanceReport: any, memoryReport: any, optimizationReport: any): string {
+  // private generateHTMLReport(performanceReport: any, memoryReport: any, optimizationReport: any): string {
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -303,7 +303,7 @@ class ComprehensivePerformanceAnalyzer {
 </html>`;
   }
 
-  private generateTextReport(performanceReport: any, memoryReport: any, optimizationReport: any): string {
+  // private generateTextReport(performanceReport: any, memoryReport: any, optimizationReport: any): string {
     let report = '\n=== FluLink 综合性能分析报告 ===\n\n';
     report += `生成时间: ${new Date().toLocaleString()}\n`;
     report += `分析持续时间: ${(performanceReport.duration / 1000).toFixed(2)} 秒\n\n`;
@@ -335,7 +335,7 @@ class ComprehensivePerformanceAnalyzer {
     return report;
   }
 
-  private printSummary(performanceReport: any, memoryReport: any, optimizationReport: any): void {
+  // private printSummary(performanceReport: any, memoryReport: any, optimizationReport: any): void {
     console.log('\n' + '='.repeat(60));
     console.log('📋 综合性能分析总结');
     console.log('='.repeat(60));

@@ -31,16 +31,16 @@ import path from 'path';
 }
 
 class DesignPatternDetector {
-  private projectRoot: string;
-  private patterns: DesignPattern[] = [];
-  private patternRules: Map<string, RegExp[]> = new Map();
+  // private projectRoot: string;
+  // private patterns: DesignPattern[] = [];
+  // private patternRules: Map<string, RegExp[]> = new Map();
 
   constructor(projectRoot: string) {
     this.projectRoot = projectRoot;
     this.initializePatternRules();
   }
 
-  private initializePatternRules() {
+  // private initializePatternRules() {
     // 单例模式
     this.patternRules.set('Singleton', [
       /class\s+\w+\s*\{[^}]*static\s+instance[^}]*\}/s,
@@ -159,7 +159,7 @@ class DesignPatternDetector {
     };
   }
 
-  private getAllSourceFiles(): string[] {
+  // private getAllSourceFiles(): string[] {
     const files: string[] = [];
     const extensions = ['.js', '.ts', '.tsx', '.jsx'];
     
@@ -187,7 +187,7 @@ class DesignPatternDetector {
     return files;
   }
 
-  private async analyzeFileForPatterns(filePath: string): Promise<void> {
+  // private async analyzeFileForPatterns(filePath: string): Promise<void> {
     const content = fs.readFileSync(filePath, 'utf8');
     const relativePath = path.relative(this.projectRoot, filePath);
     const lines = content.split('\n');
@@ -215,7 +215,7 @@ class DesignPatternDetector {
     }
   }
 
-  private findLineNumber(content: string, match: string): number {
+  // private findLineNumber(content: string, match: string): number {
     const lines = content.split('\n');
     for (let i = 0; i < lines.length; i++) {
       if (lines[i].includes(match.substring(0, 50))) {
@@ -225,7 +225,7 @@ class DesignPatternDetector {
     return 1;
   }
 
-  private createPatternInstance(
+  // private createPatternInstance(
     patternName: string,
     file: string,
     line: number,
@@ -252,7 +252,7 @@ class DesignPatternDetector {
     };
   }
 
-  private getPatternInfo(patternName: string): any {
+  // private getPatternInfo(patternName: string): any {
     const patternInfo: Record<string, any> = {
       'Singleton': {
         type: 'creational',
@@ -324,12 +324,12 @@ class DesignPatternDetector {
     };
   }
 
-  private calculateConfidence(patternName: string, code: string, fullContent: string): number {
+  // private calculateConfidence(patternName: string, code: string, fullContent: string): number {
     let confidence = 50; // 基础置信度
     
     // 根据模式名称调整置信度
     const patternKeywords: Record<string, string[]> = {
-      'Singleton': ['instance', 'getInstance', 'private constructor', 'static'],
+      'Singleton': ['instance', 'getInstance', '// private constructor', 'static'],
       'Factory': ['create', 'factory', 'new', 'switch', 'case'],
       'Observer': ['subscribe', 'unsubscribe', 'notify', 'emit', 'on', 'off'],
       'Decorator': ['decorate', '@', 'wrapper', 'enhance'],
@@ -367,7 +367,7 @@ class DesignPatternDetector {
     return Math.min(100, Math.max(0, confidence));
   }
 
-  private categorizePatterns(): any {
+  // private categorizePatterns(): any {
     const creational = this.patterns.filter(p => p.type === 'creational').length;
     const structural = this.patterns.filter(p => p.type === 'structural').length;
     const behavioral = this.patterns.filter(p => p.type === 'behavioral').length;
@@ -375,7 +375,7 @@ class DesignPatternDetector {
     return { creational, structural, behavioral };
   }
 
-  private generateSummary(): any {
+  // private generateSummary(): any {
     const totalPatterns = this.patterns.length;
     
     if (totalPatterns === 0) {
