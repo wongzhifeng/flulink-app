@@ -1,28 +1,21 @@
-# Multi-stage build for FluLink Frontend
-FROM node:18-alpine AS base
+FROM node:18-alpine AS build
+LABEL "language"="nodejs"
+LABEL "framework"="vite"
 
-# Install dependencies only when needed
-FROM base AS deps
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci
 
-# Build stage
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# 复制整个项目
 COPY . .
-RUN npm run build
 
-# Production stage with nginx
-FROM nginx:alpine AS runner
+# 安装依赖并构建
+RUN cd flulink/frontend && \
+    npm install && \
+    npm run build
 
-# Copy built files
-COPY --from=builder /app/dist /usr/share/nginx/html
+# 使用静态文件服务器
+FROM zeabur/caddy-static
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+# 复制构建后的前端文件
+COPY --from=build /app/flulink/frontend/dist /usr/share/caddy
 
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 8080
