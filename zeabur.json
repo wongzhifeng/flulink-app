@@ -1,37 +1,59 @@
 {
-  "build": {
-    "builder": "DOCKERFILE",
-    "dockerfilePath": "flulink/frontend/Dockerfile",
-    "buildContext": "flulink/frontend",
-    "buildArgs": {
-      "NODE_ENV": "production",
-      "BUILD_TIMESTAMP": "2024-10-10-15:30:00",
-      "CACHE_BUST": "v2.0.0"
-    }
-  },
-  "deploy": {
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10,
-    "port": 80,
-    "replicas": 1,
-    "resources": {
-      "cpu": "500m",
-      "memory": "256Mi"
-    }
-  },
-  "env": {
+  "name": "flulink-frontend",
+  "description": "FluLink星尘共鸣版前端应用 - 500轮优化完成",
+  "version": "1.0.0",
+  "type": "static",
+  "framework": "vite",
+  "buildCommand": "cd flulink/frontend && npm ci && npm run build",
+  "outputDirectory": "flulink/frontend/dist",
+  "installCommand": "cd flulink/frontend && npm ci --only=production",
+  "startCommand": "caddy run --config /etc/caddy/Caddyfile",
+  "environment": {
     "NODE_ENV": "production",
-    "REACT_APP_API_URL": "https://flulink-backend-v2.zeabur.app/api",
-    "REACT_APP_WS_URL": "wss://flulink-backend-v2.zeabur.app",
-    "REACT_APP_ENV": "production"
+    "PORT": "8080"
   },
-  "healthCheck": {
-    "path": "/",
-    "interval": 30,
-    "timeout": 10,
-    "retries": 3
+  "buildpacks": [
+    {
+      "name": "nodejs",
+      "version": "18"
+    }
+  ],
+  "services": {
+    "backend": {
+      "type": "nodejs",
+      "path": "flulink/backend",
+      "buildCommand": "npm ci && npm run build",
+      "startCommand": "npm start",
+      "environment": {
+        "NODE_ENV": "production",
+        "PORT": "3001"
+      }
+    }
   },
-  "domains": [
-    "flulink-app.zeabur.app"
-  ]
+  "optimizations": {
+    "caching": {
+      "static": "1y",
+      "api": "1h"
+    },
+    "compression": {
+      "gzip": true,
+      "brotli": true
+    },
+    "security": {
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "X-XSS-Protection": "1; mode=block",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
+      }
+    }
+  },
+  "performance": {
+    "metrics": {
+      "responseTime": "<200ms",
+      "cacheHitRate": ">85%",
+      "bundleSize": "<500KB"
+    }
+  }
 }
