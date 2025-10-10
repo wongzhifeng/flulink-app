@@ -9,7 +9,7 @@ import {
   StarOutlined,
   TeamOutlined
 } from '@ant-design/icons'
-import { useAuth } from '../context/AppContext'
+import { useAuth } from '../../context/AppContext'
 
 const { Header } = Layout
 
