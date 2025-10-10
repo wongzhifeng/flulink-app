@@ -8,6 +8,7 @@ import ClusterPage from './pages/ClusterPage'
 import ProfilePage from './pages/ProfilePage'
 import StarSeedDetail from './pages/StarSeedDetail'
 import AuthPage from './pages/AuthPage'
+import ServicesPage from './pages/ServicesPage'
 import './App.css'
 
 const App: React.FC = () => {
@@ -31,6 +32,7 @@ const App: React.FC = () => {
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/starseed/:id" element={<StarSeedDetail />} />
               <Route path="/auth" element={<AuthPage />} />
+              <Route path="/services" element={<ServicesPage />} />
             </Routes>
           </div>
         </Router>
