@@ -1,0 +1,386 @@
+/* PerformanceMonitor.css - 性能监控组件样式 */
+
+.performance-monitor {
+  padding: 24px;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.monitor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.monitor-header h2 {
+  margin: 0;
+  color: #1890ff;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.monitor-header h2 .anticon {
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.header-actions .ant-btn {
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* 统计卡片样式 */
+.performance-monitor .ant-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.performance-monitor .ant-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.performance-monitor .ant-statistic {
+  text-align: center;
+}
+
+.performance-monitor .ant-statistic-title {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.performance-monitor .ant-statistic-content {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.performance-monitor .ant-statistic-content-prefix {
+  margin-right: 8px;
+}
+
+/* 表格样式 */
+.performance-monitor .ant-table {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.performance-monitor .ant-table-thead > tr > th {
+  background: #fafafa;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.performance-monitor .ant-table-tbody > tr:hover > td {
+  background: #f5f5f5;
+}
+
+.performance-monitor .ant-table-tbody > tr > td {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 12px 16px;
+}
+
+/* 进度条样式 */
+.performance-monitor .ant-progress {
+  margin: 0;
+}
+
+.performance-monitor .ant-progress-text {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* 过滤器样式 */
+.table-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.table-filters .ant-select {
+  border-radius: 6px;
+}
+
+.table-filters .ant-picker {
+  border-radius: 6px;
+}
+
+/* 状态指示器 */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-indicator.healthy {
+  background: #f6ffed;
+  color: #52c41a;
+  border: 1px solid #b7eb8f;
+}
+
+.status-indicator.warning {
+  background: #fffbe6;
+  color: #faad14;
+  border: 1px solid #ffe58f;
+}
+
+.status-indicator.error {
+  background: #fff2f0;
+  color: #ff4d4f;
+  border: 1px solid #ffccc7;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .performance-monitor {
+    padding: 16px;
+  }
+  
+  .monitor-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+  
+  .header-actions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .performance-monitor {
+    padding: 12px;
+  }
+  
+  .monitor-header {
+    padding: 12px 16px;
+  }
+  
+  .monitor-header h2 {
+    font-size: 20px;
+  }
+  
+  .performance-monitor .ant-statistic-content {
+    font-size: 20px;
+  }
+  
+  .table-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .table-filters .ant-select,
+  .table-filters .ant-picker {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .performance-monitor {
+    padding: 8px;
+  }
+  
+  .monitor-header {
+    padding: 8px 12px;
+  }
+  
+  .monitor-header h2 {
+    font-size: 18px;
+  }
+  
+  .performance-monitor .ant-statistic-content {
+    font-size: 18px;
+  }
+  
+  .header-actions {
+    flex-direction: column;
+  }
+  
+  .header-actions .ant-btn {
+    width: 100%;
+  }
+}
+
+/* 深色主题 */
+.dark-theme .performance-monitor {
+  background: #141414;
+}
+
+.dark-theme .monitor-header {
+  background: #1f1f1f;
+  border: 1px solid #303030;
+}
+
+.dark-theme .monitor-header h2 {
+  color: #1890ff;
+}
+
+.dark-theme .performance-monitor .ant-card {
+  background: #1f1f1f;
+  border: 1px solid #303030;
+}
+
+.dark-theme .performance-monitor .ant-statistic-title {
+  color: #cccccc;
+}
+
+.dark-theme .performance-monitor .ant-statistic-content {
+  color: #ffffff;
+}
+
+.dark-theme .performance-monitor .ant-table {
+  background: #1f1f1f;
+}
+
+.dark-theme .performance-monitor .ant-table-thead > tr > th {
+  background: #262626;
+  color: #ffffff;
+  border-bottom-color: #303030;
+}
+
+.dark-theme .performance-monitor .ant-table-tbody > tr:hover > td {
+  background: #262626;
+}
+
+.dark-theme .performance-monitor .ant-table-tbody > tr > td {
+  border-bottom-color: #303030;
+  color: #cccccc;
+}
+
+/* 高对比度模式 */
+.high-contrast .performance-monitor {
+  background: #ffffff;
+}
+
+.high-contrast .monitor-header {
+  background: #ffffff;
+  border: 2px solid #000000;
+}
+
+.high-contrast .monitor-header h2 {
+  color: #000000;
+}
+
+.high-contrast .performance-monitor .ant-card {
+  background: #ffffff;
+  border: 2px solid #000000;
+}
+
+.high-contrast .performance-monitor .ant-statistic-title {
+  color: #000000;
+  font-weight: bold;
+}
+
+.high-contrast .performance-monitor .ant-statistic-content {
+  color: #000000;
+  font-weight: bold;
+}
+
+.high-contrast .performance-monitor .ant-table {
+  background: #ffffff;
+  border: 2px solid #000000;
+}
+
+.high-contrast .performance-monitor .ant-table-thead > tr > th {
+  background: #f0f0f0;
+  color: #000000;
+  border-bottom: 2px solid #000000;
+  font-weight: bold;
+}
+
+.high-contrast .performance-monitor .ant-table-tbody > tr > td {
+  border-bottom: 1px solid #000000;
+  color: #000000;
+}
+
+/* 动画效果 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.performance-monitor .ant-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.performance-monitor .ant-card:nth-child(1) { animation-delay: 0.1s; }
+.performance-monitor .ant-card:nth-child(2) { animation-delay: 0.2s; }
+.performance-monitor .ant-card:nth-child(3) { animation-delay: 0.3s; }
+.performance-monitor .ant-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* 加载状态 */
+.performance-monitor.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* 焦点状态 */
+.performance-monitor .ant-btn:focus,
+.performance-monitor .ant-select:focus,
+.performance-monitor .ant-picker:focus {
+  outline: 2px solid #1890ff;
+  outline-offset: 2px;
+}
+
+/* 打印样式 */
+@media print {
+  .performance-monitor {
+    background: transparent;
+    padding: 0;
+  }
+  
+  .monitor-header {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+  
+  .performance-monitor .ant-card {
+    background: transparent;
+    box-shadow: none;
+    border: 1px solid #000000;
+    break-inside: avoid;
+  }
+  
+  .header-actions {
+    display: none;
+  }
+  
+  .performance-monitor .ant-table {
+    background: transparent;
+  }
+  
+  .performance-monitor .ant-table-thead > tr > th {
+    background: transparent;
+    border-bottom: 2px solid #000000;
+  }
+  
+  .performance-monitor .ant-table-tbody > tr > td {
+    border-bottom: 1px solid #000000;
+  }
+}
