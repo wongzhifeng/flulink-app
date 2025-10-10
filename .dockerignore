@@ -5,9 +5,8 @@
 /package.json
 /package-lock.json
 
-# 允许backend和frontend Dockerfile
+# 允许backend Dockerfile
 !flulink/backend/Dockerfile
-!flulink/frontend/Dockerfile
 
 # 移动端（保留前端用于构建）
 flulink/mobile/
