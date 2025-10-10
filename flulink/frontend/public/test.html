@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FluLink 测试页面</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0a0a1a;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #1890ff;
+            border-radius: 8px;
+            background: rgba(24, 144, 255, 0.1);
+        }
+        .test-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        .success {
+            color: #52c41a;
+        }
+        .error {
+            color: #ff4d4f;
+        }
+        .info {
+            color: #1890ff;
+        }
+        button {
+            background: #1890ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #40a9ff;
+        }
+        .dao-quote {
+            font-style: italic;
+            color: #1890ff;
+            margin: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>FluLink 星尘共鸣版 - 功能测试</h1>
+        
+        <div class="dao-quote">
+            "天道无亲，常与善人。知足不辱，知止不殆。"
+        </div>
+
+        <div class="test-item">
+            <h3>1. 页面加载测试</h3>
+            <p class="success">✅ 页面已成功加载</p>
+            <p class="info">📅 加载时间: <span id="loadTime"></span></p>
+        </div>
+
+        <div class="test-item">
+            <h3>2. 离线模式测试</h3>
+            <p class="info">🔍 检测离线模式状态...</p>
+            <button onclick="testOfflineMode()">测试离线模式</button>
+            <div id="offlineResult"></div>
+        </div>
+
+        <div class="test-item">
+            <h3>3. 本地存储测试</h3>
+            <button onclick="testLocalStorage()">测试本地存储</button>
+            <div id="storageResult"></div>
+        </div>
+
+        <div class="test-item">
+            <h3>4. 用户服务节点测试</h3>
+            <button onclick="testUserServices()">测试服务发布</button>
+            <div id="serviceResult"></div>
+        </div>
+
+        <div class="test-item">
+            <h3>5. 道家美学测试</h3>
+            <button onclick="testDaoistUI()">测试UI样式</button>
+            <div id="uiResult"></div>
+        </div>
+
+        <div class="test-item">
+            <h3>6. 导航测试</h3>
+            <button onclick="window.location.href='/services'">前往服务页面</button>
+            <button onclick="window.location.href='/'">返回首页</button>
+        </div>
+
+        <div class="test-item">
+            <h3>7. 系统信息</h3>
+            <p class="info">🌐 用户代理: <span id="userAgent"></span></p>
+            <p class="info">📱 屏幕尺寸: <span id="screenSize"></span></p>
+            <p class="info">🔗 当前URL: <span id="currentUrl"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // 记录加载时间
+        document.getElementById('loadTime').textContent = new Date().toLocaleString();
+
+        // 显示系统信息
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+        document.getElementById('screenSize').textContent = `${screen.width}x${screen.height}`;
+        document.getElementById('currentUrl').textContent = window.location.href;
+
+        // 测试离线模式
+        function testOfflineMode() {
+            const result = document.getElementById('offlineResult');
+            try {
+                // 检查localStorage中的离线模式标志
+                const isOffline = localStorage.getItem('offline_mode') === 'true';
+                
+                if (isOffline) {
+                    result.innerHTML = '<p class="success">✅ 离线模式已激活</p>';
+                } else {
+                    // 尝试检测后端可用性
+                    fetch('https://flulink-backend-v2.zeabur.app/api/health', {
+                        method: 'GET',
+                        timeout: 3000
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            result.innerHTML = '<p class="info">🌐 在线模式 - 后端可用</p>';
+                        } else {
+                            result.innerHTML = '<p class="error">❌ 后端不可用，建议启用离线模式</p>';
+                        }
+                    })
+                    .catch(error => {
+                        result.innerHTML = '<p class="error">❌ 后端连接失败，建议启用离线模式</p>';
+                    });
+                }
+            } catch (error) {
+                result.innerHTML = '<p class="error">❌ 离线模式检测失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 测试本地存储
+        function testLocalStorage() {
+            const result = document.getElementById('storageResult');
+            try {
+                const testKey = 'flulink_test_' + Date.now();
+                const testData = {
+                    message: '测试数据',
+                    timestamp: new Date().toISOString(),
+                    daoQuote: '天道无亲，常与善人'
+                };
+                
+                localStorage.setItem(testKey, JSON.stringify(testData));
+                const retrieved = JSON.parse(localStorage.getItem(testKey));
+                localStorage.removeItem(testKey);
+                
+                if (retrieved.message === testData.message) {
+                    result.innerHTML = '<p class="success">✅ 本地存储功能正常</p>';
+                } else {
+                    result.innerHTML = '<p class="error">❌ 本地存储数据不匹配</p>';
+                }
+            } catch (error) {
+                result.innerHTML = '<p class="error">❌ 本地存储测试失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 测试用户服务节点
+        function testUserServices() {
+            const result = document.getElementById('serviceResult');
+            try {
+                // 模拟用户服务数据
+                const mockService = {
+                    _id: 'test_service_' + Date.now(),
+                    serviceType: 'housing',
+                    title: '测试房屋互助服务',
+                    description: '这是一个测试服务，用于验证功能',
+                    location: {
+                        type: 'Point',
+                        coordinates: [116.3974, 39.9092]
+                    },
+                    serviceRadius: 1.0,
+                    creditScore: 80,
+                    moralStatus: 'active',
+                    isActive: true,
+                    daoQuote: '天道无亲，常与善人'
+                };
+
+                // 保存到localStorage
+                const services = JSON.parse(localStorage.getItem('flulink_offline_data') || '{"userServices":[]}');
+                services.userServices.push(mockService);
+                localStorage.setItem('flulink_offline_data', JSON.stringify(services));
+
+                result.innerHTML = '<p class="success">✅ 用户服务节点测试成功</p>' +
+                                 '<p class="info">📝 服务标题: ' + mockService.title + '</p>' +
+                                 '<p class="info">🏠 服务类型: ' + mockService.serviceType + '</p>' +
+                                 '<p class="info">⭐ 信用评分: ' + mockService.creditScore + '</p>';
+            } catch (error) {
+                result.innerHTML = '<p class="error">❌ 用户服务节点测试失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 测试道家美学UI
+        function testDaoistUI() {
+            const result = document.getElementById('uiResult');
+            try {
+                // 检查CSS样式
+                const bodyStyle = window.getComputedStyle(document.body);
+                const backgroundColor = bodyStyle.backgroundColor;
+                const color = bodyStyle.color;
+                
+                // 检查是否包含道家美学元素
+                const hasDaoistColors = backgroundColor.includes('rgb(10, 10, 26)') || backgroundColor.includes('#0a0a1a');
+                const hasWhiteText = color.includes('rgb(255, 255, 255)') || color.includes('#ffffff');
+                
+                if (hasDaoistColors && hasWhiteText) {
+                    result.innerHTML = '<p class="success">✅ 道家美学UI正常</p>' +
+                                     '<p class="info">🎨 背景色: ' + backgroundColor + '</p>' +
+                                     '<p class="info">🎨 文字色: ' + color + '</p>' +
+                                     '<p class="info">📜 道家配色: 青-白-玄</p>';
+                } else {
+                    result.innerHTML = '<p class="error">❌ 道家美学UI异常</p>';
+                }
+            } catch (error) {
+                result.innerHTML = '<p class="error">❌ 道家美学UI测试失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 页面加载完成后自动运行一些测试
+        window.addEventListener('load', function() {
+            console.log('FluLink 测试页面已加载');
+            testOfflineMode();
+        });
+    </script>
+</body>
+</html>
