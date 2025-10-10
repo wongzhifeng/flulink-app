@@ -124,6 +124,13 @@ router.post('/publish', authMiddleware, async (req, res) => {
     // 缓存星种热度
     await redisService.cacheSeedHotness(starSeed._id, starSeed.luminosity);
 
+    // 触发星种演化
+    const evolutionEngine = new StarSeedEvolutionEngine();
+    await evolutionEngine.evolveStarSeed(starSeed._id);
+
+    // 更新用户星种计数
+    await User.findByIdAndUpdate(userId, { $inc: { starSeedCount: 1 } });
+
     res.status(201).json({
       success: true,
       message: '星种发布成功',
@@ -510,6 +517,394 @@ router.get('/:starSeedId/stats', authMiddleware, async (req, res) => {
       success: false,
       message: '获取星种统计失败',
       error: error.message
+    });
+  }
+});
+
+/**
+ * @swagger
+ * /api/starseeds/{id}/light:
+ *   post:
+ *     summary: 点亮星种
+ *     description: 用户点亮（点赞）星种
+ *     tags: [StarSeeds]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: 星种ID
+ *     responses:
+ *       200:
+ *         description: 点亮成功
+ *       400:
+ *         description: 请求参数错误
+ *       401:
+ *         description: 未授权访问
+ *       404:
+ *         description: 星种不存在
+ */
+// 点亮星种
+router.post('/:id/light', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const starSeedId = req.params.id;
+
+    // 查找星种
+    const starSeed = await StarSeed.findById(starSeedId);
+    if (!starSeed) {
+      return res.status(404).json({
+        success: false,
+        message: '星种不存在'
+      });
+    }
+
+    // 检查是否已经点亮过
+    const existingInteraction = await Interaction.findOne({
+      userId,
+      targetId: starSeedId,
+      actionType: 'light'
+    });
+
+    if (existingInteraction) {
+      return res.status(400).json({
+        success: false,
+        message: '您已经点亮过这个星种了'
+      });
+    }
+
+    // 创建点亮互动
+    const interaction = new Interaction({
+      userId,
+      targetId: starSeedId,
+      targetType: 'starseed',
+      actionType: 'light',
+      createdAt: new Date()
+    });
+
+    await interaction.save();
+
+    // 更新星种互动计数
+    starSeed.interactions.lights += 1;
+    await starSeed.save();
+
+    // 触发星种演化
+    const evolutionEngine = new StarSeedEvolutionEngine();
+    await evolutionEngine.evolveStarSeed(starSeedId, interaction);
+
+    res.json({
+      success: true,
+      message: '点亮成功',
+      data: {
+        lights: starSeed.interactions.lights
+      }
+    });
+  } catch (error) {
+    console.error('Light star seed error:', error);
+    res.status(500).json({
+      success: false,
+      message: '点亮失败，请稍后重试'
+    });
+  }
+});
+
+/**
+ * @swagger
+ * /api/starseeds/{id}/comment:
+ *   post:
+ *     summary: 评论星种
+ *     description: 用户评论星种
+ *     tags: [StarSeeds]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: 星种ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - content
+ *             properties:
+ *               content:
+ *                 type: string
+ *                 description: 评论内容
+ *                 example: "这个想法很棒！"
+ *     responses:
+ *       200:
+ *         description: 评论成功
+ *       400:
+ *         description: 请求参数错误
+ *       401:
+ *         description: 未授权访问
+ *       404:
+ *         description: 星种不存在
+ */
+// 评论星种
+router.post('/:id/comment', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const starSeedId = req.params.id;
+    const { content } = req.body;
+
+    // 验证输入
+    if (!content || content.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: '评论内容不能为空'
+      });
+    }
+
+    if (content.length > 200) {
+      return res.status(400).json({
+        success: false,
+        message: '评论内容不能超过200个字符'
+      });
+    }
+
+    // 查找星种
+    const starSeed = await StarSeed.findById(starSeedId);
+    if (!starSeed) {
+      return res.status(404).json({
+        success: false,
+        message: '星种不存在'
+      });
+    }
+
+    // 创建评论互动
+    const interaction = new Interaction({
+      userId,
+      targetId: starSeedId,
+      targetType: 'starseed',
+      actionType: 'comment',
+      content: content.trim(),
+      createdAt: new Date()
+    });
+
+    await interaction.save();
+
+    // 更新星种互动计数
+    starSeed.interactions.comments += 1;
+    await starSeed.save();
+
+    // 触发星种演化
+    const evolutionEngine = new StarSeedEvolutionEngine();
+    await evolutionEngine.evolveStarSeed(starSeedId, interaction);
+
+    res.json({
+      success: true,
+      message: '评论成功',
+      data: {
+        comment: {
+          id: interaction._id,
+          content: interaction.content,
+          userId: interaction.userId,
+          createdAt: interaction.createdAt
+        },
+        comments: starSeed.interactions.comments
+      }
+    });
+  } catch (error) {
+    console.error('Comment star seed error:', error);
+    res.status(500).json({
+      success: false,
+      message: '评论失败，请稍后重试'
+    });
+  }
+});
+
+/**
+ * @swagger
+ * /api/starseeds/{id}/share:
+ *   post:
+ *     summary: 分享星种
+ *     description: 用户分享星种
+ *     tags: [StarSeeds]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: 星种ID
+ *     responses:
+ *       200:
+ *         description: 分享成功
+ *       400:
+ *         description: 请求参数错误
+ *       401:
+ *         description: 未授权访问
+ *       404:
+ *         description: 星种不存在
+ */
+// 分享星种
+router.post('/:id/share', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const starSeedId = req.params.id;
+
+    // 查找星种
+    const starSeed = await StarSeed.findById(starSeedId);
+    if (!starSeed) {
+      return res.status(404).json({
+        success: false,
+        message: '星种不存在'
+      });
+    }
+
+    // 检查是否已经分享过
+    const existingInteraction = await Interaction.findOne({
+      userId,
+      targetId: starSeedId,
+      actionType: 'share'
+    });
+
+    if (existingInteraction) {
+      return res.status(400).json({
+        success: false,
+        message: '您已经分享过这个星种了'
+      });
+    }
+
+    // 创建分享互动
+    const interaction = new Interaction({
+      userId,
+      targetId: starSeedId,
+      targetType: 'starseed',
+      actionType: 'share',
+      createdAt: new Date()
+    });
+
+    await interaction.save();
+
+    // 更新星种互动计数
+    starSeed.interactions.shares += 1;
+    await starSeed.save();
+
+    // 触发星种演化
+    const evolutionEngine = new StarSeedEvolutionEngine();
+    await evolutionEngine.evolveStarSeed(starSeedId, interaction);
+
+    res.json({
+      success: true,
+      message: '分享成功',
+      data: {
+        shares: starSeed.interactions.shares
+      }
+    });
+  } catch (error) {
+    console.error('Share star seed error:', error);
+    res.status(500).json({
+      success: false,
+      message: '分享失败，请稍后重试'
+    });
+  }
+});
+
+/**
+ * @swagger
+ * /api/starseeds/{id}/comments:
+ *   get:
+ *     summary: 获取星种评论
+ *     description: 获取星种的所有评论
+ *     tags: [StarSeeds]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: 星种ID
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: 页码
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 20
+ *         description: 每页数量
+ *     responses:
+ *       200:
+ *         description: 获取评论成功
+ *       404:
+ *         description: 星种不存在
+ */
+// 获取星种评论
+router.get('/:id/comments', async (req, res) => {
+  try {
+    const starSeedId = req.params.id;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
+
+    // 查找星种
+    const starSeed = await StarSeed.findById(starSeedId);
+    if (!starSeed) {
+      return res.status(404).json({
+        success: false,
+        message: '星种不存在'
+      });
+    }
+
+    // 获取评论
+    const comments = await Interaction.find({
+      targetId: starSeedId,
+      targetType: 'starseed',
+      actionType: 'comment'
+    })
+    .populate('userId', 'nickname avatar')
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
+
+    const total = await Interaction.countDocuments({
+      targetId: starSeedId,
+      targetType: 'starseed',
+      actionType: 'comment'
+    });
+
+    res.json({
+      success: true,
+      data: {
+        comments: comments.map(comment => ({
+          id: comment._id,
+          content: comment.content,
+          user: {
+            id: comment.userId._id,
+            nickname: comment.userId.nickname,
+            avatar: comment.userId.avatar
+          },
+          createdAt: comment.createdAt
+        })),
+        pagination: {
+          page,
+          limit,
+          total,
+          pages: Math.ceil(total / limit)
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Get comments error:', error);
+    res.status(500).json({
+      success: false,
+      message: '获取评论失败，请稍后重试'
     });
   }
 });
