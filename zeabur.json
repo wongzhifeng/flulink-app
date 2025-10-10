@@ -9,18 +9,20 @@
   },
   "deploy": {
     "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10,
+    "restartPolicyMaxRetries": 5,
     "port": 8080,
     "replicas": 1,
     "resources": {
-      "cpu": "1000m",
-      "memory": "512Mi"
+      "cpu": "500m",
+      "memory": "256Mi"
     }
   },
   "env": {
     "NODE_ENV": "production",
     "PORT": "8080",
-    "NODE_OPTIONS": "--max-old-space-size=512"
+    "NODE_OPTIONS": "--max-old-space-size=200",
+    "REDIS_ENABLED": "false",
+    "MONGODB_URI": "mongodb://localhost:27017/flulink"
   },
   "healthCheck": {
     "path": "/api/health",

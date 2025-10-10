@@ -42,7 +42,7 @@ EXPOSE 8080
 # 设置环境变量
 ENV NODE_ENV=production
 ENV PORT=8080
-ENV NODE_OPTIONS="--max-old-space-size=512"
+ENV NODE_OPTIONS="--max-old-space-size=200"
 
 # 健康检查
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
