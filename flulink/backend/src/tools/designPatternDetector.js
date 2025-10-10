@@ -1,471 +1,617 @@
 import fs from 'fs';
 import path from 'path';
 
-// interface DesignPattern {
-  name: string;
-  type: 'creational' | 'structural' | 'behavioral';
-  description: string;
-  confidence: number; // 0-100
-  file: string;
-  line: number;
-  code: string;
-  benefits: string[];
-  implementation: string;
-}
-
-// interface PatternReport {
-  timestamp: string;
-  totalPatterns: number;
-  patternsByType: {
-    creational: number;
-    structural: number;
-    behavioral: number;
-  };
-  patterns: DesignPattern[];
-  summary: {
-    patternScore: number;
-    mostUsedPattern: string;
-    missingPatterns: string[];
-    recommendations: string[];
-  };
-}
-
 class DesignPatternDetector {
-  // private projectRoot: string;
-  // private patterns: DesignPattern[] = [];
-  // private patternRules: Map<string, RegExp[]> = new Map();
-
-  constructor(projectRoot: string) {
+  constructor(projectRoot) {
     this.projectRoot = projectRoot;
-    this.initializePatternRules();
+    this.patterns = new Map();
   }
 
-  // private initializePatternRules() {
-    // 单例模式
-    this.patternRules.set('Singleton', [
-      /class\s+\w+\s*\{[^}]*static\s+instance[^}]*\}/s,
-      /getInstance\s*\(\s*\)\s*\{[^}]*if\s*\(\s*!\s*\w+\.instance\s*\)[^}]*\}/s,
-      /private\s+constructor\s*\(/,
-      /static\s+\w+\s+instance\s*=/,
-      /Object\.freeze\s*\(/,
-      /new\s+\w+\s*\(\s*\)\s*\{[^}]*return\s+this[^}]*\}/s
-    ]);
-
-    // 工厂模式
-    this.patternRules.set('Factory', [
-      /create\w+\s*\(\s*[^)]*type[^)]*\)\s*\{[^}]*switch[^}]*case[^}]*new\s+\w+[^}]*\}/s,
-      /factory\s*\(\s*[^)]*\)\s*\{[^}]*return\s+new\s+\w+[^}]*\}/s,
-      /createProduct\s*\(\s*[^)]*\)\s*\{/,
-      /abstract\s+class\s+\w+Factory/,
-      /interface\s+\w+Factory/
-    ]);
-
-    // 观察者模式
-    this.patternRules.set('Observer', [
-      /addObserver\s*\(\s*[^)]*observer[^)]*\)/,
-      /removeObserver\s*\(\s*[^)]*observer[^)]*\)/,
-      /notifyObservers\s*\(\s*[^)]*\)/,
-      /subscribe\s*\(\s*[^)]*callback[^)]*\)/,
-      /unsubscribe\s*\(\s*[^)]*callback[^)]*\)/,
-      /emit\s*\(\s*[^)]*event[^)]*\)/,
-      /on\s*\(\s*[^)]*event[^)]*,\s*[^)]*handler[^)]*\)/,
-      /off\s*\(\s*[^)]*event[^)]*,\s*[^)]*handler[^)]*\)/
-    ]);
-
-    // 装饰器模式
-    this.patternRules.set('Decorator', [
-      /class\s+\w+Decorator\s+extends\s+\w+/,
-      /decorate\s*\(\s*[^)]*component[^)]*\)/,
-      /@\w+\s*\(/,
-      /\.decorate\s*\(/,
-      /wrapper\s*\(\s*[^)]*original[^)]*\)/
-    ]);
-
-    // 适配器模式
-    this.patternRules.set('Adapter', [
-      /class\s+\w+Adapter\s*\{[^}]*adapt[^}]*\}/s,
-      /adapt\s*\(\s*[^)]*\)\s*\{[^}]*return[^}]*\}/s,
-      /interface\s+\w+Adapter/,
-      /implements\s+\w+Adapter/
-    ]);
-
-    // 策略模式
-    this.patternRules.set('Strategy', [
-      /interface\s+\w+Strategy/,
-      /class\s+\w+Strategy\s+implements\s+\w+Strategy/,
-      /setStrategy\s*\(\s*[^)]*strategy[^)]*\)/,
-      /executeStrategy\s*\(\s*[^)]*\)/,
-      /strategy\.execute\s*\(/
-    ]);
-
-    // 命令模式
-    this.patternRules.set('Command', [
-      /interface\s+\w+Command/,
-      /class\s+\w+Command\s+implements\s+\w+Command/,
-      /execute\s*\(\s*[^)]*\)\s*\{[^}]*\}/s,
-      /undo\s*\(\s*[^)]*\)\s*\{[^}]*\}/s,
-      /invoker\s*\(\s*[^)]*command[^)]*\)/
-    ]);
-
-    // 模板方法模式
-    this.patternRules.set('Template Method', [
-      /abstract\s+class\s+\w+\s*\{[^}]*templateMethod[^}]*\}/s,
-      /templateMethod\s*\(\s*[^)]*\)\s*\{[^}]*step1[^}]*step2[^}]*\}/s,
-      /abstract\s+\w+\s+step\w+\s*\(\s*[^)]*\)/,
-      /protected\s+\w+\s+step\w+\s*\(\s*[^)]*\)/
-    ]);
-
-    // 建造者模式
-    this.patternRules.set('Builder', [
-      /class\s+\w+Builder\s*\{[^}]*build[^}]*\}/s,
-      /\.set\w+\s*\(\s*[^)]*\)\s*\{[^}]*return\s+this[^}]*\}/s,
-      /build\s*\(\s*[^)]*\)\s*\{[^}]*return\s+new\s+\w+[^}]*\}/s,
-      /Builder\s*\(\s*[^)]*\)\s*\{/,
-      /\.build\s*\(\s*\)/
-    ]);
-
-    // 外观模式
-    this.patternRules.set('Facade', [
-      /class\s+\w+Facade\s*\{[^}]*simplify[^}]*\}/s,
-      /facade\s*\(\s*[^)]*\)\s*\{[^}]*subsystem1[^}]*subsystem2[^}]*\}/s,
-      /simplify\w+\s*\(\s*[^)]*\)/,
-      /hide\w+Complexity\s*\(\s*[^)]*\)/
-    ]);
-  }
-
-  async detectPatterns(): Promise<PatternReport> {
+  async detectPatterns() {
     console.log('🔍 开始设计模式检测...');
     
-    this.patterns = [];
-    const files = this.getAllSourceFiles();
-    
-    console.log(`📁 分析 ${files.length} 个源文件中的设计模式...`);
-    
-    for (const file of files) {
-      await this.analyzeFileForPatterns(file);
+    try {
+      // 1. 检测单例模式
+      const singletons = this.detectSingletonPattern();
+      
+      // 2. 检测工厂模式
+      const factories = this.detectFactoryPattern();
+      
+      // 3. 检测观察者模式
+      const observers = this.detectObserverPattern();
+      
+      // 4. 检测策略模式
+      const strategies = this.detectStrategyPattern();
+      
+      // 5. 检测装饰器模式
+      const decorators = this.detectDecoratorPattern();
+      
+      // 6. 检测适配器模式
+      const adapters = this.detectAdapterPattern();
+      
+      // 7. 检测命令模式
+      const commands = this.detectCommandPattern();
+      
+      // 8. 检测MVC模式
+      const mvc = this.detectMVCPattern();
+      
+      // 9. 生成模式报告
+      const report = this.generatePatternReport({
+        singletons,
+        factories,
+        observers,
+        strategies,
+        decorators,
+        adapters,
+        commands,
+        mvc
+      });
+      
+      console.log('✅ 设计模式检测完成');
+      return report;
+      
+    } catch (error) {
+      console.error('❌ 设计模式检测失败:', error);
+      throw error;
     }
-    
-    const patternsByType = this.categorizePatterns();
-    const summary = this.generateSummary();
-    
-    console.log(`✅ 设计模式检测完成，发现 ${this.patterns.length} 个模式实例`);
-    
-    return {
-      timestamp: new Date().toISOString(),
-      totalPatterns: this.patterns.length,
-      patternsByType,
-      patterns: this.patterns,
-      summary
-    };
   }
 
-  // private getAllSourceFiles(): string[] {
-    const files: string[] = [];
-    const extensions = ['.js', '.ts', '.tsx', '.jsx'];
+  detectSingletonPattern() {
+    const singletons = [];
     
-    const scanDirectory = (dir: string) => {
-      const items = fs.readdirSync(dir);
-      
-      items.forEach(item => {
-        const fullPath = path.join(dir, item);
-        const stat = fs.statSync(fullPath);
+    const scanFile = (filePath) => {
+      try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        const relativePath = path.relative(this.projectRoot, filePath);
         
-        if (stat.isDirectory()) {
-          if (!['node_modules', '.git', 'dist', 'build', 'coverage'].includes(item)) {
-            scanDirectory(fullPath);
-          }
-        } else if (stat.isFile()) {
-          const ext = path.extname(item);
-          if (extensions.includes(ext)) {
-            files.push(fullPath);
-          }
+        // 检测单例模式的特征
+        const singletonPatterns = [
+          // 静态实例变量
+          /static\s+\w+\s*=\s*null/g,
+          // getInstance方法
+          /getInstance\s*\(/g,
+          // 私有构造函数
+          /private\s+constructor/g,
+          // 实例检查
+          /if\s*\(\s*!\s*\w+\s*\)/g
+        ];
+        
+        let patternCount = 0;
+        singletonPatterns.forEach(pattern => {
+          const matches = content.match(pattern);
+          if (matches) patternCount += matches.length;
+        });
+        
+        if (patternCount >= 2) {
+          singletons.push({
+            file: relativePath,
+            confidence: Math.min(100, patternCount * 25),
+            evidence: this.extractSingletonEvidence(content)
+          });
         }
-      });
+        
+      } catch (error) {
+        // 忽略无法读取的文件
+      }
+    };
+    
+    this.scanSourceFiles(scanFile);
+    return singletons;
+  }
+
+  detectFactoryPattern() {
+    const factories = [];
+    
+    const scanFile = (filePath) => {
+      try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        const relativePath = path.relative(this.projectRoot, filePath);
+        
+        // 检测工厂模式的特征
+        const factoryPatterns = [
+          // create方法
+          /create\w*\s*\(/g,
+          // Factory类名
+          /\w*Factory\w*/g,
+          // 类型参数
+          /type\s*:\s*['"][^'"]+['"]/g,
+          // switch/if-else创建逻辑
+          /switch\s*\([^)]+\)\s*\{[^}]*new\s+\w+/g
+        ];
+        
+        let patternCount = 0;
+        factoryPatterns.forEach(pattern => {
+          const matches = content.match(pattern);
+          if (matches) patternCount += matches.length;
+        });
+        
+        if (patternCount >= 2) {
+          factories.push({
+            file: relativePath,
+            confidence: Math.min(100, patternCount * 20),
+            evidence: this.extractFactoryEvidence(content)
+          });
+        }
+        
+      } catch (error) {
+        // 忽略无法读取的文件
+      }
+    };
+    
+    this.scanSourceFiles(scanFile);
+    return factories;
+  }
+
+  detectObserverPattern() {
+    const observers = [];
+    
+    const scanFile = (filePath) => {
+      try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        const relativePath = path.relative(this.projectRoot, filePath);
+        
+        // 检测观察者模式的特征
+        const observerPatterns = [
+          // 事件监听
+          /addEventListener|on\s*\(|subscribe\s*\(/g,
+          // 事件触发
+          /emit\s*\(|trigger\s*\(|notify\s*\(/g,
+          // 观察者列表
+          /observers\s*\[|listeners\s*\[/g,
+          // 回调函数
+          /callback\s*\(|handler\s*\(/g
+        ];
+        
+        let patternCount = 0;
+        observerPatterns.forEach(pattern => {
+          const matches = content.match(pattern);
+          if (matches) patternCount += matches.length;
+        });
+        
+        if (patternCount >= 2) {
+          observers.push({
+            file: relativePath,
+            confidence: Math.min(100, patternCount * 20),
+            evidence: this.extractObserverEvidence(content)
+          });
+        }
+        
+      } catch (error) {
+        // 忽略无法读取的文件
+      }
+    };
+    
+    this.scanSourceFiles(scanFile);
+    return observers;
+  }
+
+  detectStrategyPattern() {
+    const strategies = [];
+    
+    const scanFile = (filePath) => {
+      try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        const relativePath = path.relative(this.projectRoot, filePath);
+        
+        // 检测策略模式的特征
+        const strategyPatterns = [
+          // 策略接口
+          /interface\s+\w*Strategy\w*/g,
+          // 策略实现
+          /implements\s+\w*Strategy/g,
+          // 策略选择
+          /strategy\s*\[|strategy\s*\./g,
+          // 算法选择
+          /algorithm\s*\[|algorithm\s*\./g
+        ];
+        
+        let patternCount = 0;
+        strategyPatterns.forEach(pattern => {
+          const matches = content.match(pattern);
+          if (matches) patternCount += matches.length;
+        });
+        
+        if (patternCount >= 2) {
+          strategies.push({
+            file: relativePath,
+            confidence: Math.min(100, patternCount * 25),
+            evidence: this.extractStrategyEvidence(content)
+          });
+        }
+        
+      } catch (error) {
+        // 忽略无法读取的文件
+      }
+    };
+    
+    this.scanSourceFiles(scanFile);
+    return strategies;
+  }
+
+  detectDecoratorPattern() {
+    const decorators = [];
+    
+    const scanFile = (filePath) => {
+      try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        const relativePath = path.relative(this.projectRoot, filePath);
+        
+        // 检测装饰器模式的特征
+        const decoratorPatterns = [
+          // 装饰器语法
+          /@\w+/g,
+          // 包装器
+          /wrapper\s*\(|decorate\s*\(/g,
+          // 中间件
+          /middleware\s*\(/g,
+          // 链式调用
+          /\.\w+\s*\([^)]*\)\s*\.\w+\s*\(/g
+        ];
+        
+        let patternCount = 0;
+        decoratorPatterns.forEach(pattern => {
+          const matches = content.match(pattern);
+          if (matches) patternCount += matches.length;
+        });
+        
+        if (patternCount >= 2) {
+          decorators.push({
+            file: relativePath,
+            confidence: Math.min(100, patternCount * 20),
+            evidence: this.extractDecoratorEvidence(content)
+          });
+        }
+        
+      } catch (error) {
+        // 忽略无法读取的文件
+      }
+    };
+    
+    this.scanSourceFiles(scanFile);
+    return decorators;
+  }
+
+  detectAdapterPattern() {
+    const adapters = [];
+    
+    const scanFile = (filePath) => {
+      try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        const relativePath = path.relative(this.projectRoot, filePath);
+        
+        // 检测适配器模式的特征
+        const adapterPatterns = [
+          // Adapter类名
+          /\w*Adapter\w*/g,
+          // 适配方法
+          /adapt\s*\(|convert\s*\(/g,
+          // 接口转换
+          /transform\s*\(|translate\s*\(/g,
+          // 兼容性处理
+          /compatibility|legacy/g
+        ];
+        
+        let patternCount = 0;
+        adapterPatterns.forEach(pattern => {
+          const matches = content.match(pattern);
+          if (matches) patternCount += matches.length;
+        });
+        
+        if (patternCount >= 2) {
+          adapters.push({
+            file: relativePath,
+            confidence: Math.min(100, patternCount * 25),
+            evidence: this.extractAdapterEvidence(content)
+          });
+        }
+        
+      } catch (error) {
+        // 忽略无法读取的文件
+      }
+    };
+    
+    this.scanSourceFiles(scanFile);
+    return adapters;
+  }
+
+  detectCommandPattern() {
+    const commands = [];
+    
+    const scanFile = (filePath) => {
+      try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        const relativePath = path.relative(this.projectRoot, filePath);
+        
+        // 检测命令模式的特征
+        const commandPatterns = [
+          // Command类名
+          /\w*Command\w*/g,
+          // 执行方法
+          /execute\s*\(|run\s*\(/g,
+          // 撤销方法
+          /undo\s*\(|rollback\s*\(/g,
+          // 命令队列
+          /queue\s*\[|commands\s*\[/g
+        ];
+        
+        let patternCount = 0;
+        commandPatterns.forEach(pattern => {
+          const matches = content.match(pattern);
+          if (matches) patternCount += matches.length;
+        });
+        
+        if (patternCount >= 2) {
+          commands.push({
+            file: relativePath,
+            confidence: Math.min(100, patternCount * 25),
+            evidence: this.extractCommandEvidence(content)
+          });
+        }
+        
+      } catch (error) {
+        // 忽略无法读取的文件
+      }
+    };
+    
+    this.scanSourceFiles(scanFile);
+    return commands;
+  }
+
+  detectMVCPattern() {
+    const mvc = [];
+    
+    const scanFile = (filePath) => {
+      try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        const relativePath = path.relative(this.projectRoot, filePath);
+        
+        // 检测MVC模式的特征
+        const mvcPatterns = [
+          // Controller
+          /\w*Controller\w*/g,
+          // Model
+          /\w*Model\w*/g,
+          // View
+          /\w*View\w*/g,
+          // 路由处理
+          /router\s*\.|route\s*\./g
+        ];
+        
+        let patternCount = 0;
+        mvcPatterns.forEach(pattern => {
+          const matches = content.match(pattern);
+          if (matches) patternCount += matches.length;
+        });
+        
+        if (patternCount >= 2) {
+          mvc.push({
+            file: relativePath,
+            confidence: Math.min(100, patternCount * 20),
+            evidence: this.extractMVCEvidence(content)
+          });
+        }
+        
+      } catch (error) {
+        // 忽略无法读取的文件
+      }
+    };
+    
+    this.scanSourceFiles(scanFile);
+    return mvc;
+  }
+
+  scanSourceFiles(callback) {
+    const scanDirectory = (dir) => {
+      try {
+        const items = fs.readdirSync(dir);
+        
+        items.forEach(item => {
+          const fullPath = path.join(dir, item);
+          const stat = fs.statSync(fullPath);
+          
+          if (stat.isDirectory()) {
+            if (!['node_modules', '.git', 'dist', 'build', 'coverage'].includes(item)) {
+              scanDirectory(fullPath);
+            }
+          } else if (stat.isFile()) {
+            const ext = path.extname(item);
+            if (['.js', '.ts', '.tsx', '.jsx'].includes(ext)) {
+              callback(fullPath);
+            }
+          }
+        });
+      } catch (error) {
+        // 忽略无法访问的目录
+      }
     };
     
     scanDirectory(this.projectRoot);
-    return files;
   }
 
-  // private async analyzeFileForPatterns(filePath: string): Promise<void> {
-    const content = fs.readFileSync(filePath, 'utf8');
-    const relativePath = path.relative(this.projectRoot, filePath);
-    const lines = content.split('\n');
-    
-    for (const [patternName, rules] of this.patternRules) {
-      for (const rule of rules) {
-        const matches = content.match(rule);
-        if (matches) {
-          const match = matches[0];
-          const lineNumber = this.findLineNumber(content, match);
-          
-          const pattern = this.createPatternInstance(
-            patternName,
-            relativePath,
-            lineNumber,
-            match,
-            content
-          );
-          
-          if (pattern) {
-            this.patterns.push(pattern);
-          }
-        }
-      }
-    }
+  extractSingletonEvidence(content) {
+    const evidence = [];
+    if (content.includes('getInstance')) evidence.push('getInstance方法');
+    if (content.includes('static')) evidence.push('静态实例');
+    if (content.includes('private constructor')) evidence.push('私有构造函数');
+    return evidence;
   }
 
-  // private findLineNumber(content: string, match: string): number {
-    const lines = content.split('\n');
-    for (let i = 0; i < lines.length; i++) {
-      if (lines[i].includes(match.substring(0, 50))) {
-        return i + 1;
-      }
-    }
-    return 1;
+  extractFactoryEvidence(content) {
+    const evidence = [];
+    if (content.includes('create')) evidence.push('create方法');
+    if (content.includes('Factory')) evidence.push('Factory类名');
+    if (content.includes('switch')) evidence.push('switch创建逻辑');
+    return evidence;
   }
 
-  // private createPatternInstance(
-    patternName: string,
-    file: string,
-    line: number,
-    code: string,
-    fullContent: string
-  ): DesignPattern | null {
-    const patternInfo = this.getPatternInfo(patternName);
-    const confidence = this.calculateConfidence(patternName, code, fullContent);
-    
-    if (confidence < 30) {
-      return null; // 置信度太低，忽略
-    }
-    
+  extractObserverEvidence(content) {
+    const evidence = [];
+    if (content.includes('addEventListener')) evidence.push('事件监听');
+    if (content.includes('emit')) evidence.push('事件触发');
+    if (content.includes('subscribe')) evidence.push('订阅机制');
+    return evidence;
+  }
+
+  extractStrategyEvidence(content) {
+    const evidence = [];
+    if (content.includes('Strategy')) evidence.push('Strategy接口');
+    if (content.includes('implements')) evidence.push('策略实现');
+    if (content.includes('algorithm')) evidence.push('算法选择');
+    return evidence;
+  }
+
+  extractDecoratorEvidence(content) {
+    const evidence = [];
+    if (content.includes('@')) evidence.push('装饰器语法');
+    if (content.includes('middleware')) evidence.push('中间件');
+    if (content.includes('wrapper')) evidence.push('包装器');
+    return evidence;
+  }
+
+  extractAdapterEvidence(content) {
+    const evidence = [];
+    if (content.includes('Adapter')) evidence.push('Adapter类名');
+    if (content.includes('adapt')) evidence.push('适配方法');
+    if (content.includes('convert')) evidence.push('转换方法');
+    return evidence;
+  }
+
+  extractCommandEvidence(content) {
+    const evidence = [];
+    if (content.includes('Command')) evidence.push('Command类名');
+    if (content.includes('execute')) evidence.push('执行方法');
+    if (content.includes('undo')) evidence.push('撤销方法');
+    return evidence;
+  }
+
+  extractMVCEvidence(content) {
+    const evidence = [];
+    if (content.includes('Controller')) evidence.push('Controller层');
+    if (content.includes('Model')) evidence.push('Model层');
+    if (content.includes('View')) evidence.push('View层');
+    return evidence;
+  }
+
+  generatePatternReport(patternData) {
+    const {
+      singletons,
+      factories,
+      observers,
+      strategies,
+      decorators,
+      adapters,
+      commands,
+      mvc
+    } = patternData;
+
+    const totalPatterns = singletons.length + factories.length + observers.length + 
+                         strategies.length + decorators.length + adapters.length + 
+                         commands.length + mvc.length;
+
+    const patternScore = this.calculatePatternScore(patternData);
+
     return {
-      name: patternName,
-      type: patternInfo.type,
-      description: patternInfo.description,
-      confidence,
-      file,
-      line,
-      code: code.substring(0, 200) + (code.length > 200 ? '...' : ''),
-      benefits: patternInfo.benefits,
-      implementation: patternInfo.implementation
-    };
-  }
-
-  // private getPatternInfo(patternName: string): any {
-    const patternInfo: Record<string, any> = {
-      'Singleton': {
-        type: 'creational',
-        description: '确保一个类只有一个实例，并提供全局访问点',
-        benefits: ['控制实例数量', '全局访问点', '延迟初始化'],
-        implementation: '使用静态实例和私有构造函数'
+      timestamp: new Date().toISOString(),
+      patternScore: Math.round(patternScore),
+      totalPatterns,
+      patterns: {
+        singletons,
+        factories,
+        observers,
+        strategies,
+        decorators,
+        adapters,
+        commands,
+        mvc
       },
-      'Factory': {
-        type: 'creational',
-        description: '创建对象而不指定具体的类',
-        benefits: ['解耦对象创建', '易于扩展', '统一创建接口'],
-        implementation: '使用工厂方法根据参数创建不同对象'
-      },
-      'Observer': {
-        type: 'behavioral',
-        description: '定义对象间的一对多依赖关系',
-        benefits: ['松耦合', '动态订阅', '事件驱动'],
-        implementation: '使用订阅/发布机制'
-      },
-      'Decorator': {
-        type: 'structural',
-        description: '动态地给对象添加功能',
-        benefits: ['灵活扩展', '组合优于继承', '运行时装饰'],
-        implementation: '使用装饰器函数或类包装'
-      },
-      'Adapter': {
-        type: 'structural',
-        description: '使不兼容的接口能够协同工作',
-        benefits: ['接口转换', '复用现有代码', '解耦'],
-        implementation: '创建适配器类转换接口'
-      },
-      'Strategy': {
-        type: 'behavioral',
-        description: '定义算法族，使它们可以互换',
-        benefits: ['算法切换', '消除条件语句', '易于扩展'],
-        implementation: '使用策略接口和具体策略类'
-      },
-      'Command': {
-        type: 'behavioral',
-        description: '将请求封装为对象',
-        benefits: ['参数化对象', '队列请求', '支持撤销'],
-        implementation: '使用命令接口和执行方法'
-      },
-      'Template Method': {
-        type: 'behavioral',
-        description: '定义算法骨架，子类实现具体步骤',
-        benefits: ['代码复用', '控制流程', '钩子方法'],
-        implementation: '使用抽象类和模板方法'
-      },
-      'Builder': {
-        type: 'creational',
-        description: '分步构建复杂对象',
-        benefits: ['分步构建', '相同构建过程', '产品表示独立'],
-        implementation: '使用建造者类和指导者'
-      },
-      'Facade': {
-        type: 'structural',
-        description: '为子系统提供统一接口',
-        benefits: ['简化接口', '隐藏复杂性', '解耦'],
-        implementation: '创建外观类封装子系统'
+      summary: {
+        mostUsedPattern: this.findMostUsedPattern(patternData),
+        patternDistribution: this.calculatePatternDistribution(patternData),
+        recommendations: this.generatePatternRecommendations(patternData)
       }
     };
-    
-    return patternInfo[patternName] || {
-      type: 'unknown',
-      description: '未知模式',
-      benefits: [],
-      implementation: '未知实现'
+  }
+
+  calculatePatternScore(patternData) {
+    let score = 0;
+    const weights = {
+      singletons: 10,
+      factories: 15,
+      observers: 20,
+      strategies: 15,
+      decorators: 10,
+      adapters: 10,
+      commands: 10,
+      mvc: 20
     };
+
+    Object.keys(patternData).forEach(patternType => {
+      const patterns = patternData[patternType];
+      const weight = weights[patternType] || 10;
+      score += patterns.length * weight;
+    });
+
+    return Math.min(100, score);
   }
 
-  // private calculateConfidence(patternName: string, code: string, fullContent: string): number {
-    let confidence = 50; // 基础置信度
-    
-    // 根据模式名称调整置信度
-    const patternKeywords: Record<string, string[]> = {
-      'Singleton': ['instance', 'getInstance', '// private constructor', 'static'],
-      'Factory': ['create', 'factory', 'new', 'switch', 'case'],
-      'Observer': ['subscribe', 'unsubscribe', 'notify', 'emit', 'on', 'off'],
-      'Decorator': ['decorate', '@', 'wrapper', 'enhance'],
-      'Adapter': ['adapt', 'convert', 'transform', 'wrapper'],
-      'Strategy': ['strategy', 'algorithm', 'execute', 'context'],
-      'Command': ['command', 'execute', 'undo', 'invoke'],
-      'Template Method': ['template', 'abstract', 'step', 'hook'],
-      'Builder': ['builder', 'build', 'set', 'construct'],
-      'Facade': ['facade', 'simplify', 'unified', 'interface']
-    };
-    
-    const keywords = patternKeywords[patternName] || [];
-    const keywordMatches = keywords.filter(keyword => 
-      code.toLowerCase().includes(keyword.toLowerCase())
-    ).length;
-    
-    confidence += keywordMatches * 10;
-    
-    // 检查代码结构
-    if (code.includes('class') && code.includes('{')) {
-      confidence += 10;
-    }
-    
-    if (code.includes('interface') || code.includes('abstract')) {
-      confidence += 5;
-    }
-    
-    // 检查文件上下文
-    const contextKeywords = keywords.filter(keyword => 
-      fullContent.toLowerCase().includes(keyword.toLowerCase())
-    );
-    
-    confidence += contextKeywords.length * 5;
-    
-    return Math.min(100, Math.max(0, confidence));
+  findMostUsedPattern(patternData) {
+    let maxCount = 0;
+    let mostUsed = 'none';
+
+    Object.entries(patternData).forEach(([patternType, patterns]) => {
+      if (patterns.length > maxCount) {
+        maxCount = patterns.length;
+        mostUsed = patternType;
+      }
+    });
+
+    return { pattern: mostUsed, count: maxCount };
   }
 
-  // private categorizePatterns(): any {
-    const creational = this.patterns.filter(p => p.type === 'creational').length;
-    const structural = this.patterns.filter(p => p.type === 'structural').length;
-    const behavioral = this.patterns.filter(p => p.type === 'behavioral').length;
-    
-    return { creational, structural, behavioral };
-  }
+  calculatePatternDistribution(patternData) {
+    const distribution = {};
+    let total = 0;
 
-  // private generateSummary(): any {
-    const totalPatterns = this.patterns.length;
-    
-    if (totalPatterns === 0) {
-      return {
-        patternScore: 0,
-        mostUsedPattern: 'none',
-        missingPatterns: Object.keys(this.patternRules),
-        recommendations: ['考虑使用设计模式提高代码质量']
+    Object.entries(patternData).forEach(([patternType, patterns]) => {
+      distribution[patternType] = patterns.length;
+      total += patterns.length;
+    });
+
+    // 计算百分比
+    Object.keys(distribution).forEach(patternType => {
+      distribution[patternType] = {
+        count: distribution[patternType],
+        percentage: total > 0 ? Math.round((distribution[patternType] / total) * 100) : 0
       };
-    }
-    
-    // 计算模式评分
-    const averageConfidence = this.patterns.reduce((sum, p) => sum + p.confidence, 0) / totalPatterns;
-    const patternScore = Math.round(averageConfidence);
-    
-    // 找出最常用的模式
-    const patternCounts = this.patterns.reduce((acc, p) => {
-      acc[p.name] = (acc[p.name] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-    
-    const mostUsedPattern = Object.entries(patternCounts)
-      .sort(([,a], [,b]) => b - a)[0]?.[0] || 'none';
-    
-    // 找出缺失的模式
-    const detectedPatterns = new Set(this.patterns.map(p => p.name));
-    const allPatterns = Array.from(this.patternRules.keys());
-    const missingPatterns = allPatterns.filter(p => !detectedPatterns.has(p));
-    
-    // 生成建议
+    });
+
+    return distribution;
+  }
+
+  generatePatternRecommendations(patternData) {
     const recommendations = [];
     
-    if (missingPatterns.includes('Singleton')) {
+    if (patternData.singletons.length === 0) {
       recommendations.push('考虑使用单例模式管理全局状态');
     }
     
-    if (missingPatterns.includes('Factory')) {
+    if (patternData.factories.length === 0) {
       recommendations.push('考虑使用工厂模式简化对象创建');
     }
     
-    if (missingPatterns.includes('Observer')) {
-      recommendations.push('考虑使用观察者模式实现事件驱动架构');
+    if (patternData.observers.length === 0) {
+      recommendations.push('考虑使用观察者模式实现事件驱动');
     }
     
-    if (missingPatterns.includes('Strategy')) {
-      recommendations.push('考虑使用策略模式消除条件语句');
+    if (patternData.strategies.length === 0) {
+      recommendations.push('考虑使用策略模式处理算法变化');
     }
     
-    if (totalPatterns < 3) {
-      recommendations.push('增加设计模式的使用以提高代码质量');
+    if (recommendations.length === 0) {
+      recommendations.push('设计模式使用良好');
     }
     
-    return {
-      patternScore,
-      mostUsedPattern,
-      missingPatterns,
-      recommendations
-    };
-  }
-
-  generatePatternReport(): string {
-    const report = this.detectPatterns();
-    
-    let output = '\n=== 设计模式检测报告 ===\n\n';
-    output += `检测时间: ${report.timestamp}\n`;
-    output += `总模式数: ${report.totalPatterns}\n`;
-    output += `创建型模式: ${report.patternsByType.creational}\n`;
-    output += `结构型模式: ${report.patternsByType.structural}\n`;
-    output += `行为型模式: ${report.patternsByType.behavioral}\n\n`;
-    
-    output += '模式评分:\n';
-    output += `  模式评分: ${report.summary.patternScore}/100\n`;
-    output += `  最常用模式: ${report.summary.mostUsedPattern}\n`;
-    output += `  缺失模式: ${report.summary.missingPatterns.join(', ')}\n\n`;
-    
-    output += '检测到的模式:\n';
-    output += '模式名称\t\t类型\t\t置信度\t文件\t\t行号\n';
-    output += '─'.repeat(80) + '\n';
-    
-    report.patterns.forEach(pattern => {
-      output += `${pattern.name.padEnd(15)}\t${pattern.type.padEnd(10)}\t`;
-      output += `${pattern.confidence}%\t\t${pattern.file.padEnd(20)}\t${pattern.line}\n`;
-    });
-    
-    output += '\n建议:\n';
-    report.summary.recommendations.forEach((rec, index) => {
-      output += `  ${index + 1}. ${rec}\n`;
-    });
-    
-    return output;
+    return recommendations;
   }
 }
 

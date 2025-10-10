@@ -1,0 +1,1066 @@
+{
+  "timestamp": "2025-10-10T01:32:10.768Z",
+  "overallScore": 90,
+  "architectureReport": {
+    "timestamp": "2025-10-10T01:32:07.964Z",
+    "healthScore": 80,
+    "projectStructure": {
+      "totalFiles": 74,
+      "directories": [
+        {
+          "name": "reports",
+          "path": "reports",
+          "level": 0
+        },
+        {
+          "name": "src",
+          "path": "src",
+          "level": 0
+        },
+        {
+          "name": "algorithms",
+          "path": "src/algorithms",
+          "level": 1
+        },
+        {
+          "name": "config",
+          "path": "src/config",
+          "level": 1
+        },
+        {
+          "name": "middleware",
+          "path": "src/middleware",
+          "level": 1
+        },
+        {
+          "name": "models",
+          "path": "src/models",
+          "level": 1
+        },
+        {
+          "name": "routes",
+          "path": "src/routes",
+          "level": 1
+        },
+        {
+          "name": "services",
+          "path": "src/services",
+          "level": 1
+        },
+        {
+          "name": "tests",
+          "path": "src/tests",
+          "level": 1
+        },
+        {
+          "name": "tools",
+          "path": "src/tools",
+          "level": 1
+        },
+        {
+          "name": "utils",
+          "path": "src/utils",
+          "level": 1
+        },
+        {
+          "name": "tests",
+          "path": "tests",
+          "level": 0
+        },
+        {
+          "name": "uploads",
+          "path": "uploads",
+          "level": 0
+        },
+        {
+          "name": "files",
+          "path": "uploads/files",
+          "level": 1
+        },
+        {
+          "name": "images",
+          "path": "uploads/images",
+          "level": 1
+        },
+        {
+          "name": "tmp",
+          "path": "uploads/tmp",
+          "level": 1
+        }
+      ],
+      "fileTypes": {
+        "": 2,
+        ".json": 6,
+        ".example": 1,
+        ".js": 63,
+        ".html": 1,
+        ".txt": 1
+      },
+      "layers": {
+        "controllers": 0,
+        "services": 6,
+        "models": 1,
+        "middleware": 4,
+        "routes": 14,
+        "utils": 0
+      }
+    },
+    "dependencyGraph": {
+      "internal": {},
+      "external": {},
+      "totalModules": 63,
+      "totalDependencies": 225
+    },
+    "circularDependencies": [],
+    "couplingAnalysis": {
+      "averageCoupling": 0,
+      "highlyCoupledModules": [],
+      "looselyCoupledModules": [],
+      "couplingDistribution": {
+        "low": 0,
+        "medium": 0,
+        "high": 0
+      }
+    },
+    "apiAnalysis": {
+      "totalEndpoints": 0,
+      "endpointTypes": {
+        "GET": 0,
+        "POST": 0,
+        "PUT": 0,
+        "DELETE": 0,
+        "PATCH": 0
+      },
+      "routePatterns": [],
+      "middlewareUsage": {},
+      "responsePatterns": []
+    },
+    "recommendations": [
+      "添加API端点"
+    ]
+  },
+  "patternReport": {
+    "timestamp": "2025-10-10T01:32:10.568Z",
+    "patternScore": 100,
+    "totalPatterns": 137,
+    "patterns": {
+      "singletons": [
+        {
+          "file": "src/algorithms/activityBalanceAlgorithm.js",
+          "confidence": 50,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/clusterGenerator.js",
+          "confidence": 50,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/resonanceCalculator.js",
+          "confidence": 50,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/spectrumEvolutionEngine.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/starSeedEvolutionEngine.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/middleware/auth.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/auth.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/clusterDissolution.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/clusterQueries.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/clusters.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/resonance.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/resonanceHistory.js",
+          "confidence": 50,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/starseedEvolution.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/starseedInteractions.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/starseeds.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/userTags.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/users.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/services/webSocketService.js",
+          "confidence": 75,
+          "evidence": []
+        },
+        {
+          "file": "src/tests/apiEnhanced.test.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/securityHardeningTool.js",
+          "confidence": 50,
+          "evidence": []
+        }
+      ],
+      "factories": [
+        {
+          "file": "mongo-init.js",
+          "confidence": 100,
+          "evidence": [
+            "create方法"
+          ]
+        },
+        {
+          "file": "src/algorithms/clusterGenerator.js",
+          "confidence": 40,
+          "evidence": [
+            "create方法",
+            "switch创建逻辑"
+          ]
+        },
+        {
+          "file": "src/algorithms/jumpConditionEvaluator.js",
+          "confidence": 100,
+          "evidence": [
+            "create方法"
+          ]
+        },
+        {
+          "file": "src/algorithms/resonanceCalculator.js",
+          "confidence": 60,
+          "evidence": [
+            "create方法"
+          ]
+        },
+        {
+          "file": "src/config/swagger.js",
+          "confidence": 100,
+          "evidence": [
+            "create方法"
+          ]
+        },
+        {
+          "file": "src/config/swaggerEnhanced.js",
+          "confidence": 100,
+          "evidence": [
+            "create方法"
+          ]
+        },
+        {
+          "file": "src/middleware/errorHandler.js",
+          "confidence": 100,
+          "evidence": [
+            "create方法"
+          ]
+        },
+        {
+          "file": "src/routes/resonanceHistory.js",
+          "confidence": 40,
+          "evidence": [
+            "switch创建逻辑"
+          ]
+        },
+        {
+          "file": "src/services/databaseService.js",
+          "confidence": 100,
+          "evidence": [
+            "create方法"
+          ]
+        },
+        {
+          "file": "src/tools/comprehensiveArchitectureRefactor.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/designPatternDetector.js",
+          "confidence": 100,
+          "evidence": [
+            "create方法",
+            "Factory类名",
+            "switch创建逻辑"
+          ]
+        },
+        {
+          "file": "src/tools/securityHardeningTool.js",
+          "confidence": 40,
+          "evidence": [
+            "create方法"
+          ]
+        },
+        {
+          "file": "src/tools/simpleSecurityScanner.js",
+          "confidence": 100,
+          "evidence": []
+        }
+      ],
+      "observers": [
+        {
+          "file": "mongo-init.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/activityBalanceAlgorithm.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/clusterGenerator.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/spectrumEvolutionEngine.js",
+          "confidence": 60,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/starSeedEvolutionEngine.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/tagDiversityAlgorithm.js",
+          "confidence": 40,
+          "evidence": []
+        },
+        {
+          "file": "src/index.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/middleware/accessControl.js",
+          "confidence": 40,
+          "evidence": []
+        },
+        {
+          "file": "src/middleware/auth.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/middleware/errorHandler.js",
+          "confidence": 100,
+          "evidence": [
+            "事件触发"
+          ]
+        },
+        {
+          "file": "src/routes/auth.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/clusterDissolution.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/clusterQueries.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/clusters.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/index.js",
+          "confidence": 60,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/performance.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/resonance.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/resonanceHistory.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/starseedEvolution.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/starseedInteractions.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/starseeds.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/upload.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/userTags.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/users.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/services/databaseService.js",
+          "confidence": 60,
+          "evidence": []
+        },
+        {
+          "file": "src/services/performanceMonitor.js",
+          "confidence": 100,
+          "evidence": [
+            "事件触发"
+          ]
+        },
+        {
+          "file": "src/services/redisService.js",
+          "confidence": 60,
+          "evidence": []
+        },
+        {
+          "file": "src/services/webSocketService.js",
+          "confidence": 100,
+          "evidence": [
+            "事件触发"
+          ]
+        },
+        {
+          "file": "src/tests/mock-server.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/advancedPerformanceProfiler.js",
+          "confidence": 100,
+          "evidence": [
+            "事件触发"
+          ]
+        },
+        {
+          "file": "src/tools/codeQualityAnalyzer.js",
+          "confidence": 60,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/comprehensivePerformanceAnalyzer.js",
+          "confidence": 60,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/designPatternDetector.js",
+          "confidence": 100,
+          "evidence": [
+            "事件监听",
+            "事件触发",
+            "订阅机制"
+          ]
+        },
+        {
+          "file": "src/tools/memoryAnalyzer.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/securityHardeningTool.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/securityScanner.js",
+          "confidence": 80,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/simpleCodeQualityAnalyzer.js",
+          "confidence": 40,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/simpleSecurityScanner.js",
+          "confidence": 40,
+          "evidence": []
+        }
+      ],
+      "strategies": [],
+      "decorators": [
+        {
+          "file": "src/algorithms/activityBalanceAlgorithm.js",
+          "confidence": 80,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/clusterGenerator.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/clusterMatchingAlgorithm.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/dynamicWeightAdjuster.js",
+          "confidence": 60,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/interactionHistoryCalculator.js",
+          "confidence": 60,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/jumpConditionEvaluator.js",
+          "confidence": 60,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/resonanceCalculator.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/spectrumEvolutionEngine.js",
+          "confidence": 40,
+          "evidence": []
+        },
+        {
+          "file": "src/algorithms/starSeedEvolutionEngine.js",
+          "confidence": 100,
+          "evidence": [
+            "装饰器语法"
+          ]
+        },
+        {
+          "file": "src/algorithms/tagDiversityAlgorithm.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/config/specKit.js",
+          "confidence": 40,
+          "evidence": []
+        },
+        {
+          "file": "src/config/swaggerEnhanced.js",
+          "confidence": 40,
+          "evidence": [
+            "装饰器语法"
+          ]
+        },
+        {
+          "file": "src/index.js",
+          "confidence": 40,
+          "evidence": [
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/middleware/accessControl.js",
+          "confidence": 40,
+          "evidence": []
+        },
+        {
+          "file": "src/middleware/auth.js",
+          "confidence": 100,
+          "evidence": [
+            "装饰器语法"
+          ]
+        },
+        {
+          "file": "src/middleware/errorHandler.js",
+          "confidence": 60,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/auth.js",
+          "confidence": 100,
+          "evidence": [
+            "装饰器语法",
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/routes/clusterDissolution.js",
+          "confidence": 100,
+          "evidence": [
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/routes/clusterQueries.js",
+          "confidence": 100,
+          "evidence": [
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/routes/clusters.js",
+          "confidence": 100,
+          "evidence": [
+            "装饰器语法",
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/routes/index.js",
+          "confidence": 100,
+          "evidence": [
+            "装饰器语法"
+          ]
+        },
+        {
+          "file": "src/routes/performance.js",
+          "confidence": 100,
+          "evidence": [
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/routes/resonance.js",
+          "confidence": 100,
+          "evidence": [
+            "装饰器语法",
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/routes/resonanceHistory.js",
+          "confidence": 100,
+          "evidence": [
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/routes/starseedEvolution.js",
+          "confidence": 100,
+          "evidence": [
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/routes/starseedInteractions.js",
+          "confidence": 100,
+          "evidence": [
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/routes/starseeds.js",
+          "confidence": 100,
+          "evidence": [
+            "装饰器语法",
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/routes/upload.js",
+          "confidence": 100,
+          "evidence": [
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/routes/userTags.js",
+          "confidence": 100,
+          "evidence": [
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/routes/users.js",
+          "confidence": 100,
+          "evidence": [
+            "装饰器语法",
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/services/webSocketService.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/tests/apiEnhanced.test.js",
+          "confidence": 100,
+          "evidence": [
+            "装饰器语法"
+          ]
+        },
+        {
+          "file": "src/tests/benchmark.test.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/tests/mock-server.js",
+          "confidence": 100,
+          "evidence": [
+            "装饰器语法"
+          ]
+        },
+        {
+          "file": "src/tools/architectureAnalyzer.js",
+          "confidence": 100,
+          "evidence": [
+            "中间件"
+          ]
+        },
+        {
+          "file": "src/tools/codeQualityAnalyzer.js",
+          "confidence": 80,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/codeQualityChecker.js",
+          "confidence": 40,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/codeRefactoringTool.js",
+          "confidence": 80,
+          "evidence": [
+            "装饰器语法"
+          ]
+        },
+        {
+          "file": "src/tools/comprehensiveAnalyzer.js",
+          "confidence": 40,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/comprehensiveArchitectureRefactor.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/comprehensivePerformanceAnalyzer.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/comprehensiveSecurityAnalyzer.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/designPatternDetector.js",
+          "confidence": 80,
+          "evidence": [
+            "装饰器语法",
+            "中间件",
+            "包装器"
+          ]
+        },
+        {
+          "file": "src/tools/memoryAnalyzer.js",
+          "confidence": 60,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/performanceOptimizationAnalyzer.js",
+          "confidence": 60,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/securityHardeningTool.js",
+          "confidence": 100,
+          "evidence": [
+            "装饰器语法"
+          ]
+        },
+        {
+          "file": "src/tools/securityScanner.js",
+          "confidence": 100,
+          "evidence": [
+            "装饰器语法"
+          ]
+        },
+        {
+          "file": "src/tools/simpleCodeQualityAnalyzer.js",
+          "confidence": 80,
+          "evidence": []
+        }
+      ],
+      "adapters": [
+        {
+          "file": "src/algorithms/jumpConditionEvaluator.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/designPatternDetector.js",
+          "confidence": 100,
+          "evidence": [
+            "Adapter类名",
+            "适配方法",
+            "转换方法"
+          ]
+        }
+      ],
+      "commands": [
+        {
+          "file": "src/tools/designPatternDetector.js",
+          "confidence": 100,
+          "evidence": [
+            "Command类名",
+            "执行方法",
+            "撤销方法"
+          ]
+        }
+      ],
+      "mvc": [
+        {
+          "file": "src/routes/auth.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/clusterDissolution.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/clusterQueries.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/clusters.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/index.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/performance.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/resonance.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/resonanceHistory.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/starseedEvolution.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/starseedInteractions.js",
+          "confidence": 100,
+          "evidence": [
+            "View层"
+          ]
+        },
+        {
+          "file": "src/routes/starseeds.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/upload.js",
+          "confidence": 40,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/userTags.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/routes/users.js",
+          "confidence": 100,
+          "evidence": []
+        },
+        {
+          "file": "src/tools/designPatternDetector.js",
+          "confidence": 100,
+          "evidence": [
+            "Controller层",
+            "Model层",
+            "View层"
+          ]
+        }
+      ]
+    },
+    "summary": {
+      "mostUsedPattern": {
+        "pattern": "decorators",
+        "count": 48
+      },
+      "patternDistribution": {
+        "singletons": {
+          "count": 20,
+          "percentage": 15
+        },
+        "factories": {
+          "count": 13,
+          "percentage": 9
+        },
+        "observers": {
+          "count": 38,
+          "percentage": 28
+        },
+        "strategies": {
+          "count": 0,
+          "percentage": 0
+        },
+        "decorators": {
+          "count": 48,
+          "percentage": 35
+        },
+        "adapters": {
+          "count": 2,
+          "percentage": 1
+        },
+        "commands": {
+          "count": 1,
+          "percentage": 1
+        },
+        "mvc": {
+          "count": 15,
+          "percentage": 11
+        }
+      },
+      "recommendations": [
+        "考虑使用策略模式处理算法变化"
+      ]
+    }
+  },
+  "refactorSuggestions": {
+    "critical": [
+      {
+        "type": "missing_api",
+        "title": "添加API端点",
+        "description": "未发现API端点",
+        "impact": "critical",
+        "effort": "high",
+        "files": [],
+        "solution": "实现RESTful API端点"
+      }
+    ],
+    "high": [],
+    "medium": [],
+    "low": []
+  },
+  "refactorPlan": {
+    "phases": [
+      {
+        "phase": "critical",
+        "title": "紧急修复阶段",
+        "suggestions": [
+          {
+            "type": "missing_api",
+            "title": "添加API端点",
+            "description": "未发现API端点",
+            "impact": "critical",
+            "effort": "high",
+            "files": [],
+            "solution": "实现RESTful API端点"
+          }
+        ],
+        "estimatedEffort": {
+          "hours": 20,
+          "complexity": "medium",
+          "suggestions": 1
+        },
+        "dependencies": []
+      }
+    ],
+    "timeline": {
+      "critical": "1-2周",
+      "high": "2-4周",
+      "medium": "1-2个月",
+      "low": "2-3个月"
+    },
+    "resources": {
+      "developers": 2,
+      "estimatedHours": 20
+    }
+  },
+  "summary": {
+    "totalSuggestions": 1,
+    "criticalIssues": 1,
+    "highPriorityIssues": 0,
+    "estimatedEffort": 20,
+    "timeline": {
+      "critical": "1-2周",
+      "high": "2-4周",
+      "medium": "1-2个月",
+      "low": "2-3个月"
+    },
+    "recommendations": [
+      "立即处理关键问题，避免系统稳定性风险"
+    ]
+  }
+}
