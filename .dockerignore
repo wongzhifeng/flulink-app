@@ -8,8 +8,7 @@
 # 允许backend Dockerfile
 !flulink/backend/Dockerfile
 
-# 前端和移动端
-flulink/frontend/
+# 移动端（保留前端用于构建）
 flulink/mobile/
 flrontend/
 
