@@ -2,6 +2,11 @@ FROM node:18-alpine AS build
 LABEL "language"="nodejs"
 LABEL "framework"="vite"
 
+# 构建参数
+ARG BUILD_TIMESTAMP
+ARG CACHE_BUST
+ARG NODE_ENV=production
+
 WORKDIR /app
 
 # 复制整个项目
@@ -9,6 +14,8 @@ COPY . .
 
 # 安装依赖并构建
 RUN cd flulink/frontend && \
+    echo "Build timestamp: $BUILD_TIMESTAMP" && \
+    echo "Cache bust: $CACHE_BUST" && \
     npm install && \
     npm run build
 

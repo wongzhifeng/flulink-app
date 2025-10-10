@@ -5,7 +5,8 @@
     "buildContext": "flulink/frontend",
     "buildArgs": {
       "NODE_ENV": "production",
-      "BUILD_TIMESTAMP": "${NOW}"
+      "BUILD_TIMESTAMP": "2024-10-10-15:30:00",
+      "CACHE_BUST": "v2.0.0"
     }
   },
   "deploy": {
