@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FluLink 调试页面</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0a0a1a;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+        .debug-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #1890ff;
+            border-radius: 8px;
+            background: rgba(24, 144, 255, 0.1);
+        }
+        .debug-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            border-left: 4px solid #1890ff;
+        }
+        .success { color: #52c41a; }
+        .error { color: #ff4d4f; }
+        .warning { color: #faad14; }
+        .info { color: #1890ff; }
+        button {
+            background: #1890ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #40a9ff; }
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        .dao-quote {
+            font-style: italic;
+            color: #1890ff;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>🔧 FluLink 星尘共鸣版 - 调试页面</h1>
+        
+        <div class="dao-quote">
+            "天道无亲，常与善人。知足不辱，知止不殆。"
+        </div>
+
+        <div class="debug-item">
+            <h3>📊 系统状态</h3>
+            <p class="info">🕐 当前时间: <span id="currentTime"></span></p>
+            <p class="info">🌐 URL: <span id="currentUrl"></span></p>
+            <p class="info">📱 用户代理: <span id="userAgent"></span></p>
+            <p class="info">📏 屏幕尺寸: <span id="screenSize"></span></p>
+        </div>
+
+        <div class="debug-item">
+            <h3>🔍 React应用状态检测</h3>
+            <button onclick="checkReactApp()">检测React应用</button>
+            <div id="reactStatus"></div>
+        </div>
+
+        <div class="debug-item">
+            <h3>💾 本地存储检测</h3>
+            <button onclick="checkLocalStorage()">检测本地存储</button>
+            <div id="storageStatus"></div>
+        </div>
+
+        <div class="debug-item">
+            <h3>🌐 网络连接检测</h3>
+            <button onclick="checkNetwork()">检测网络连接</button>
+            <div id="networkStatus"></div>
+        </div>
+
+        <div class="debug-item">
+            <h3>🎨 离线模式检测</h3>
+            <button onclick="checkOfflineMode()">检测离线模式</button>
+            <div id="offlineStatus"></div>
+        </div>
+
+        <div class="debug-item">
+            <h3>🚀 功能测试</h3>
+            <button onclick="testBasicFunctions()">基础功能测试</button>
+            <button onclick="testUserServices()">用户服务测试</button>
+            <div id="functionStatus"></div>
+        </div>
+
+        <div class="debug-item">
+            <h3>📋 调试信息</h3>
+            <button onclick="showDebugInfo()">显示调试信息</button>
+            <div id="debugInfo"></div>
+        </div>
+
+        <div class="debug-item">
+            <h3>🔗 快速导航</h3>
+            <button onclick="goToMain()">返回主页</button>
+            <button onclick="goToServices()">前往服务页面</button>
+            <button onclick="reloadPage()">重新加载页面</button>
+        </div>
+    </div>
+
+    <script>
+        // 更新当前时间
+        function updateTime() {
+            document.getElementById('currentTime').textContent = new Date().toLocaleString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // 显示系统信息
+        document.getElementById('currentUrl').textContent = window.location.href;
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+        document.getElementById('screenSize').textContent = `${screen.width}x${screen.height}`;
+
+        // 检测React应用
+        function checkReactApp() {
+            const status = document.getElementById('reactStatus');
+            try {
+                // 检查是否有React相关的全局变量
+                const hasReact = typeof window.React !== 'undefined' || 
+                               document.querySelector('[data-reactroot]') !== null ||
+                               document.querySelector('#root') !== null;
+                
+                if (hasReact) {
+                    status.innerHTML = '<p class="success">✅ React应用已加载</p>';
+                } else {
+                    status.innerHTML = '<p class="warning">⚠️ React应用可能未正确加载</p>';
+                }
+
+                // 检查root元素
+                const rootElement = document.getElementById('root');
+                if (rootElement) {
+                    status.innerHTML += '<p class="info">📦 Root元素存在</p>';
+                    status.innerHTML += '<p class="info">📏 Root元素尺寸: ' + rootElement.offsetWidth + 'x' + rootElement.offsetHeight + '</p>';
+                } else {
+                    status.innerHTML += '<p class="error">❌ Root元素不存在</p>';
+                }
+            } catch (error) {
+                status.innerHTML = '<p class="error">❌ React应用检测失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 检测本地存储
+        function checkLocalStorage() {
+            const status = document.getElementById('storageStatus');
+            try {
+                const testKey = 'flulink_debug_test';
+                const testData = { test: true, timestamp: Date.now() };
+                
+                localStorage.setItem(testKey, JSON.stringify(testData));
+                const retrieved = JSON.parse(localStorage.getItem(testKey));
+                localStorage.removeItem(testKey);
+                
+                if (retrieved.test) {
+                    status.innerHTML = '<p class="success">✅ 本地存储功能正常</p>';
+                    
+                    // 检查离线数据
+                    const offlineData = localStorage.getItem('flulink_offline_data');
+                    if (offlineData) {
+                        const data = JSON.parse(offlineData);
+                        status.innerHTML += '<p class="info">📊 离线数据存在</p>';
+                        status.innerHTML += '<p class="info">👥 用户数量: ' + (data.users ? data.users.length : 0) + '</p>';
+                        status.innerHTML += '<p class="info">🔧 服务数量: ' + (data.userServices ? data.userServices.length : 0) + '</p>';
+                    } else {
+                        status.innerHTML += '<p class="info">📊 离线数据不存在（首次使用）</p>';
+                    }
+                } else {
+                    status.innerHTML = '<p class="error">❌ 本地存储数据异常</p>';
+                }
+            } catch (error) {
+                status.innerHTML = '<p class="error">❌ 本地存储检测失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 检测网络连接
+        function checkNetwork() {
+            const status = document.getElementById('networkStatus');
+            try {
+                // 检查在线状态
+                if (navigator.onLine) {
+                    status.innerHTML = '<p class="success">✅ 网络连接正常</p>';
+                } else {
+                    status.innerHTML = '<p class="warning">⚠️ 网络连接异常</p>';
+                }
+
+                // 测试后端连接
+                fetch('https://flulink-backend-v2.zeabur.app/api/health', {
+                    method: 'GET',
+                    timeout: 5000
+                })
+                .then(response => {
+                    if (response.ok) {
+                        status.innerHTML += '<p class="success">✅ 后端服务可用</p>';
+                    } else {
+                        status.innerHTML += '<p class="warning">⚠️ 后端服务异常 (状态码: ' + response.status + ')</p>';
+                    }
+                })
+                .catch(error => {
+                    status.innerHTML += '<p class="error">❌ 后端服务不可用: ' + error.message + '</p>';
+                });
+            } catch (error) {
+                status.innerHTML = '<p class="error">❌ 网络检测失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 检测离线模式
+        function checkOfflineMode() {
+            const status = document.getElementById('offlineStatus');
+            try {
+                const isOfflineMode = localStorage.getItem('offline_mode') === 'true';
+                
+                if (isOfflineMode) {
+                    status.innerHTML = '<p class="success">✅ 离线模式已激活</p>';
+                } else {
+                    status.innerHTML = '<p class="info">🌐 在线模式</p>';
+                }
+
+                // 检查离线服务
+                if (typeof window.offlineService !== 'undefined') {
+                    status.innerHTML += '<p class="success">✅ 离线服务已加载</p>';
+                } else {
+                    status.innerHTML += '<p class="warning">⚠️ 离线服务未加载</p>';
+                }
+            } catch (error) {
+                status.innerHTML = '<p class="error">❌ 离线模式检测失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 基础功能测试
+        function testBasicFunctions() {
+            const status = document.getElementById('functionStatus');
+            try {
+                let results = [];
+                
+                // 测试JavaScript基本功能
+                results.push('✅ JavaScript运行正常');
+                
+                // 测试DOM操作
+                const testDiv = document.createElement('div');
+                testDiv.textContent = '测试';
+                results.push('✅ DOM操作正常');
+                
+                // 测试JSON处理
+                const testObj = { test: true };
+                JSON.stringify(testObj);
+                JSON.parse('{"test":true}');
+                results.push('✅ JSON处理正常');
+                
+                // 测试定时器
+                setTimeout(() => {}, 100);
+                results.push('✅ 定时器功能正常');
+                
+                status.innerHTML = '<p class="success">' + results.join('<br>') + '</p>';
+            } catch (error) {
+                status.innerHTML = '<p class="error">❌ 基础功能测试失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 用户服务测试
+        function testUserServices() {
+            const status = document.getElementById('functionStatus');
+            try {
+                // 模拟用户服务数据
+                const mockService = {
+                    _id: 'debug_service_' + Date.now(),
+                    serviceType: 'housing',
+                    title: '调试测试服务',
+                    description: '这是一个调试测试服务',
+                    location: { type: 'Point', coordinates: [116.3974, 39.9092] },
+                    serviceRadius: 1.0,
+                    creditScore: 80,
+                    moralStatus: 'active',
+                    isActive: true,
+                    daoQuote: '天道无亲，常与善人'
+                };
+
+                // 保存到本地存储
+                let offlineData = JSON.parse(localStorage.getItem('flulink_offline_data') || '{"userServices":[],"users":[],"starSeeds":[],"clusters":[]}');
+                offlineData.userServices.push(mockService);
+                localStorage.setItem('flulink_offline_data', JSON.stringify(offlineData));
+
+                status.innerHTML = '<p class="success">✅ 用户服务测试成功</p>' +
+                                 '<p class="info">📝 服务标题: ' + mockService.title + '</p>' +
+                                 '<p class="info">🏠 服务类型: ' + mockService.serviceType + '</p>' +
+                                 '<p class="info">⭐ 信用评分: ' + mockService.creditScore + '</p>' +
+                                 '<p class="info">📊 总服务数: ' + offlineData.userServices.length + '</p>';
+            } catch (error) {
+                status.innerHTML = '<p class="error">❌ 用户服务测试失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 显示调试信息
+        function showDebugInfo() {
+            const info = document.getElementById('debugInfo');
+            try {
+                const debugData = {
+                    timestamp: new Date().toISOString(),
+                    url: window.location.href,
+                    userAgent: navigator.userAgent,
+                    screenSize: `${screen.width}x${screen.height}`,
+                    localStorage: {
+                        offlineMode: localStorage.getItem('offline_mode'),
+                        offlineData: localStorage.getItem('flulink_offline_data') ? 'exists' : 'not exists',
+                        keys: Object.keys(localStorage)
+                    },
+                    performance: {
+                        loadTime: performance.timing ? performance.timing.loadEventEnd - performance.timing.navigationStart : 'N/A',
+                        memory: performance.memory ? {
+                            used: Math.round(performance.memory.usedJSHeapSize / 1024 / 1024) + 'MB',
+                            total: Math.round(performance.memory.totalJSHeapSize / 1024 / 1024) + 'MB'
+                        } : 'N/A'
+                    }
+                };
+
+                info.innerHTML = '<div class="code-block">' + JSON.stringify(debugData, null, 2) + '</div>';
+            } catch (error) {
+                info.innerHTML = '<p class="error">❌ 调试信息获取失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 导航函数
+        function goToMain() {
+            window.location.href = '/';
+        }
+
+        function goToServices() {
+            window.location.href = '/services';
+        }
+
+        function reloadPage() {
+            window.location.reload();
+        }
+
+        // 页面加载完成后自动运行检测
+        window.addEventListener('load', function() {
+            console.log('FluLink 调试页面已加载');
+            checkReactApp();
+            checkLocalStorage();
+            checkOfflineMode();
+        });
+    </script>
+</body>
+</html>

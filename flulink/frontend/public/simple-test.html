@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FluLink 简单测试</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0a0a1a;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+        .test-box {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #1890ff;
+            border-radius: 8px;
+            background: rgba(24, 144, 255, 0.1);
+        }
+        .success { color: #52c41a; }
+        .error { color: #ff4d4f; }
+        .info { color: #1890ff; }
+        button {
+            background: #1890ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #40a9ff; }
+    </style>
+</head>
+<body>
+    <div class="test-box">
+        <h1>FluLink 简单功能测试</h1>
+        
+        <div class="info">
+            <p>📅 当前时间: <span id="time"></span></p>
+            <p>🌐 当前URL: <span id="url"></span></p>
+        </div>
+
+        <div>
+            <h3>测试离线模式</h3>
+            <button onclick="testOffline()">测试离线模式</button>
+            <div id="offline-result"></div>
+        </div>
+
+        <div>
+            <h3>测试本地存储</h3>
+            <button onclick="testStorage()">测试存储</button>
+            <div id="storage-result"></div>
+        </div>
+
+        <div>
+            <h3>测试用户服务</h3>
+            <button onclick="testService()">创建测试服务</button>
+            <div id="service-result"></div>
+        </div>
+
+        <div>
+            <h3>导航测试</h3>
+            <button onclick="goHome()">返回主页</button>
+            <button onclick="goServices()">服务页面</button>
+        </div>
+    </div>
+
+    <script>
+        // 更新时间
+        function updateTime() {
+            document.getElementById('time').textContent = new Date().toLocaleString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // 显示URL
+        document.getElementById('url').textContent = window.location.href;
+
+        // 测试离线模式
+        function testOffline() {
+            const result = document.getElementById('offline-result');
+            try {
+                // 检查离线模式标志
+                const isOffline = localStorage.getItem('offline_mode') === 'true';
+                
+                if (isOffline) {
+                    result.innerHTML = '<p class="success">✅ 离线模式已激活</p>';
+                } else {
+                    // 尝试连接后端
+                    fetch('https://flulink-backend-v2.zeabur.app/api/health')
+                        .then(response => {
+                            if (response.ok) {
+                                result.innerHTML = '<p class="info">🌐 在线模式 - 后端可用</p>';
+                            } else {
+                                result.innerHTML = '<p class="error">❌ 后端异常，建议启用离线模式</p>';
+                            }
+                        })
+                        .catch(error => {
+                            result.innerHTML = '<p class="error">❌ 后端不可用，建议启用离线模式</p>';
+                        });
+                }
+            } catch (error) {
+                result.innerHTML = '<p class="error">❌ 测试失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 测试本地存储
+        function testStorage() {
+            const result = document.getElementById('storage-result');
+            try {
+                const testKey = 'flulink_test_' + Date.now();
+                const testData = { message: '测试成功', timestamp: Date.now() };
+                
+                localStorage.setItem(testKey, JSON.stringify(testData));
+                const retrieved = JSON.parse(localStorage.getItem(testKey));
+                localStorage.removeItem(testKey);
+                
+                if (retrieved.message === testData.message) {
+                    result.innerHTML = '<p class="success">✅ 本地存储正常</p>';
+                    
+                    // 检查离线数据
+                    const offlineData = localStorage.getItem('flulink_offline_data');
+                    if (offlineData) {
+                        const data = JSON.parse(offlineData);
+                        result.innerHTML += '<p class="info">📊 离线数据存在</p>';
+                        result.innerHTML += '<p class="info">🔧 服务数量: ' + (data.userServices ? data.userServices.length : 0) + '</p>';
+                    } else {
+                        result.innerHTML += '<p class="info">📊 离线数据不存在（首次使用）</p>';
+                    }
+                } else {
+                    result.innerHTML = '<p class="error">❌ 存储测试失败</p>';
+                }
+            } catch (error) {
+                result.innerHTML = '<p class="error">❌ 存储测试失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 测试用户服务
+        function testService() {
+            const result = document.getElementById('service-result');
+            try {
+                const mockService = {
+                    _id: 'test_' + Date.now(),
+                    serviceType: 'housing',
+                    title: '测试房屋互助服务',
+                    description: '这是一个测试服务',
+                    location: { type: 'Point', coordinates: [116.3974, 39.9092] },
+                    serviceRadius: 1.0,
+                    creditScore: 80,
+                    moralStatus: 'active',
+                    isActive: true,
+                    daoQuote: '天道无亲，常与善人'
+                };
+
+                // 保存到离线数据
+                let offlineData = JSON.parse(localStorage.getItem('flulink_offline_data') || '{"userServices":[],"users":[],"starSeeds":[],"clusters":[]}');
+                offlineData.userServices.push(mockService);
+                localStorage.setItem('flulink_offline_data', JSON.stringify(offlineData));
+
+                result.innerHTML = '<p class="success">✅ 测试服务创建成功</p>' +
+                                 '<p class="info">📝 标题: ' + mockService.title + '</p>' +
+                                 '<p class="info">🏠 类型: ' + mockService.serviceType + '</p>' +
+                                 '<p class="info">⭐ 信用: ' + mockService.creditScore + '</p>' +
+                                 '<p class="info">📊 总服务数: ' + offlineData.userServices.length + '</p>';
+            } catch (error) {
+                result.innerHTML = '<p class="error">❌ 服务测试失败: ' + error.message + '</p>';
+            }
+        }
+
+        // 导航函数
+        function goHome() {
+            window.location.href = '/';
+        }
+
+        function goServices() {
+            window.location.href = '/services';
+        }
+
+        // 页面加载完成后自动测试
+        window.addEventListener('load', function() {
+            console.log('FluLink 简单测试页面已加载');
+            testOffline();
+            testStorage();
+        });
+    </script>
+</body>
+</html>
