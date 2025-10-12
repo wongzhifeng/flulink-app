@@ -1,4 +1,4 @@
-# FluLink - 基于《德道经》哲学的分布式流感式社交网络
+﻿# FluLink - 基于《德道经》哲学的分布式流感式社交网络
 
 **Slogan**: Spread like flu, link every corner you care. 如流感般扩散，连接你在意的每个角落
 
