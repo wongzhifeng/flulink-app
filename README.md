@@ -1,4 +1,4 @@
-﻿# FluLink - 基于《德道经》哲学的分布式流感式社交网络
+﻿# FluLink - 分布式流感式社交网络
 
 **Slogan**: Spread like flu, link every corner you care. 如流感般扩散，连接你在意的每个角落
 
@@ -89,7 +89,6 @@ flulink/
 │   ├── lib/                # 工具函数库
 │   └── tests/              # 一体化测试
 ├── memory/                 # AI记忆库
-│   ├── philosophy-decisions/  # 哲学决策记录
 │   ├── technical-decisions/    # 技术决策记录
 │   ├── feature-context/        # 功能开发上下文
 │   ├── bug-solutions/          # 问题解决方案
@@ -129,14 +128,14 @@ open http://localhost:3000
 ### 代码质量检查
 
 ```bash
-# 哲学一致性检查
-bun run check:philosophy
-
 # 性能基准检查
 bun run check:performance
 
 # 边缘计算适配检查
 bun run check:edge
+
+# 代码规范检查
+bun run check:lint
 ```
 
 ## 🎨 设计系统
@@ -178,7 +177,7 @@ bun run check:edge
 ### ESLint配置
 - TypeScript支持
 - Solid.js最佳实践
-- 哲学一致性规则
+- 代码规范检查
 
 ## 📦 依赖管理
 
@@ -242,4 +241,4 @@ bun run start
 
 ---
 
-**注意**: 这是一个基于《德道经》哲学理念的创新项目，用于展示现代Web应用开发的最佳实践。在生产环境中使用前，请确保进行充分的测试和安全审查。
+**注意**: 这是一个创新的分布式社交应用项目，用于展示现代Web应用开发的最佳实践。在生产环境中使用前，请确保进行充分的测试和安全审查。
