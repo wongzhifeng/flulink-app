@@ -1,244 +1,147 @@
-# FluLink - 分布式流感式社交网络
+# FluLink
 
-**Slogan**: Spread like flu, link every corner you care. 如流感般扩散，连接你在意的每个角落
+**Distributed Flu-like Social Network**
 
-一个基于 Bun + SolidStart 的分布式异步社交应用，以"流感传播"为隐喻，构建"内容/情绪/兴趣的异步扩散型社交"。
+Spread like flu, link every corner you care.
 
-## 📱 项目概述
+## Project Overview
 
-FluLink 是一个创新的异步社交应用，通过"地理层级传播+标签双向筛选+付费/免费用户共生"机制，实现"轻互动、慢扩散、强关联"。满足普通用户"本地生活信息获取、低压力社交"，核心用户"传播影响力、独特身份认同"，企业用户"内部传播、品牌渗透"的需求。
+FluLink is a distributed asynchronous social application based on Bun + SolidStart, using "flu spread" as a metaphor to build content/emotion/interest asynchronous diffusion social.
 
-### 🎯 核心价值
-- **异步社交**: 无需实时聊天，用户不在线也能完成社交连接
-- **流感隐喻**: 复刻流感"区域扩散、人群易感、变异演化"特性
-- **精准传播**: 内容像病毒一样从初始区域渗透，兼具"观察传播的期待感"与"精准社交的实用性"
+## Core Features
 
-## 🌍 核心传播机制
+### Geographic Hierarchical Propagation
+- **Level 1 - Local Community**: 0 delay, unlock immediately after posting
+- **Level 2 - Nearby Communities**: 5-15 minutes delay, requires ≥20 infected users in local community
+- **Level 3 - Street Level**: 30-60 minutes delay, requires ≥2 nearby communities with ≥15 infected users
+- **Level 4 - District/City**: 2-4 hours delay, requires ≥3 communities completed propagation in street
+- **Cross-border Propagation**: 24-48 hours delay
 
-### 1. 地理层级传播规则（物理边界+延迟）
+### Strain System
+- **Life Strains**: Daily content, narrow spread but high interaction
+- **Opinion Strains**: Topic content, wide spread and easy to trigger secondary creation
+- **Interest Strains**: Vertical content, precise spread and strong user stickiness
+- **Super Strains**: Cross-border content, supports international propagation with dormancy awakening
 
-按覆盖范围从近到远，地理层级分为四级，传播需前一层级达标才能解锁下一级：
+### User Tiers
+- **Free Users**: Regional privileges, zero delay + priority display
+- **Premium Users**: Unlock more levels, customize propagation direction
 
-- **1级 - 本小区**: 覆盖用户实时定位所属小区，传播0延迟，发布即可解锁
-- **2级 - 临近小区**: 覆盖步行15分钟可达的小区，传播延迟5-15分钟，需本小区感染人数≥20人或感染率≥30%才能解锁
-- **3级 - 所属街道**: 覆盖小区所在行政街道，传播延迟30-60分钟，需临近小区中≥2个感染人数≥15人才能解锁
-- **4级 - 行政区/城市**: 覆盖街道所属行政区或直辖市，传播延迟2-4小时，需街道内≥3个小区完成传播才能解锁
-- **跨国传播**: 普通流感模式下延迟24-48小时，超级流感模式下延迟12-24小时
+## Tech Stack
 
-### 2. 毒株体系（传播载体=病毒）
+- **Frontend**: Solid.js + SolidStart
+- **Backend**: Bun Runtime
+- **Database**: Turso (Edge SQLite)
+- **Deployment**: Zeabur
 
-毒株按传播属性可分为四类：
+## Quick Start
 
-- **生活毒株**: 小区便利店优惠、停水通知等日常内容，传播范围窄但互动率高
-- **观点毒株**: 职场话题、育儿观念等话题内容，传播范围广且易引发二次创作
-- **兴趣毒株**: 复古相机维修、小众徒步路线等垂直内容，传播精准且用户粘性强
-- **超级毒株**: 全球华人春节习俗、跨国兴趣内容，支持跨国传播且有休眠唤醒功能
+### Requirements
+- Bun 1.0.0+
+- Node.js 18+
 
-### 3. 双向筛选机制（特定人群靶向传播）
+### Installation
+```bash
+# Clone repository
+git clone <repository-url>
+cd flulink
 
-- **毒株定向感染**: 发布者锁定易感人群，支持兴趣、状态、地理、关系、偏好五大维度标签
-- **特定人群反向吸引**: 用户主动吸附毒株，设置"吸引力标签"和强度调节
-- **匹配条件**: 需同时满足"地理层级解锁"和"标签匹配度≥60%"
+# Install dependencies
+bun install
 
-## 👥 用户分层与平衡体系
+# Start development server
+bun run dev
+```
 
-### 免费用户（区域深耕者）
-- **区域特权**: 本小区/街道传播"零延迟+优先展示"
-- **区域节点成就**: 连续7天成为本小区感染人数TOP3，获得"区域传播枢纽"称号
-- **区域免疫权**: 可手动屏蔽某付费用户的非本地毒株
-- **区域垄断**: 在某小区感染活跃度高于付费用户时，触发"平民优先机制"
+### Access Application
+```
+http://localhost:3000
+```
 
-### 付费用户（超级传播者）
-- **基础会员** (19.9元/月): 解锁街道层级传播、每日感染无上限、区域加速券
-- **超级会员** (69.9元/月): 解锁跨国传播、自定义毒株演化方向、全球传播图谱
-- **企业定制版** (1999元/月): 企业专属地理标签、员工传播数据看板、品牌内容植入
-
-## 🛠 技术栈
-
-### 前端框架
-- **Solid.js** ^1.8.0 - 细粒度响应式UI库
-- **SolidStart** ^0.4.0 - 全栈框架
-- **TypeScript** ^5.3.0 - 类型安全
-
-### 后端运行时
-- **Bun** ^1.0.0 - 高性能JavaScript运行时
-- **@solidjs/router** ^0.10.0 - 路由管理
-
-### 数据库
-- **Turso** - 边缘SQLite数据库
-- **@libsql/client** ^0.9.0 - Turso客户端
-- **drizzle-orm** ^0.29.0 - ORM框架
-
-### 开发工具
-- **ESLint** ^8.57.0 - 代码质量检查
-- **TypeScript** ^5.3.0 - 类型检查
-
-## 📁 项目结构
+## Project Structure
 
 ```
 flulink/
 ├── src/
-│   ├── client/              # Solid.js前端组件
-│   │   ├── components/      # 可复用组件
-│   │   └── pages/          # 页面组件
-│   ├── server/             # SolidStart API路由
-│   │   ├── api/            # API端点
-│   │   └── services/       # 业务逻辑服务
-│   ├── shared/             # 通用类型定义
-│   │   └── types/          # TypeScript类型
-│   ├── lib/                # 工具函数库
-│   └── tests/              # 一体化测试
-├── memory/                 # AI记忆库
-│   ├── technical-decisions/    # 技术决策记录
-│   ├── feature-context/        # 功能开发上下文
-│   ├── bug-solutions/          # 问题解决方案
-│   └── ai-session-logs/        # AI会话记录
-├── scripts/                # 自动化脚本
-└── package.json
+│   ├── client/          # Solid.js frontend components
+│   ├── server/          # SolidStart API routes
+│   ├── shared/          # Common type definitions
+│   └── lib/             # Utility functions
+├── memory/              # AI memory bank
+└── scripts/             # Automation scripts
 ```
 
-## 🚀 快速开始
+## Development Guide
 
-### 环境要求
-
-- Bun 1.0.0+
-- Node.js 18+ (备用)
-
-### 安装依赖
-
+### Code Quality Checks
 ```bash
-# 克隆项目
-git clone <repository-url>
-cd flulink
-
-# 安装依赖
-bun install
-```
-
-### 开发模式
-
-```bash
-# 启动开发服务器
-bun run dev
-
-# 访问应用
-open http://localhost:3000
-```
-
-### 代码质量检查
-
-```bash
-# 性能基准检查
+# Performance benchmark check
 bun run check:performance
 
-# 边缘计算适配检查
+# Edge computing adaptation check
 bun run check:edge
 
-# 代码规范检查
+# Code style check
 bun run check:lint
 ```
 
-## 🎨 设计系统
-
-### 颜色方案
-
-应用采用现代化的绿色主题，象征成长和传播：
-
-- **主色调**: `#4CAF50` (绿色) - 代表病毒传播和增长
-- **背景色**: `#F5F5F5` (浅灰) - 清洁现代的背景
-- **文本色**: `#212121` (深灰) - 确保良好的可读性
-- **强调色**: `#FFC107` (琥珀色) - 用于高亮和重点
-
-### 组件设计
-
-- **卡片式布局**: 使用圆角和阴影的现代卡片设计
-- **响应式设计**: 适配不同屏幕尺寸和设备
-- **细粒度响应**: 使用Solid.js的createSignal实现精确更新
-
-## 📱 平台特性
-
-### Web特性
-- PWA支持
-- 响应式布局
-- 现代浏览器兼容
-
-### 边缘计算特性
-- Turso边缘数据库
-- 全球分布式部署
-- 低延迟数据访问
-
-## 🔧 配置说明
-
-### TypeScript配置
-- 严格模式启用
-- 路径别名支持 (`@/*`)
-- Solid.js JSX支持
-
-### ESLint配置
-- TypeScript支持
-- Solid.js最佳实践
-- 代码规范检查
-
-## 📦 依赖管理
-
-### 主要依赖
-- **Solid.js**: 细粒度响应式UI库
-- **SolidStart**: 全栈框架
-- **Bun**: 高性能运行时
-- **Turso**: 边缘数据库
-
-### 开发依赖
-- **TypeScript**: 类型安全
-- **ESLint**: 代码质量
-
-## 🚀 部署
-
-### Zeabur部署
+### Build & Deploy
 ```bash
-# 连接Zeabur
-zeabur connect
-
-# 部署应用
-zeabur deploy
-```
-
-### 本地构建
-```bash
-# 构建应用
+# Build application
 bun run build
 
-# 启动生产服务器
+# Start production server
 bun run start
 ```
 
-## 🤝 贡献指南
+## Design System
 
-1. Fork 项目
-2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 打开 Pull Request
+### Color Scheme
+- **Primary**: #4CAF50 (Green) - Represents virus propagation and growth
+- **Background**: #F5F5F5 (Light Gray) - Clean modern background
+- **Text**: #212121 (Dark Gray) - Ensures good readability
+- **Accent**: #FFC107 (Amber) - Used for highlights and emphasis
 
-## 📄 许可证
+### Component Design
+- Card-based layout
+- Responsive design
+- Fine-grained reactivity
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+## Platform Features
 
-## 📞 联系方式
+- PWA Support
+- Responsive Layout
+- Modern Browser Compatibility
+- Turso Edge Database
+- Global Distributed Deployment
+- Low Latency Data Access
 
-如有问题或建议，请通过以下方式联系：
+## Contributing
 
-- 项目 Issues: [GitHub Issues](https://github.com/your-repo/issues)
-- 邮箱: your-email@example.com
+1. Fork the project
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
 
-## 🙏 致谢
+## License
 
-感谢以下开源项目的支持：
-- Solid.js 团队
-- SolidStart 团队
-- Bun 团队
-- Turso 团队
-- 所有贡献者和社区成员
+MIT License
+
+## Contact
+
+- Project Issues: [GitHub Issues](https://github.com/your-repo/issues)
+- Email: your-email@example.com
+
+## Acknowledgments
+
+Thanks to the following open source projects:
+- Solid.js Team
+- SolidStart Team
+- Bun Team
+- Turso Team
+- All contributors and community members
 
 ---
 
-**注意**: 这是一个创新的分布式社交应用项目，用于展示现代Web应用开发的最佳实践。在生产环境中使用前，请确保进行充分的测试和安全审查。
+**Note**: This is an innovative distributed social application project for demonstrating modern web application development best practices.
